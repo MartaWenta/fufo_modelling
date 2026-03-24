@@ -1,0 +1,39 @@
+name: Build Model Registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'models.yml'          # rebuild only when the data changes
+      - 'build_registry.py'   # or when the renderer changes
+  workflow_dispatch:          # allow manual trigger from GitHub UI
+
+permissions:
+  contents: write             # needed to commit registry.html back
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Build registry
+        run: python build_registry.py
+
+      - name: Commit updated registry.html
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add registry.html
+          git diff --staged --quiet || git commit -m "chore: rebuild registry [skip ci]"
+          git push

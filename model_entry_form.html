@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FuFo C3 — Model Entry Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #1e3a5f;
+    --green:  #1a7a4a;
+    --blue:   #1a4f8a;
+    --amber:  #d97706;
+    --red:    #c0392b;
+    --slate:  #475569;
+    --muted:  #94a3b8;
+    --border: #e2e8f0;
+    --bg:     #f8fafc;
+    --white:  #ffffff;
+    --l1-bg:  #f0fdf7;
+    --l1-bdr: #1a7a4a;
+    --l2-bg:  #eff6ff;
+    --l2-bdr: #1a4f8a;
+    --l3-bg:  #fffbeb;
+    --l3-bdr: #d97706;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: #1e293b;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--navy);
+    color: #fff;
+    padding: 18px 32px 16px;
+    border-bottom: 3px solid var(--green);
+  }
+  header .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .2em;
+    color: #6bcf9e;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+  }
+  header p {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 3px;
+  }
+
+  /* ── Layout ── */
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+
+  /* ── Layer indicator bar ── */
+  #layer-bar {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--border);
+    margin-bottom: 24px;
+    transition: background .3s;
+  }
+
+  /* ── Section cards ── */
+  .section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    background: #f8fafc;
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    width: 20px;
+  }
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .section-body {
+    padding: 18px 20px;
+  }
+
+  /* ── Form elements ── */
+  .row { display: flex; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+  .field { display: flex; flex-direction: column; flex: 1; min-width: 180px; }
+  .field.full { flex: 0 0 100%; min-width: 0; }
+  .field.half { flex: 0 0 calc(50% - 7px); }
+
+  label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 5px;
+  }
+  label .req { color: var(--red); margin-left: 2px; }
+  label .hint {
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--muted);
+    margin-left: 6px;
+    font-size: 9.5px;
+  }
+
+  input[type=text], input[type=date], select, textarea {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: #1e293b;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 11px;
+    transition: border-color .15s, box-shadow .15s;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(30,58,95,.08);
+  }
+  textarea { resize: vertical; min-height: 64px; }
+  select { cursor: pointer; }
+
+  /* ── Tag inputs (languages, formats) ── */
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    background: var(--white);
+    min-height: 40px;
+    cursor: text;
+    transition: border-color .15s;
+  }
+  .tag-group:focus-within { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(30,58,95,.08); }
+  .tag {
+    background: #f1f5f9;
+    color: var(--slate);
+    border-radius: 4px;
+    padding: 2px 8px 2px 10px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: pop .12s ease;
+  }
+  @keyframes pop { from { transform: scale(.85); opacity:0; } to { transform: scale(1); opacity:1; } }
+  .tag button {
+    background: none; border: none; cursor: pointer;
+    color: var(--muted); font-size: 13px; line-height: 1;
+    padding: 0; display: flex; align-items: center;
+  }
+  .tag button:hover { color: var(--red); }
+  .tag-input {
+    border: none; outline: none; font-size: 12px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: transparent; min-width: 80px; flex: 1;
+    padding: 2px 4px; color: #1e293b;
+  }
+  .tag-hint { font-size: 10px; color: var(--muted); margin-top: 3px; font-style: italic; }
+
+  /* ── Repeating I/O blocks ── */
+  .io-block {
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    background: var(--bg);
+    position: relative;
+  }
+  .io-block-head {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 10px;
+  }
+  .remove-btn {
+    position: absolute;
+    top: 10px; right: 12px;
+    background: none; border: none;
+    color: var(--muted); font-size: 16px;
+    cursor: pointer; line-height: 1;
+    transition: color .12s;
+  }
+  .remove-btn:hover { color: var(--red); }
+  .add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1.5px dashed var(--border);
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .15s;
+    margin-top: 4px;
+    width: 100%;
+    justify-content: center;
+  }
+  .add-btn:hover { border-color: var(--navy); color: var(--navy); background: #f0f4f8; }
+
+  /* ── Status chips ── */
+  .status-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .status-chip {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+    transition: all .15s;
+    background: var(--white);
+    color: var(--slate);
+  }
+  .status-chip:hover { border-color: var(--slate); }
+  .status-chip.active[data-val="planned"]        { background:#f1f5f9; color:#475569; border-color:#94a3b8; }
+  .status-chip.active[data-val="in_development"] { background:#fffbeb; color:#d97706; border-color:#d97706; }
+  .status-chip.active[data-val="operational"]    { background:#dcfce7; color:#1a7a4a; border-color:#1a7a4a; }
+  .status-chip.active[data-val="deprecated"]     { background:#fee2e2; color:#c0392b; border-color:#c0392b; }
+
+  /* ── Generate button ── */
+  #generate-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    letter-spacing: .06em;
+    cursor: pointer;
+    margin: 24px 0 18px;
+    transition: background .15s, transform .1s;
+  }
+  #generate-btn:hover { background: #16304f; }
+  #generate-btn:active { transform: scale(.99); }
+
+  /* ── Output panel ── */
+  #output-panel {
+    display: none;
+    border: 1.5px solid var(--navy);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+    animation: slideIn .2s ease;
+  }
+  @keyframes slideIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform:none; } }
+  .output-head {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .output-head span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+  }
+  #copy-btn {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  #copy-btn:hover { background: rgba(255,255,255,.22); }
+  #copy-btn.copied { background: var(--green); border-color: var(--green); }
+  #yaml-out {
+    background: #0f1923;
+    color: #e2f0ff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    padding: 18px 20px;
+    white-space: pre;
+    overflow-x: auto;
+    max-height: 460px;
+    overflow-y: auto;
+  }
+  .y-key   { color: #6bcf9e; }
+  .y-val   { color: #fcd34d; }
+  .y-str   { color: #93c5fd; }
+  .y-com   { color: #4a6a8a; font-style: italic; }
+  .y-dash  { color: #f472b6; }
+
+  /* ── Validation ── */
+  .field-error input, .field-error select, .field-error textarea {
+    border-color: var(--red) !important;
+  }
+  .err-msg {
+    font-size: 10.5px;
+    color: var(--red);
+    margin-top: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* layer-aware section borders */
+  body.layer-1 .section { border-top: 3px solid var(--l1-bdr); }
+  body.layer-2 .section { border-top: 3px solid var(--l2-bdr); }
+  body.layer-3 .section { border-top: 3px solid var(--l3-bdr); }
+  body.layer-1 #layer-bar { background: var(--l1-bdr); }
+  body.layer-2 #layer-bar { background: var(--l2-bdr); }
+  body.layer-3 #layer-bar { background: var(--l3-bdr); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Future Forests Excellence Cluster · Universität Freiburg · Research Area C3</div>
+  <h1>C3 Model Registry — Group Entry Form</h1>
+  <p>Fill in what you know. Leave fields blank or "TBD" if not yet confirmed. Your entry generates a YAML block to submit to the Modelling Coordinator.</p>
+</header>
+
+<div class="wrap">
+  <div id="layer-bar"></div>
+
+  <!-- ── 1. Group Identity ── -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">Group Identity</span>
+    </div>
+    <div class="section-body">
+      <div class="row">
+        <div class="field">
+          <label>PI / Group Leader <span class="req">*</span></label>
+          <select id="pi" onchange="onPIChange()">
+            <option value="">— select —</option>
+            <option value="jung"        data-layer="1" data-name="Christopher Jung">Christopher Jung</option>
+            <option value="christen"    data-layer="1" data-name="Andreas Christen">Andreas Christen</option>
+            <option value="weiler_gis"  data-layer="1" data-name="Markus Weiler">Markus Weiler (GIS)</option>
+            <option value="seifert"     data-layer="1" data-name="Thomas Seifert">Thomas Seifert</option>
+            <option value="kattenborn"  data-layer="1" data-name="Teja Kattenborn">Teja Kattenborn</option>
+            <option value="orth"        data-layer="1" data-name="René Orth">René Orth</option>
+            <option value="iland"       data-layer="2" data-name="Thomas Seifert / Ana Stritih">Seifert + Stritih (iLAND)</option>
+            <option value="roger"       data-layer="2" data-name="Markus Weiler">Markus Weiler (RoGeR)</option>
+            <option value="stritih"     data-layer="3" data-name="Ana Stritih">Ana Stritih</option>
+            <option value="hanewinkel"  data-layer="3" data-name="Marc Hanewinkel">Marc Hanewinkel</option>
+            <option value="pauliuk"     data-layer="3" data-name="Stefan Pauliuk">Stefan Pauliuk</option>
+            <option value="schanz"      data-layer="3" data-name="Heiner Schanz">Heiner Schanz</option>
+            <option value="brown"       data-layer="3" data-name="Calum Brown">Calum Brown</option>
+            <option value="other"       data-layer="" data-name="">Other (fill below)</option>
+          </select>
+        </div>
+        <div class="field" id="custom-pi-field" style="display:none">
+          <label>Custom PI name</label>
+          <input type="text" id="custom-pi" placeholder="First Last">
+        </div>
+        <div class="field" id="custom-id-field" style="display:none">
+          <label>Short ID <span class="hint">lowercase, no spaces</span></label>
+          <input type="text" id="custom-id" placeholder="e.g. smith_abm">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Framework Layer <span class="req">*</span></label>
+          <select id="layer" onchange="onLayerChange()">
+            <option value="">— select —</option>
+            <option value="1">Layer 1 — Observations &amp; Forcing</option>
+            <option value="2">Layer 2 — Biophysical Engine</option>
+            <option value="3">Layer 3 — Social &amp; Economic</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2. Model Description ── -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Model Description</span>
+    </div>
+    <div class="section-body">
+      <div class="row">
+        <div class="field half">
+          <label>Model / Tool Name <span class="req">*</span></label>
+          <input type="text" id="model-name" placeholder="e.g. iLAND, RoGeR, HyClim">
+        </div>
+        <div class="field half">
+          <label>Model Type <span class="hint">brief</span></label>
+          <input type="text" id="model-type" placeholder="e.g. Process-based / Individual-based">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field full">
+          <label>Short Description <span class="req">*</span></label>
+          <textarea id="description" rows="2" placeholder="One or two sentences on what the model does and its main scientific purpose."></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field full">
+          <label>Programming Languages</label>
+          <div class="tag-group" id="lang-group" onclick="document.getElementById('lang-input').focus()">
+            <input class="tag-input" id="lang-input" placeholder="type + Enter  (e.g. Python, R, C++)">
+          </div>
+          <div class="tag-hint">Suggested: Python · R · C++ · Java · Julia · Fortran · Vensim · MATLAB</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field full">
+          <label>Status</label>
+          <div class="status-group">
+            <div class="status-chip" data-val="planned"        onclick="setStatus(this)">Planned</div>
+            <div class="status-chip" data-val="in_development" onclick="setStatus(this)">In Development</div>
+            <div class="status-chip" data-val="operational"    onclick="setStatus(this)">Operational</div>
+            <div class="status-chip" data-val="deprecated"     onclick="setStatus(this)">Deprecated</div>
+          </div>
+          <input type="hidden" id="status" value="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3. Inputs ── -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">Model Inputs</span>
+    </div>
+    <div class="section-body">
+      <div id="inputs-container"></div>
+      <button class="add-btn" onclick="addIO('inputs-container','input')">＋ Add input dataset / forcing</button>
+    </div>
+  </div>
+
+  <!-- ── 4. Outputs ── -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">Model Outputs</span>
+    </div>
+    <div class="section-body">
+      <div id="outputs-container"></div>
+      <button class="add-btn" onclick="addIO('outputs-container','output')">＋ Add output product</button>
+    </div>
+  </div>
+
+  <!-- ── 5. Researcher & Hire ── -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <span class="section-title">Researcher &amp; Hire</span>
+    </div>
+    <div class="section-body">
+      <div class="row">
+        <div class="field">
+          <label>Researcher Name <span class="hint">PhD / PostDoc assigned</span></label>
+          <input type="text" id="hire-name" placeholder="First Last  or  TBD">
+        </div>
+        <div class="field">
+          <label>Start Date</label>
+          <input type="text" id="hire-start" placeholder="e.g. 2026-04-01  or  TBD">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6. Notes ── -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <span class="section-title">Additional Notes</span>
+    </div>
+    <div class="section-body">
+      <div class="field full">
+        <label>Notes <span class="hint">couplings, pending decisions, synergies…</span></label>
+        <textarea id="notes" rows="3" placeholder="e.g. Bidirectionally coupled with iLAND. Hiring pending confirmation."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <button id="generate-btn" onclick="generate()">⟶ Generate YAML Entry</button>
+
+  <div id="output-panel">
+    <div class="output-head">
+      <span>YAML — paste this into models.yml</span>
+      <button id="copy-btn" onclick="copyYAML()">Copy</button>
+    </div>
+    <pre id="yaml-out"></pre>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ── State ────────────────────────────────────────────
+let langs = [];
+let statusVal = '';
+let ioCounters = { input: 0, output: 0 };
+
+// ── PI auto-fill ──────────────────────────────────────
+function onPIChange() {
+  const sel = document.getElementById('pi');
+  const opt = sel.options[sel.selectedIndex];
+  const layer = opt.dataset.layer;
+  const isOther = sel.value === 'other';
+
+  document.getElementById('custom-pi-field').style.display = isOther ? '' : 'none';
+  document.getElementById('custom-id-field').style.display = isOther ? '' : 'none';
+
+  if (layer) {
+    document.getElementById('layer').value = layer;
+    onLayerChange();
+  }
+}
+
+function onLayerChange() {
+  const v = document.getElementById('layer').value;
+  document.body.className = v ? 'layer-' + v : '';
+}
+
+// ── Status chips ──────────────────────────────────────
+function setStatus(chip) {
+  document.querySelectorAll('.status-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  statusVal = chip.dataset.val;
+  document.getElementById('status').value = statusVal;
+}
+
+// ── Tag input (languages) ─────────────────────────────
+const langInput = document.getElementById('lang-input');
+langInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = langInput.value.trim().replace(/,$/, '');
+    if (val && !langs.includes(val)) {
+      langs.push(val);
+      renderTags();
+    }
+    langInput.value = '';
+  }
+  if (e.key === 'Backspace' && !langInput.value && langs.length) {
+    langs.pop();
+    renderTags();
+  }
+});
+
+function renderTags() {
+  const group = document.getElementById('lang-group');
+  group.querySelectorAll('.tag').forEach(t => t.remove());
+  langs.forEach((l, i) => {
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.innerHTML = `${l}<button onclick="removeLang(${i})" title="remove">×</button>`;
+    group.insertBefore(tag, langInput);
+  });
+}
+
+function removeLang(i) {
+  langs.splice(i, 1);
+  renderTags();
+}
+
+// ── I/O blocks ────────────────────────────────────────
+function addIO(containerId, type) {
+  const n = ++ioCounters[type];
+  const container = document.getElementById(containerId);
+  const div = document.createElement('div');
+  div.className = 'io-block';
+  div.id = `${type}-block-${n}`;
+
+  const consumerLabel = type === 'output'
+    ? `<div class="field"><label>Consumed by <span class="hint">group IDs, comma-sep.</span></label>
+       <input type="text" id="${type}-consumers-${n}" placeholder="e.g. iland, roger, hanewinkel"></div>`
+    : `<div class="field"><label>Source <span class="hint">group ID or dataset origin</span></label>
+       <input type="text" id="${type}-source-${n}" placeholder="e.g. seifert  or  ECMWF (open)"></div>`;
+
+  div.innerHTML = `
+    <div class="io-block-head">${type.toUpperCase()} #${n}</div>
+    <button class="remove-btn" onclick="removeBlock('${type}-block-${n}')" title="Remove">×</button>
+    <div class="row">
+      <div class="field full">
+        <label>Name / Description <span class="req">*</span></label>
+        <input type="text" id="${type}-name-${n}" placeholder="e.g. Downscaled daily Ta, VPD, precipitation">
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>File Format</label>
+        <input type="text" id="${type}-format-${n}" placeholder="e.g. NetCDF, GeoTIFF, CSV, SQLite">
+      </div>
+      ${consumerLabel}
+      ${type === 'output' ? `<div class="field"><label>Spatial Resolution <span class="hint">if applicable</span></label>
+        <input type="text" id="${type}-resolution-${n}" placeholder="e.g. 100m × 100m"></div>` : ''}
+    </div>`;
+  container.appendChild(div);
+}
+
+function removeBlock(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+// ── YAML generation ───────────────────────────────────
+function esc(s) { return (s||'').trim().replace(/"/g, '\\"'); }
+function q(s)   { return s ? `"${esc(s)}"` : '"TBD"'; }
+function yn(s)  { return (s && s !== 'TBD') ? q(s) : '"TBD"'; }
+
+function collectIO(type) {
+  const blocks = document.querySelectorAll(`[id^="${type}-block-"]`);
+  const items = [];
+  blocks.forEach(b => {
+    const n = b.id.split('-').pop();
+    const name   = (document.getElementById(`${type}-name-${n}`)?.value || '').trim();
+    const format = (document.getElementById(`${type}-format-${n}`)?.value || '').trim();
+    const source = (document.getElementById(`${type}-source-${n}`)?.value || '').trim();
+    const consumers = (document.getElementById(`${type}-consumers-${n}`)?.value || '').trim();
+    const resolution = (document.getElementById(`${type}-resolution-${n}`)?.value || '').trim();
+    if (name) items.push({ name, format, source, consumers, resolution });
+  });
+  return items;
+}
+
+function formatIOBlock(items, type) {
+  if (!items.length) return '      []\n';
+  return items.map(item => {
+    let s = `      - name: ${q(item.name)}\n`;
+    if (item.format)     s += `        format: ${q(item.format)}\n`;
+    if (type === 'input'  && item.source)
+      s += `        source: ${q(item.source)}\n`;
+    if (type === 'output' && item.consumers) {
+      const list = item.consumers.split(',').map(x => x.trim()).filter(Boolean);
+      s += `        consumers: [${list.map(x => `"${x}"`).join(', ')}]\n`;
+    }
+    if (type === 'output' && item.resolution)
+      s += `        resolution: ${q(item.resolution)}\n`;
+    return s;
+  }).join('');
+}
+
+function generate() {
+  // Validate required
+  let ok = true;
+  ['pi','model-name','description'].forEach(id => {
+    const el = document.getElementById(id);
+    const wrap = el.closest('.field');
+    if (!el.value.trim()) {
+      if (wrap) { wrap.classList.add('field-error'); }
+      ok = false;
+    } else {
+      if (wrap) wrap.classList.remove('field-error');
+    }
+  });
+  if (!ok) { document.getElementById('generate-btn').style.background='#c0392b'; setTimeout(()=>document.getElementById('generate-btn').style.background='',600); return; }
+
+  const piSel  = document.getElementById('pi');
+  const isOther = piSel.value === 'other';
+  const id     = isOther ? (document.getElementById('custom-id').value.trim() || 'unknown') : piSel.value;
+  const piName = isOther ? (document.getElementById('custom-pi').value.trim() || 'TBD')
+                         : (piSel.options[piSel.selectedIndex].dataset.name || piSel.value);
+  const layer  = document.getElementById('layer').value || '1';
+  const mname  = document.getElementById('model-name').value.trim();
+  const mtype  = document.getElementById('model-type').value.trim();
+  const desc   = document.getElementById('description').value.trim();
+  const status = statusVal || 'planned';
+  const hireName  = document.getElementById('hire-name').value.trim() || 'TBD';
+  const hireStart = document.getElementById('hire-start').value.trim() || 'TBD';
+  const notes  = document.getElementById('notes').value.trim();
+
+  const inputs  = collectIO('input');
+  const outputs = collectIO('output');
+
+  const langList = langs.length ? `[${langs.map(l => `"${l}"`).join(', ')}]` : '[]';
+
+  let yaml = `  - id: ${id}\n`;
+  yaml += `    layer: ${layer}\n`;
+  yaml += `    pi: ${q(piName)}\n`;
+  yaml += `    model_name: ${q(mname)}\n`;
+  yaml += `    short_description: ${q(desc)}\n`;
+  if (mtype) yaml += `    type: ${q(mtype)}\n`;
+  yaml += `    language: ${langList}\n`;
+  yaml += `    status: "${status}"\n`;
+  yaml += `    inputs:\n${formatIOBlock(inputs,'input')}`;
+  yaml += `    outputs:\n${formatIOBlock(outputs,'output')}`;
+  yaml += `    hire:\n`;
+  yaml += `      name: ${yn(hireName)}\n`;
+  yaml += `      start: ${yn(hireStart)}\n`;
+  if (notes) yaml += `    notes: ${q(notes)}\n`;
+
+  // Syntax-highlight
+  const highlighted = yaml
+    .replace(/^(  - id:|    layer:|    pi:|    model_name:|    short_description:|    type:|    language:|    status:|    inputs:|    outputs:|    hire:|      name:|      start:|    notes:|      - name:|        format:|        source:|        consumers:|        resolution:)/gm,
+      m => `<span class="y-key">${m}</span>`)
+    .replace(/"([^"]*)"/g, (m, v) => `<span class="y-str">"${v}"</span>`)
+    .replace(/^(  - )/gm, `<span class="y-dash">  - </span>`);
+
+  document.getElementById('yaml-out').innerHTML = highlighted;
+  document.getElementById('output-panel').style.display = 'block';
+  document.getElementById('output-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyYAML() {
+  const text = document.getElementById('yaml-out').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Start with one input and one output block pre-added
+addIO('inputs-container','input');
+addIO('outputs-container','output');
+</script>
+</body>
+</html>

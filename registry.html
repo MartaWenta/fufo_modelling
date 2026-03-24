@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Future Forests C3 — Model Registry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    padding: 24px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .col-head {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  .card:hover { box-shadow: 0 4px 18px rgba(0,0,0,.08); }
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  .filter-btn {
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+    transition: all .15s;
+    color: #475569;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: #1e3a5f;
+    color: #fff;
+    border-color: #1e3a5f;
+  }
+  @media (max-width: 700px) {
+    .card > div:last-child > div[style*="grid"] { grid-template-columns: 1fr !important; }
+    body { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div style="border-bottom:2.5px solid #1e3a5f;padding-bottom:10px;margin-bottom:20px;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;
+              color:#1a7a4a;text-transform:uppercase;margin-bottom:4px;">
+    Future Forests Excellence Cluster · Universität Freiburg · Research Area C3
+  </div>
+  <div style="font-size:24px;font-weight:700;color:#1e3a5f;letter-spacing:-.02em;">
+    C3 Integrated Modelling Framework — Model Registry
+  </div>
+  <div style="font-size:12px;color:#64748b;margin-top:3px;">
+    Models, data, formats, and researcher status across all eleven modelling groups
+    · Generated 24 March 2026
+  </div>
+</div>
+
+<!-- Summary stats -->
+<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;">
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#1e3a5f">13</div><div style="font-size:11px;color:#64748b;font-family:IBM Plex Mono,monospace">Total Groups</div></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#1a7a4a">5</div><div style="font-size:11px;color:#64748b;font-family:IBM Plex Mono,monospace">Operational</div></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#d97706">5</div><div style="font-size:11px;color:#64748b;font-family:IBM Plex Mono,monospace">In Development</div></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#94a3b8">3</div><div style="font-size:11px;color:#64748b;font-family:IBM Plex Mono,monospace">Planned</div></div><div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 18px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#5b50c4">3</div><div style="font-size:11px;color:#64748b;font-family:IBM Plex Mono,monospace">Hires Confirmed</div></div>
+</div>
+
+<!-- Filter bar -->
+<div class="filter-bar">
+  <span style="font-size:11px;color:#94a3b8;font-family:'IBM Plex Mono',monospace">FILTER:</span>
+  <button class="filter-btn active" onclick="filterCards('all',this)">All</button>
+  <button class="filter-btn" onclick="filterCards('layer-1',this)">Layer 1</button>
+  <button class="filter-btn" onclick="filterCards('layer-2',this)">Layer 2</button>
+  <button class="filter-btn" onclick="filterCards('layer-3',this)">Layer 3</button>
+  <button class="filter-btn" onclick="filterCards('operational',this)">Operational</button>
+  <button class="filter-btn" onclick="filterCards('in_development',this)">In Development</button>
+  <button class="filter-btn" onclick="filterCards('planned',this)">Planned</button>
+</div>
+
+
+<div style="margin-bottom:8px;padding:6px 14px;background:#dcfce7;border-radius:6px;">
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
+               letter-spacing:.14em;color:#1a7a4a;text-transform:uppercase;">Layer 1 — Observations & Forcing</span>
+</div>
+
+<div class="card" id="card-jung"
+     data-layer="1"
+     data-status="in_development"
+     style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Christopher Jung
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          HyClim Scenarios
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Meteorological variables under historical and future climate conditions</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Statistical downscaling
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">ERA5-Land reanalysis</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ECMWF (open)</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Regional climate model outputs (CORDEX)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ESGF (open)</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Downscaled daily Ta, VPD, precipitation, wind, radiation</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← christen, iland, roger</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span> <span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">R</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">Leads HyClim Scenarios for C2; outputs feed all C3 models</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-christen"
+     data-layer="1"
+     data-status="in_development"
+     style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Andreas Christen
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Microclimate ML Model (AMSES)
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Transferable regional model for in-canopy air, soil and near-surface temperatures</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Machine learning
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Geospatial predictors (LiDAR, canopy structure, DEM)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / LAS</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Seifert / national surveys</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Sensor time series (300 plots, 150 stands)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / HDF5</span><span style="color:#64748b;font-size:10px;margin-left:6px">← FuFo field network</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">ERA5-Land / Jung downscaled climate</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Jung</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">100m × 100m microclimate grids (Ta, Tsoil, near-surface T)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland, roger</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#1a7a4a;font-weight:600">Tabea Wörner</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">2026-04-01</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">Tree-ensemble ML approach; transferable to other regions</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-weiler_gis"
+     data-layer="1"
+     data-status="operational"
+     style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Markus Weiler
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Spatial Data Layers (GIS)
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Soil, forest structure, hydrology network spatial data</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        GIS
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">National soil maps (BÜK200)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / Shapefile</span><span style="color:#64748b;font-size:10px;margin-left:6px">← BGR (open)</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Forest inventory data</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Shapefile / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ForstBW / BWI</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">LiDAR terrain models</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">LAS / GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← LGL Baden-Württemberg</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Soil properties & depth grids</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland, roger</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Forest structure layers</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / Shapefile</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland, seifert</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Hydrology network</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Shapefile</span><span style="color:#64748b;font-size:10px;margin-left:6px">← roger</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span> <span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">R</span> <span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">QGIS</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-seifert"
+     data-layer="1"
+     data-status="in_development"
+     style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Thomas Seifert
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          LiDAR & Dendroecology
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Individual tree positions, dimensions and growth history from TLS/ULS and dendrochronology</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Remote sensing
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">TLS/ULS 3D point clouds</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">LAS / LAZ</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Field campaigns</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Tree core samples</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / Raw scans</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Field campaigns</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">iLAND initialisation files (tree positions, DBH, height, species)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / SQLite</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Dendrochronology growth records</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland, orth</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">R</span> <span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span> <span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">C++</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">2026-07-01 (?)</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">Hiring pending confirmation</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-kattenborn"
+     data-layer="1"
+     data-status="operational"
+     style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Teja Kattenborn
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Remote Sensing Mortality & Traits
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Drone + CNN mortality mapping, Sentinel/Landsat time series, RS-derived tree traits</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Deep learning
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Drone RGB/multispectral imagery</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Field campaigns / deadtree.earth</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Sentinel-2 / Landsat time series</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ESA / USGS (open)</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Tree mortality maps</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">RS-derived tree traits (LAI, chlorophyll, crown area)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland, orth</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-orth"
+     data-layer="1"
+     data-status="operational"
+     style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        René Orth
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Drought Response Functions
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Robust ML-derived plant drought response from global trait and flux tower data</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Machine learning
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Global plant trait maps (TRY database)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← TRY (open)</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Satellite VPD/SWC time series</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ESA CCI / GLEAM (open)</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">ICOS / AmeriFlux tower data</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ICOS / AmeriFlux (open)</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Species-specific drought response functions</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Python/R functions / CSV lookup</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Benchmark drought mortality datasets</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span> <span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">R</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+<div style='height:20px'></div>
+<div style="margin-bottom:8px;padding:6px 14px;background:#dbeafe;border-radius:6px;">
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
+               letter-spacing:.14em;color:#1a4f8a;text-transform:uppercase;">Layer 2 — Biophysical Engine</span>
+</div>
+
+<div class="card" id="card-iland"
+     data-layer="2"
+     data-status="operational"
+     style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a4f8a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 2 — Biophysical Engine
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Thomas Seifert / Ana Stritih
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          iLAND
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Individual tree-based forest landscape model; central biophysical engine of C3</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#dbeafe;color:#1a4f8a;border:1px solid #1a4f8a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Process-based
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Tree initialisation data</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / SQLite</span><span style="color:#64748b;font-size:10px;margin-left:6px">← seifert</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Microclimate forcing</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung, christen</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Soil data</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler_gis</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Soil water & lateral flow (coupled)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Binary / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← roger</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Drought response functions</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / R functions</span><span style="color:#64748b;font-size:10px;margin-left:6px">← orth</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Mortality maps (validation)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← kattenborn</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Timber volume, carbon stocks, ecosystem services</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / SQLite</span><span style="color:#64748b;font-size:10px;margin-left:6px">← hanewinkel, pauliuk, brown, stritih</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Canopy structure, LAI, root water uptake</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← roger</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Forest state maps</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← stritih, brown</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a4f8a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">C++</span> <span style="background:#f1f5f9;color:#1a4f8a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">R</span> <span style="background:#f1f5f9;color:#1a4f8a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">JavaScript (interface)</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">Bidirectionally coupled with RoGeR; central node of framework</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-roger"
+     data-layer="2"
+     data-status="operational"
+     style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a4f8a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 2 — Biophysical Engine
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Markus Weiler
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          RoGeR
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Water redistribution at surface and subsurface; transpiration and drought vulnerability</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#dbeafe;color:#1a4f8a;border:1px solid #1a4f8a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Process-based hydrological model
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Climate forcing (precip, PET)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung, christen</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Soil properties</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler_gis</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Canopy structure, LAI, root uptake (coupled)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Soil water content, lateral flow</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Streamflow / water balance</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← brown, hanewinkel</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a4f8a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span> <span style="background:#f1f5f9;color:#1a4f8a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Fortran</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">Bidirectionally coupled with iLAND</div>
+    </div>
+
+  </div>
+</div>
+<div style='height:20px'></div>
+<div style="margin-bottom:8px;padding:6px 14px;background:#fed7aa;border-radius:6px;">
+  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
+               letter-spacing:.14em;color:#8a4a0a;text-transform:uppercase;">Layer 3 — Social & Economic</span>
+</div>
+
+<div class="card" id="card-stritih"
+     data-layer="3"
+     data-status="in_development"
+     style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social & Economic
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Ana Stritih
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Participatory Landscape Scenarios
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Integration of diverse actors' perspectives on forest management; landscape-scale scenario outputs</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#fed7aa;color:#8a4a0a;border:1px solid #8a4a0a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Participatory modelling
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Forest state maps</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Stakeholder workshops / interviews</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Qualitative data</span><span style="color:#64748b;font-size:10px;margin-left:6px">← SES-CaseLab</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">SSP/NFF scenario assumptions</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Document / structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← C2 (to be defined)</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Landscape-scale management scenarios</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland, hanewinkel, brown</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Stakeholder preference maps</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← brown, hanewinkel</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">R</span> <span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#1a7a4a;font-weight:600">Christina Dollinger</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">2026-05-01</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">PostDoc position open until 08.03; Margarete-von-Wrangell funding for C. Dollinger</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-hanewinkel"
+     data-layer="3"
+     data-status="planned"
+     style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social & Economic
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Marc Hanewinkel
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Forest Economics & Risk
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Economic optimisation of forest management under risk and climate uncertainty</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
+      <span style="background:#fed7aa;color:#8a4a0a;border:1px solid #8a4a0a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Optimisation
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Timber volume, carbon stocks, ES</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Streamflow / water balance</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← roger</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Market structure</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← schanz</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Management scenarios</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← stritih</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Optimised management strategies</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Carbon balance</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← pauliuk</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Market demand signals</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← pauliuk</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">R</span> <span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">Hiring pending</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-pauliuk"
+     data-layer="3"
+     data-status="in_development"
+     style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social & Economic
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Stefan Pauliuk
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Material Flow & Carbon Accounting
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Wood product lifecycle, material stocks, carbon substitution in built environment</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#fed7aa;color:#8a4a0a;border:1px solid #8a4a0a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Material flow analysis
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Harvest volumes</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Carbon balance</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← hanewinkel</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Market demand</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← hanewinkel</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Wood product carbon stocks and flows</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / Excel</span><span style="color:#64748b;font-size:10px;margin-left:6px">← hanewinkel, brown</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Substitution effects (fossil to biogenic)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← brown</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-schanz"
+     data-layer="3"
+     data-status="planned"
+     style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social & Economic
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Heiner Schanz
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          FESMarkets
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">System dynamics model of forestry industries and water market governance</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
+      <span style="background:#fed7aa;color:#8a4a0a;border:1px solid #8a4a0a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        System dynamics
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Forest state & ES indicators</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Policy / governance parameters</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Document / structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← brown, stritih</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Market structure dynamics</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / time series</span><span style="color:#64748b;font-size:10px;margin-left:6px">← hanewinkel</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Governance dynamics</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← brown</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span> <span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Vensim</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#1a7a4a;font-weight:600">Steffi Peuckert</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">2026-04-01</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">Strong synergy with Yannek (group TBC); collaboration planned once PhD begins</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card" id="card-brown"
+     data-layer="3"
+     data-status="planned"
+     style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social & Economic
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Calum Brown
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Land-Use ABM
+        </span>
+      </div>
+      <div style="font-size:12px;color:#475569;margin-top:3px;">Agent-based model of land-use decisions, governance, and social-ecological feedbacks</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;">
+      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
+      <span style="background:#fed7aa;color:#8a4a0a;border:1px solid #8a4a0a;border-radius:4px;
+                   padding:2px 7px;font-size:11px;font-family:'IBM Plex Mono',monospace;">
+        Agent-based model
+      </span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;flex-wrap:wrap;">
+
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Forest state & ecosystem services</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Local management scenarios</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← stritih</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Governance dynamics</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← schanz</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Wood product flows</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← pauliuk</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Land-use scenarios</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div><div style="margin-bottom:3px;"><span style="font-weight:600;font-size:11.5px">Governance experiment parameters</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← C4</span></div>
+    </div>
+
+    <div>
+      <div class="col-head">Languages</div>
+      <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span> <span style="background:#f1f5f9;color:#8a4a0a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Java</span></div>
+      <div class="col-head">Researcher / Start</div>
+      <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
+        <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic">Hiring pending; provides land-use feedback loop to iLAND</div>
+    </div>
+
+  </div>
+</div>
+<div style='height:20px'></div>
+
+<div style="text-align:center;font-size:10px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;
+            margin-top:20px;padding-top:12px;border-top:1px solid #e2e8f0;">
+  Source: models.yml · Scientific Modelling Coordinator · Future Forests C3
+  · <a href="FuFo_Original_Fullpage.html" style="color:#1a4f8a">↗ Connection Map</a>
+</div>
+
+<script>
+function filterCards(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    if (filter === 'all') {
+      card.style.display = '';
+    } else if (filter.startsWith('layer-')) {
+      const layer = filter.replace('layer-', '');
+      card.style.display = card.dataset.layer === layer ? '' : 'none';
+    } else {
+      card.style.display = card.dataset.status === filter ? '' : 'none';
+    }
+  });
+  // show/hide section headers
+  document.querySelectorAll('[data-section]').forEach(sec => {
+    const visible = [...sec.nextElementSibling?.querySelectorAll?.('.card') || []].some(c => c.style.display !== 'none');
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,409 @@
+# ============================================================
+# Future Forests C3 — Model Registry
+# ============================================================
+# Each group fills in their own entry.
+# Fields marked (!) are required. All others: fill what you know,
+# leave blank or use "TBD" if not yet determined.
+# ============================================================
+
+groups:
+
+  # ── LAYER 1: OBSERVATIONS & FORCING ──────────────────────
+
+  - id: jung
+    layer: 1
+    pi: "Christopher Jung"
+    model_name: "HyClim Scenarios"
+    short_description: "Meteorological variables under historical and future climate conditions"
+    type: "Statistical downscaling / Climate model"
+    language: ["Python", "R"]
+    status: "in_development"   # options: planned | in_development | operational | deprecated
+    inputs:
+      - name: "ERA5-Land reanalysis"
+        format: "NetCDF"
+        source: "ECMWF (open)"
+      - name: "Regional climate model outputs (CORDEX)"
+        format: "NetCDF"
+        source: "ESGF (open)"
+    outputs:
+      - name: "Downscaled daily Ta, VPD, precipitation, wind, radiation"
+        format: "NetCDF / CSV"
+        resolution: "100m × 100m"
+        consumers: ["christen", "iland", "roger"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+    notes: "Leads HyClim Scenarios for C2; outputs feed all C3 models"
+
+  - id: christen
+    layer: 1
+    pi: "Andreas Christen"
+    model_name: "Microclimate ML Model (AMSES)"
+    short_description: "Transferable regional model for in-canopy air, soil and near-surface temperatures"
+    type: "Machine learning / Spatial downscaling"
+    language: ["Python"]
+    status: "in_development"
+    inputs:
+      - name: "Geospatial predictors (LiDAR, canopy structure, DEM)"
+        format: "GeoTIFF / LAS"
+        source: "Seifert / national surveys"
+      - name: "Sensor time series (300 plots, 150 stands)"
+        format: "CSV / HDF5"
+        source: "FuFo field network"
+      - name: "ERA5-Land / Jung downscaled climate"
+        format: "NetCDF"
+        source: "Jung"
+    outputs:
+      - name: "100m × 100m microclimate grids (Ta, Tsoil, near-surface T)"
+        format: "NetCDF / GeoTIFF"
+        resolution: "100m"
+        consumers: ["iland", "roger"]
+    hire:
+      name: "Tabea Wörner"
+      start: "2026-04-01"
+    notes: "Tree-ensemble ML approach; transferable to other regions"
+
+  - id: weiler_gis
+    layer: 1
+    pi: "Markus Weiler"
+    model_name: "Spatial Data Layers (GIS)"
+    short_description: "Soil, forest structure, hydrology network spatial data"
+    type: "GIS / Remote sensing"
+    language: ["Python", "R", "QGIS"]
+    status: "operational"
+    inputs:
+      - name: "National soil maps (BÜK200)"
+        format: "GeoTIFF / Shapefile"
+        source: "BGR (open)"
+      - name: "Forest inventory data"
+        format: "Shapefile / CSV"
+        source: "ForstBW / BWI"
+      - name: "LiDAR terrain models"
+        format: "LAS / GeoTIFF"
+        source: "LGL Baden-Württemberg"
+    outputs:
+      - name: "Soil properties & depth grids"
+        format: "GeoTIFF"
+        consumers: ["iland", "roger"]
+      - name: "Forest structure layers"
+        format: "GeoTIFF / Shapefile"
+        consumers: ["iland", "seifert"]
+      - name: "Hydrology network"
+        format: "Shapefile"
+        consumers: ["roger"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+
+  - id: seifert
+    layer: 1
+    pi: "Thomas Seifert"
+    model_name: "LiDAR & Dendroecology"
+    short_description: "Individual tree positions, dimensions and growth history from TLS/ULS and dendrochronology"
+    type: "Remote sensing / Field measurements"
+    language: ["R", "Python", "C++"]
+    status: "in_development"
+    inputs:
+      - name: "TLS/ULS 3D point clouds"
+        format: "LAS / LAZ"
+        source: "Field campaigns"
+      - name: "Tree core samples"
+        format: "CSV / Raw scans"
+        source: "Field campaigns"
+    outputs:
+      - name: "iLAND initialisation files (tree positions, DBH, height, species)"
+        format: "CSV / SQLite"
+        consumers: ["iland"]
+      - name: "Dendrochronology growth records"
+        format: "CSV"
+        consumers: ["iland", "orth"]
+    hire:
+      name: "TBD"
+      start: "2026-07-01 (?)"
+    notes: "Hiring pending confirmation"
+
+  - id: kattenborn
+    layer: 1
+    pi: "Teja Kattenborn"
+    model_name: "Remote Sensing Mortality & Traits"
+    short_description: "Drone + CNN mortality mapping, Sentinel/Landsat time series, RS-derived tree traits"
+    type: "Deep learning / Remote sensing"
+    language: ["Python"]
+    status: "operational"
+    inputs:
+      - name: "Drone RGB/multispectral imagery"
+        format: "GeoTIFF"
+        source: "Field campaigns / deadtree.earth"
+      - name: "Sentinel-2 / Landsat time series"
+        format: "NetCDF / GeoTIFF"
+        source: "ESA / USGS (open)"
+    outputs:
+      - name: "Tree mortality maps"
+        format: "GeoTIFF"
+        consumers: ["iland"]
+      - name: "RS-derived tree traits (LAI, chlorophyll, crown area)"
+        format: "GeoTIFF / CSV"
+        consumers: ["iland", "orth"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+
+  - id: orth
+    layer: 1
+    pi: "René Orth"
+    model_name: "Drought Response Functions"
+    short_description: "Robust ML-derived plant drought response from global trait and flux tower data"
+    type: "Machine learning / Data synthesis"
+    language: ["Python", "R"]
+    status: "operational"
+    inputs:
+      - name: "Global plant trait maps (TRY database)"
+        format: "CSV / NetCDF"
+        source: "TRY (open)"
+      - name: "Satellite VPD/SWC time series"
+        format: "NetCDF"
+        source: "ESA CCI / GLEAM (open)"
+      - name: "ICOS / AmeriFlux tower data"
+        format: "CSV / NetCDF"
+        source: "ICOS / AmeriFlux (open)"
+    outputs:
+      - name: "Species-specific drought response functions"
+        format: "Python/R functions / CSV lookup"
+        consumers: ["iland"]
+      - name: "Benchmark drought mortality datasets"
+        format: "CSV / NetCDF"
+        consumers: ["iland"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+
+  # ── LAYER 2: BIOPHYSICAL ENGINE ───────────────────────────
+
+  - id: iland
+    layer: 2
+    pi: "Thomas Seifert / Ana Stritih"
+    model_name: "iLAND"
+    short_description: "Individual tree-based forest landscape model; central biophysical engine of C3"
+    type: "Process-based / Individual-based model"
+    language: ["C++", "R", "JavaScript (interface)"]
+    status: "operational"
+    inputs:
+      - name: "Tree initialisation data"
+        format: "CSV / SQLite"
+        source: "seifert"
+      - name: "Microclimate forcing"
+        format: "NetCDF / CSV"
+        source: "jung, christen"
+      - name: "Soil data"
+        format: "GeoTIFF / CSV"
+        source: "weiler_gis"
+      - name: "Soil water & lateral flow (coupled)"
+        format: "Binary / CSV"
+        source: "roger"
+      - name: "Drought response functions"
+        format: "CSV / R functions"
+        source: "orth"
+      - name: "Mortality maps (validation)"
+        format: "GeoTIFF"
+        source: "kattenborn"
+    outputs:
+      - name: "Timber volume, carbon stocks, ecosystem services"
+        format: "CSV / SQLite"
+        consumers: ["hanewinkel", "pauliuk", "brown", "stritih"]
+      - name: "Canopy structure, LAI, root water uptake"
+        format: "NetCDF / CSV"
+        consumers: ["roger"]
+      - name: "Forest state maps"
+        format: "GeoTIFF"
+        consumers: ["stritih", "brown"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+    notes: "Bidirectionally coupled with RoGeR; central node of framework"
+
+  - id: roger
+    layer: 2
+    pi: "Markus Weiler"
+    model_name: "RoGeR"
+    short_description: "Water redistribution at surface and subsurface; transpiration and drought vulnerability"
+    type: "Process-based hydrological model"
+    language: ["Python", "Fortran"]
+    status: "operational"
+    inputs:
+      - name: "Climate forcing (precip, PET)"
+        format: "NetCDF / CSV"
+        source: "jung, christen"
+      - name: "Soil properties"
+        format: "GeoTIFF / CSV"
+        source: "weiler_gis"
+      - name: "Canopy structure, LAI, root uptake (coupled)"
+        format: "NetCDF / CSV"
+        source: "iland"
+    outputs:
+      - name: "Soil water content, lateral flow"
+        format: "NetCDF / CSV"
+        consumers: ["iland"]
+      - name: "Streamflow / water balance"
+        format: "CSV"
+        consumers: ["brown", "hanewinkel"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+    notes: "Bidirectionally coupled with iLAND"
+
+  # ── LAYER 3: SOCIAL & ECONOMIC ────────────────────────────
+
+  - id: stritih
+    layer: 3
+    pi: "Ana Stritih"
+    model_name: "Participatory Landscape Scenarios"
+    short_description: "Integration of diverse actors' perspectives on forest management; landscape-scale scenario outputs"
+    type: "Participatory modelling / Spatial analysis"
+    language: ["R", "Python"]
+    status: "in_development"
+    inputs:
+      - name: "Forest state maps"
+        format: "GeoTIFF"
+        source: "iland"
+      - name: "Stakeholder workshops / interviews"
+        format: "Qualitative data"
+        source: "SES-CaseLab"
+      - name: "SSP/NFF scenario assumptions"
+        format: "Document / structured parameters"
+        source: "C2 (to be defined)"
+    outputs:
+      - name: "Landscape-scale management scenarios"
+        format: "GeoTIFF / structured parameters"
+        consumers: ["iland", "hanewinkel", "brown"]
+      - name: "Stakeholder preference maps"
+        format: "GeoTIFF / CSV"
+        consumers: ["brown", "hanewinkel"]
+    hire:
+      name: "Christina Dollinger"
+      start: "2026-05-01"
+    notes: "PostDoc position open until 08.03; Margarete-von-Wrangell funding for C. Dollinger"
+
+  - id: hanewinkel
+    layer: 3
+    pi: "Marc Hanewinkel"
+    model_name: "Forest Economics & Risk"
+    short_description: "Economic optimisation of forest management under risk and climate uncertainty"
+    type: "Optimisation / Economic model"
+    language: ["R", "Python"]
+    status: "planned"
+    inputs:
+      - name: "Timber volume, carbon stocks, ES"
+        format: "CSV"
+        source: "iland"
+      - name: "Streamflow / water balance"
+        format: "CSV"
+        source: "roger"
+      - name: "Market structure"
+        format: "CSV / parameters"
+        source: "schanz"
+      - name: "Management scenarios"
+        format: "Structured parameters"
+        source: "stritih"
+    outputs:
+      - name: "Optimised management strategies"
+        format: "CSV / structured parameters"
+        consumers: ["iland"]
+      - name: "Carbon balance"
+        format: "CSV"
+        consumers: ["pauliuk"]
+      - name: "Market demand signals"
+        format: "CSV"
+        consumers: ["pauliuk"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+    notes: "Hiring pending"
+
+  - id: pauliuk
+    layer: 3
+    pi: "Stefan Pauliuk"
+    model_name: "Material Flow & Carbon Accounting"
+    short_description: "Wood product lifecycle, material stocks, carbon substitution in built environment"
+    type: "Material flow analysis / LCA"
+    language: ["Python"]
+    status: "in_development"
+    inputs:
+      - name: "Harvest volumes"
+        format: "CSV"
+        source: "iland"
+      - name: "Carbon balance"
+        format: "CSV"
+        source: "hanewinkel"
+      - name: "Market demand"
+        format: "CSV"
+        source: "hanewinkel"
+    outputs:
+      - name: "Wood product carbon stocks and flows"
+        format: "CSV / Excel"
+        consumers: ["hanewinkel", "brown"]
+      - name: "Substitution effects (fossil to biogenic)"
+        format: "CSV"
+        consumers: ["brown"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+
+  - id: schanz
+    layer: 3
+    pi: "Heiner Schanz"
+    model_name: "FESMarkets"
+    short_description: "System dynamics model of forestry industries and water market governance"
+    type: "System dynamics / Agent-based"
+    language: ["Python", "Vensim"]
+    status: "planned"
+    inputs:
+      - name: "Forest state & ES indicators"
+        format: "CSV"
+        source: "iland"
+      - name: "Policy / governance parameters"
+        format: "Document / structured parameters"
+        source: "brown, stritih"
+    outputs:
+      - name: "Market structure dynamics"
+        format: "CSV / time series"
+        consumers: ["hanewinkel"]
+      - name: "Governance dynamics"
+        format: "CSV / structured parameters"
+        consumers: ["brown"]
+    hire:
+      name: "Steffi Peuckert"
+      start: "2026-04-01"
+    notes: "Strong synergy with Yannek (group TBC); collaboration planned once PhD begins"
+
+  - id: brown
+    layer: 3
+    pi: "Calum Brown"
+    model_name: "Land-Use ABM"
+    short_description: "Agent-based model of land-use decisions, governance, and social-ecological feedbacks"
+    type: "Agent-based model"
+    language: ["Python", "Java"]
+    status: "planned"
+    inputs:
+      - name: "Forest state & ecosystem services"
+        format: "GeoTIFF / CSV"
+        source: "iland"
+      - name: "Local management scenarios"
+        format: "Structured parameters"
+        source: "stritih"
+      - name: "Governance dynamics"
+        format: "CSV"
+        source: "schanz"
+      - name: "Wood product flows"
+        format: "CSV"
+        source: "pauliuk"
+    outputs:
+      - name: "Land-use scenarios"
+        format: "GeoTIFF / structured parameters"
+        consumers: ["iland"]
+      - name: "Governance experiment parameters"
+        format: "Structured parameters"
+        consumers: ["C4"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+    notes: "Hiring pending; provides land-use feedback loop to iLAND"
