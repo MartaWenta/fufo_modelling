@@ -2,348 +2,657 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Future Forests — C3 Modelling Framework</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Future Forests C3 — Interactive Modelling Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
-  body {
-    font-family: 'IBM Plex Sans', sans-serif;
-    background: #fff;
-    color: #1e293b;
-    display: flex;
-    flex-direction: column;
-    padding: 10mm 12mm 6mm;
-  }
-  @media print {
-    @page { size: A3 landscape; margin: 0; }
-    body { padding: 8mm 10mm 4mm; }
-    .no-print { display: none !important; }
-  }
-  .header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    border-bottom: 2.5px solid #1e3a5f;
-    padding-bottom: 6px;
-    margin-bottom: 8px;
-    flex-shrink: 0;
-  }
-  .header-tag {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    color: #1a7a4a;
-    text-transform: uppercase;
-    margin-bottom: 3px;
-  }
-  .header-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1e3a5f;
-    letter-spacing: -0.02em;
-  }
-  .header-sub {
-    font-size: 11px;
-    color: #64748b;
-    margin-top: 2px;
-  }
-  .header-right {
-    text-align: right;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    color: #94a3b8;
-    line-height: 1.8;
-  }
-  .no-print {
-    text-align: center;
-    font-size: 9px;
-    color: #94a3b8;
-    margin-top: 4px;
-    flex-shrink: 0;
-  }
+:root {
+  --navy:    #1e3a5f;
+  --green:   #1a7a4a;
+  --blue:    #1a4f8a;
+  --amber:   #c47a06;
+  --muted:   #94a3b8;
+  --border:  #e2e8f0;
+  --bg:      #f0f4f8;
+
+  --l1-fill: #f0fdf7;
+  --l1-band: #dcfce7;
+  --l1-ink:  #1a7a4a;
+  --l1-node: #6bcf9e;
+
+  --l2-fill: #eff6ff;
+  --l2-band: #dbeafe;
+  --l2-ink:  #1a4f8a;
+  --l2-node: #93c5fd;
+
+  --l3-fill: #fffbeb;
+  --l3-band: #fed7aa;
+  --l3-ink:  #92400e;
+  --l3-node: #fbbf24;
+
+  --conn-data:     #1a7a4a;
+  --conn-valid:    #5b50c4;
+  --conn-couple:   #d97706;
+  --conn-feedback: #c0392b;
+  --conn-lateral:  #7c8a9e;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: #1e293b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+header {
+  background: var(--navy);
+  padding: 14px 24px 12px;
+  border-bottom: 3px solid var(--green);
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.h-left .tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: .2em;
+  color: #6bcf9e;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.h-left h1 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.02em;
+}
+.h-left .sub {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+  font-style: italic;
+}
+.h-right {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: #94a3b8;
+}
+.legend-line {
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+}
+.legend-line.dashed {
+  background: repeating-linear-gradient(to right, currentColor 0, currentColor 4px, transparent 4px, transparent 7px);
+  height: 0;
+  border-top: 2px dashed;
+}
+
+/* ── Main canvas ── */
+.canvas-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+svg#diagram {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Layer bands in SVG ── */
+.band-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* ── Node cards ── */
+.node-group { cursor: pointer; }
+.node-rect {
+  transition: filter .15s;
+  rx: 7;
+}
+.node-group:hover .node-rect,
+.node-group.active .node-rect {
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.18));
+}
+.node-group.dimmed { opacity: .18; pointer-events: none; }
+.node-group.dimmed .node-rect { filter: none; }
+
+.node-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  pointer-events: none;
+}
+.node-sub {
+  font-family: 'IBM Plex Sans', sans-serif;
+  pointer-events: none;
+}
+.node-detail {
+  font-family: 'IBM Plex Sans', sans-serif;
+  pointer-events: none;
+}
+
+/* ── Connection lines ── */
+.conn {
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+}
+.conn.visible { opacity: 1; }
+
+/* ── Info panel ── */
+#info-panel {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  max-width: 600px;
+  width: calc(100% - 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+  border-top: 3px solid var(--green);
+  z-index: 10;
+}
+#info-panel.visible { opacity: 1; }
+#info-title { font-weight: 700; font-size: 13px; color: #6bcf9e; }
+#info-connects { color: #94a3b8; font-size: 10px; line-height: 1.6; }
+#info-hire { color: #fbbf24; font-size: 10px; }
+
+/* ── Hint ── */
+#hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  color: var(--muted);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  pointer-events: none;
+  transition: opacity .3s;
+  letter-spacing: .06em;
+}
+#hint.hidden { opacity: 0; }
+
+/* ── Reset button ── */
+#reset-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #94a3b8;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .15s;
+  display: none;
+}
+#reset-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-left">
-    <div class="header-tag">Future Forests Excellence Cluster · Universität Freiburg · Research Area C3</div>
-    <div class="header-title">C3 Integrated Modelling Framework — Connections Map</div>
-    <div class="header-sub">Roadmap of model connections, data flows, and couplings — reflects current planning status, not yet confirmed interfaces</div>
+<header>
+  <div class="h-left">
+    <div class="tag">Future Forests Excellence Cluster · Universität Freiburg · Research Area C3</div>
+    <h1>C3 Integrated Modelling Framework — Interactive Connection Map</h1>
+    <div class="sub">Click any node to reveal its connections · Roadmap status March 2026</div>
   </div>
-  <div class="header-right">
-    March 2026<br>
-    Scientific Modelling Coordinator<br>
-    Based on: FuFo Proposal + Workshop Slides
+  <div class="h-right">
+    <div class="legend-item"><div class="legend-line" style="background:#1a7a4a;height:2px"></div>Data flow</div>
+    <div class="legend-item"><div class="legend-line dashed" style="color:#5b50c4"></div>Validation</div>
+    <div class="legend-item"><div class="legend-line" style="background:#d97706;height:3px"></div>Coupling ⇄</div>
+    <div class="legend-item"><div class="legend-line dashed" style="color:#c0392b"></div>Feedback</div>
+    <div class="legend-item"><div class="legend-line dashed" style="color:#7c8a9e"></div>Lateral</div>
+  </div>
+</header>
+
+<div class="canvas-wrap">
+  <div id="hint">← Click a node to explore its connections →</div>
+  <button id="reset-btn" onclick="resetAll()">✕ Clear</button>
+  <svg id="diagram" viewBox="0 0 1000 590" preserveAspectRatio="xMidYMid meet"></svg>
+  <div id="info-panel">
+    <div>
+      <div id="info-title"></div>
+      <div id="info-connects"></div>
+    </div>
+    <div id="info-hire"></div>
   </div>
 </div>
 
-<svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" style="flex:1;width:100%;display:block;min-height:0;">
-    <defs>
-      <!-- Arrowheads -->
-      <marker id="arr-green"  markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,7 3,0 6" fill="#1a7a4a"/></marker>
-      <marker id="arr-indigo" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,7 3,0 6" fill="#5b50c4"/></marker>
-      <marker id="arr-amber"  markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,7 3,0 6" fill="#d97706"/></marker>
-      <marker id="arr-amber2" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,7 3,0 6" fill="#d97706"/></marker>
-      <marker id="arr-red"    markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,7 3,0 6" fill="#c0392b"/></marker>
-      <marker id="arr-slate"  markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,7 3,0 6" fill="#7c8a9e"/></marker>
-      <marker id="arr-blue"   markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,7 3,0 6" fill="#1a4f8a"/></marker>
-    </defs>
+<script>
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
 
-    <!-- Layer bands -->
-    <rect x="0" y="0"   width="860" height="155" fill="#f0fdf7" rx="0"/>
-    <rect x="0" y="155" width="860" height="175" fill="#eff6ff" rx="0"/>
-    <rect x="0" y="330" width="860" height="190" fill="#fffbeb" rx="0"/>
+const LAYERS = [
+  { id: 1, label: 'LAYER 1 — OBSERVATIONS & FORCING',  y: 0,   h: 195, fill: '#f0fdf7', band: '#dcfce7', ink: '#1a7a4a' },
+  { id: 2, label: 'LAYER 2 — BIOPHYSICAL ENGINE',      y: 195, h: 165, fill: '#eff6ff', band: '#dbeafe', ink: '#1a4f8a' },
+  { id: 3, label: 'LAYER 3 — SOCIAL & ECONOMIC',       y: 360, h: 195, fill: '#fffbeb', band: '#fed7aa', ink: '#92400e' },
+];
 
-    <!-- Layer labels -->
-    <rect x="0" y="0" width="860" height="22" fill="#dcfce7"/>
-    <text x="10" y="15" font-family="'IBM Plex Mono',monospace" font-size="8.5" font-weight="700" fill="#1a7a4a" letter-spacing="0.12em">LAYER 1 — OBSERVATIONS &amp; FORCING</text>
+// cx/cy = center of node card; w/h = card size
+const NODES = [
+  // Layer 1
+  { id:'jung',       layer:1, cx:82,  cy:110, w:120, h:110, label:'JUNG / SCHINDLER', sub:'HyClim Scenarios (C2)',
+    detail:['ERA5-Land reanalysis','CMIP6 downscaling','100m Ta, VPD, Prec, Rad'], stroke:'#6bcf9e',
+    hire:'Christopher Jung (PostDoc)\nStart: TBD' },
+  { id:'christen',   layer:1, cx:222, cy:110, w:120, h:110, label:'CHRISTEN', sub:'Microclimate ML (AMSES)',
+    detail:['300 plots / 150 stands','ML hindcasting 30yr','100m in-canopy T'], stroke:'#6bcf9e',
+    hire:'Tabea Wörner (PhD)\nStart: 01.04.2026' },
+  { id:'weiler_gis', layer:1, cx:362, cy:110, w:120, h:110, label:'WEILER GIS', sub:'Spatial data layers',
+    detail:['Soil properties & depth','Forest structure','Hydrology network'], stroke:'#6bcf9e',
+    hire:'TBD' },
+  { id:'seifert',    layer:1, cx:502, cy:110, w:120, h:110, label:'SEIFERT', sub:'LiDAR & Dendroecology',
+    detail:['TLS/ULS 3D point clouds','Tree positions & DBH','Dendrochronology'], stroke:'#6bcf9e',
+    hire:'TBD (Start: 01.07.2026?)' },
+  { id:'kattenborn', layer:1, cx:642, cy:110, w:120, h:110, label:'KATTENBORN', sub:'RS Mortality & Traits',
+    detail:['Drone CNN mortality','deadtree.earth','Sentinel-2 time series'], stroke:'#6bcf9e',
+    hire:'TBD' },
+  { id:'orth',       layer:1, cx:782, cy:110, w:120, h:110, label:'ORTH', sub:'Drought response fns',
+    detail:['VPD/SWC → veg function','ICOS/AmeriFlux towers','Global trait maps (TRY)'], stroke:'#6bcf9e',
+    hire:'TBD' },
+  { id:'stahl',      layer:1, cx:922, cy:110, w:110, h:110, label:'STAHL', sub:'Hydro-climate & extremes',
+    detail:['Downscaled reanalysis','Extreme value statistics','Hydro-climatic indices'], stroke:'#6bcf9e',
+    hire:'TBD' },
 
-    <rect x="0" y="155" width="860" height="22" fill="#dbeafe"/>
-    <text x="10" y="170" font-family="'IBM Plex Mono',monospace" font-size="8.5" font-weight="700" fill="#1a4f8a" letter-spacing="0.12em">LAYER 2 — BIOPHYSICAL ENGINE</text>
+  // Layer 2
+  { id:'iland',  layer:2, cx:370, cy:283, w:200, h:120, label:'iLAND', sub:'Forest Landscape & Disturbance Model',
+    detail:['Individual tree-based','Seifert / Stritih / Albrecht / Hanewinkel / Weiler','Open-source · Rammer et al. 2024'], stroke:'#93c5fd', strokeW:2.5,
+    hire:'TBD' },
+  { id:'roger',  layer:2, cx:720, cy:283, w:160, h:120, label:'RoGeR', sub:'Runoff Generation Research',
+    detail:['Plateau / Hillslope / Riparian','Lateral subsurface flow','Groundwater & capillary rise'], stroke:'#93c5fd',
+    hire:'TBD' },
 
-    <rect x="0" y="330" width="860" height="22" fill="#fed7aa"/>
-    <text x="10" y="345" font-family="'IBM Plex Mono',monospace" font-size="8.5" font-weight="700" fill="#8a4a0a" letter-spacing="0.12em">LAYER 3 — SOCIAL &amp; ECONOMIC</text>
+  // Layer 3
+  { id:'brown',      layer:3, cx:82,  cy:455, w:130, h:130, label:'BROWN', sub:'CRAFTY-EU Land-Use ABM',
+    detail:['EU27+3 · 1km resolution','LandSyMM global model','SSP/RCP/NFF scenarios'], stroke:'#fbbf24',
+    hire:'TBD (end 2026 ⚠)' },
+  { id:'stritih',    layer:3, cx:252, cy:455, w:130, h:130, label:'STRITIH', sub:'Participatory iLAND+ABE',
+    detail:['Forest managers','Observe → Plan → Act','Co-designed scenarios'], stroke:'#fbbf24',
+    hire:'Christina Dollinger (PostDoc)\nMargarethe-von-Wrangell\nStart: 01.05.2026' },
+  { id:'hanewinkel', layer:3, cx:430, cy:455, w:130, h:130, label:'HANEWINKEL', sub:'Forest Economics & Risk',
+    detail:['GFPM in GAMS','VaR / CVaR optimisation','SW Germany markets'], stroke:'#fbbf24',
+    hire:'TBD (deadline extended ⚠)' },
+  { id:'pauliuk',    layer:3, cx:610, cy:455, w:130, h:130, label:'PAULIUK', sub:'Wood Cascade & Carbon',
+    detail:['Material flow analysis (MFA)','Harvest → product → energy','100–200yr horizon'], stroke:'#fbbf24',
+    hire:'Simon Schulte\nStart: TBD' },
+  { id:'schanz',     layer:3, cx:790, cy:455, w:130, h:130, label:'SCHANZ', sub:'FESMarkets',
+    detail:['Network of Markets (NoM)','System dynamics + CLDs','Water / recreation / timber'], stroke:'#fbbf24',
+    hire:'Steffi Peuckert (PhD)\nStart: 01.04.2026' },
+];
 
-    <!-- ═══════════════════════════════════ -->
-    <!-- LAYER 1 NODES  (y≈100) -->
-    <!-- Jung -->
-    <rect x="14"  y="50" width="108" height="86" rx="5" fill="#fff" stroke="#6bcf9e" stroke-width="1.5"/>
-    <text x="68"  y="68"  text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#1a7a4a">JUNG</text>
-    <text x="68"  y="80"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">HyClim Scenarios (C2)</text>
-    <text x="68"  y="91"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">ERA5-Land reanalysis</text>
-    <text x="68"  y="101" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">downscaled regional</text>
-    <text x="68"  y="111" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">climate model outputs</text>
-    <text x="68"  y="121" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#94a3b8">Ta, VPD, precip, wind, rad</text>
-    <text x="68"  y="131" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#c0392b">⚠ hire TBD</text>
+// Connection definitions [from, to, type]
+// types: data | validation | coupling | feedback | lateral
+const CONNECTIONS = [
+  // Jung/Schindler flows
+  ['jung','iland','data'],
+  ['jung','christen','lateral'],
+  ['jung','weiler_gis','lateral'],
+  ['jung','orth','lateral'],
+  ['jung','stahl','lateral'],
+  ['jung','roger','data'],
+  ['jung','brown','lateral'],
 
-    <!-- Christen -->
-    <rect x="134" y="50" width="118" height="86" rx="5" fill="#fff" stroke="#6bcf9e" stroke-width="1.5"/>
-    <text x="193" y="68"  text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#1a7a4a">CHRISTEN</text>
-    <text x="193" y="82"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Microclimate ML model</text>
-    <text x="193" y="94"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">300 plots, 150 stands</text>
-    <text x="193" y="105" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Tree-ensemble ML</text>
-    <text x="193" y="116" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">downscaling ERA5-Land</text>
-    <text x="193" y="120" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#94a3b8">→ 100×100m microclimate</text>
-    <text x="193" y="131" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#1a7a4a">Tabea Wörner · 01.04.2026</text>
+  // Christen
+  ['christen','iland','data'],
+  ['christen','roger','data'],
+  ['christen','seifert','lateral'],
+  ['christen','weiler_gis','lateral'],
+  ['christen','orth','lateral'],
+  ['christen','stahl','lateral'],
 
-    <!-- Weiler GIS -->
-    <rect x="264" y="50" width="110" height="86" rx="5" fill="#fff" stroke="#6bcf9e" stroke-width="1.5"/>
-    <text x="319" y="68"  text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#1a7a4a">WEILER GIS</text>
-    <text x="319" y="82"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Spatial data layers</text>
-    <text x="319" y="94"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Forest structure</text>
-    <text x="319" y="105" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Soil properties &amp; depth</text>
-    <text x="319" y="116" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Hydrology network</text>
-    <text x="319" y="128" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#94a3b8">Tree species distributions</text>
+  // Weiler GIS
+  ['weiler_gis','iland','data'],
+  ['weiler_gis','roger','data'],
+  ['weiler_gis','kattenborn','lateral'],
 
-    <!-- Seifert LiDAR -->
-    <rect x="386" y="50" width="110" height="86" rx="5" fill="#fff" stroke="#6bcf9e" stroke-width="1.5"/>
-    <text x="441" y="68"  text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#1a7a4a">SEIFERT</text>
-    <text x="441" y="82"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">LiDAR &amp; Dendroecology</text>
-    <text x="441" y="94"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">TLS/ULS 3D point clouds</text>
-    <text x="441" y="105" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Tree positions &amp; dims</text>
-    <text x="441" y="116" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Dendrochronology</text>
-    <text x="441" y="128" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#94a3b8">→ iLAND initialisation</text>
+  // Seifert
+  ['seifert','iland','validation'],
+  ['seifert','kattenborn','lateral'],
+  ['seifert','weiler_gis','lateral'],
 
-    <!-- Kattenborn -->
-    <rect x="508" y="50" width="114" height="86" rx="5" fill="#fff" stroke="#6bcf9e" stroke-width="1.5"/>
-    <text x="565" y="68"  text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#1a7a4a">KATTENBORN</text>
-    <text x="565" y="82"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Remote sensing mortality</text>
-    <text x="565" y="94"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Drone + CNN mortality</text>
-    <text x="565" y="105" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">deadtree.earth initiative</text>
-    <text x="565" y="116" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Sentinel/Landsat time series</text>
-    <text x="565" y="128" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#94a3b8">RS-derived tree traits</text>
+  // Kattenborn
+  ['kattenborn','iland','validation'],
+  ['kattenborn','orth','lateral'],
+  ['kattenborn','hanewinkel','lateral'],
+  ['kattenborn','brown','lateral'],
 
-    <!-- Orth -->
-    <rect x="634" y="50" width="110" height="86" rx="5" fill="#fff" stroke="#6bcf9e" stroke-width="1.5"/>
-    <text x="689" y="68"  text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#1a7a4a">ORTH</text>
-    <text x="689" y="82"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Drought response</text>
-    <text x="689" y="94"  text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Global plant trait maps</text>
-    <text x="689" y="105" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Satellite VPD/SWC curves</text>
-    <text x="689" y="116" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">ICOS/AmeriFlux towers</text>
-    <text x="689" y="128" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#94a3b8">Robust ML response fns</text>
+  // Orth
+  ['orth','iland','validation'],
+  ['orth','stahl','lateral'],
+  ['orth','weiler_gis','lateral'],
 
-    <!-- ═══════════════════════════════════ -->
-    <!-- LAYER 2 NODES (y≈255) -->
-    <!-- iLAND — big central node -->
-    <rect x="220" y="185" width="200" height="118" rx="7" fill="#eff6ff" stroke="#1a4f8a" stroke-width="2"/>
-    <text x="320" y="208" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="14" font-weight="700" fill="#1a4f8a">iLAND</text>
-    <text x="320" y="224" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="9" font-weight="600" fill="#1a4f8a">Seifert / Stritih</text>
-    <text x="320" y="238" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Individual-tree process model</text>
-    <text x="320" y="250" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#64748b">100m grid · daily timestep</text>
-    <text x="320" y="262" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#64748b">Growth, mortality, disturbance</text>
-    <text x="320" y="274" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#64748b">Carbon, biomass, ES indicators</text>
-    <text x="320" y="286" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#64748b">Management ABM module</text>
-    <text x="320" y="298" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#94a3b8">tree → 10,000 ha</text>
+  // Stahl
+  ['stahl','christen','lateral'],
+  ['stahl','orth','lateral'],
+  ['stahl','weiler_gis','lateral'],
+  ['stahl','kattenborn','lateral'],
+  ['stahl','brown','lateral'],
 
-    <!-- RoGeR -->
-    <rect x="646" y="193" width="166" height="102" rx="6" fill="#eff6ff" stroke="#1a4f8a" stroke-width="1.5"/>
-    <text x="729" y="214" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="12" font-weight="700" fill="#1a4f8a">RoGeR</text>
-    <text x="729" y="228" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8.5" font-weight="600" fill="#1a4f8a">Weiler — Hydrology</text>
-    <text x="729" y="242" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#475569">Soil water balance model</text>
-    <text x="729" y="254" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#64748b">Lateral redistribution</text>
-    <text x="729" y="266" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#64748b">Groundwater interactions</text>
-    <text x="729" y="278" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#64748b">Subsurface flow</text>
-    <text x="729" y="290" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#94a3b8">1m → 1000s km²</text>
+  // iLAND ⇄ RoGeR bidirectional coupling
+  ['iland','roger','coupling'],
+  ['roger','iland','coupling'],
 
-    <!-- ═══════════════════════════════════ -->
-    <!-- LAYER 3 NODES (y≈415) -->
-    <!-- Brown -->
-    <rect x="14"  y="358" width="110" height="112" rx="5" fill="#fff" stroke="#e8a55a" stroke-width="1.5"/>
-    <text x="69"  y="376" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#8a4a0a">BROWN</text>
-    <text x="69"  y="390" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">CRAFTY / ABM</text>
-    <text x="69"  y="404" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">CRAFTY-EU 1km grid</text>
-    <text x="69"  y="416" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">EU27+3 land use ABM</text>
-    <text x="69"  y="428" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">LandSyMM global model</text>
-    <text x="69"  y="440" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">ES supply/demand</text>
-    <text x="69"  y="455" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#c0392b" font-weight="600">⚠ 1km vs 100m gap</text>
-    <text x="69"  y="465" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#c0392b">coupling unresolved</text>
+  // iLAND → Layer 3
+  ['iland','brown','data'],
+  ['iland','stritih','data'],
+  ['iland','hanewinkel','data'],
+  ['iland','pauliuk','data'],
 
-    <!-- Stritih -->
-    <rect x="136" y="358" width="110" height="112" rx="5" fill="#fff" stroke="#e8a55a" stroke-width="1.5"/>
-    <text x="191" y="376" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#8a4a0a">STRITIH</text>
-    <text x="191" y="390" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Participatory ABM</text>
-    <text x="191" y="404" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">W1 Junior Professor</text>
-    <text x="191" y="416" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Co-design with managers</text>
-    <text x="191" y="428" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">iLAND ABM module</text>
-    <text x="191" y="440" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Transdisciplinary</text>
-    <text x="191" y="452" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#1a7a4a">C. Dollinger · 01.05.2026</text>
+  // Layer 3 internal
+  ['pauliuk','hanewinkel','lateral'],
+  ['hanewinkel','pauliuk','lateral'],
+  ['schanz','hanewinkel','lateral'],
+  ['schanz','brown','lateral'],
+  ['schanz','weiler_gis','lateral'],
+  ['schanz','iland','lateral'],
+  ['pauliuk','schanz','lateral'],
+  ['pauliuk','brown','lateral'],
+  ['pauliuk','weiler_gis','lateral'],
+  ['stritih','brown','data'],
 
-    <!-- Hanewinkel -->
-    <rect x="258" y="358" width="130" height="112" rx="5" fill="#fff" stroke="#e8a55a" stroke-width="1.5"/>
-    <text x="323" y="376" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="9.5" font-weight="700" fill="#8a4a0a">HANEWINKEL</text>
-    <text x="323" y="390" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Economic model</text>
-    <text x="323" y="404" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">GFPM in GAMS</text>
-    <text x="323" y="416" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Partial equilibrium</text>
-    <text x="323" y="428" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">VaR/CVaR risk metrics</text>
-    <text x="323" y="440" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Robust mgmt strategies</text>
-    <text x="323" y="455" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#c0392b" font-weight="600">⚠ PhD hiring pending</text>
+  // Feedback loops
+  ['hanewinkel','iland','feedback'],
+  ['brown','iland','feedback'],
+  ['stritih','iland','data'],
+];
 
-    <!-- Pauliuk -->
-    <rect x="400" y="358" width="118" height="112" rx="5" fill="#fff" stroke="#e8a55a" stroke-width="1.5"/>
-    <text x="459" y="376" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#8a4a0a">PAULIUK</text>
-    <text x="459" y="390" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Wood cascade / LCA</text>
-    <text x="459" y="404" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Material flow model</text>
-    <text x="459" y="416" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Harvest→Material→Energy</text>
-    <text x="459" y="428" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">100–200yr horizon</text>
-    <text x="459" y="440" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Carbon balance of</text>
-    <text x="459" y="452" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">wood use pathways</text>
+const CONN_STYLES = {
+  data:       { stroke: '#1a7a4a', width: 2,   dash: null  },
+  validation: { stroke: '#5b50c4', width: 1.5, dash: '6,3' },
+  coupling:   { stroke: '#d97706', width: 3,   dash: null  },
+  feedback:   { stroke: '#c0392b', width: 2,   dash: '7,3' },
+  lateral:    { stroke: '#7c8a9e', width: 1.2, dash: '4,3' },
+};
 
-    <!-- Schanz -->
-    <rect x="530" y="358" width="118" height="112" rx="5" fill="#fff" stroke="#e8a55a" stroke-width="1.5"/>
-    <text x="589" y="376" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="700" fill="#8a4a0a">SCHANZ</text>
-    <text x="589" y="390" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="8" fill="#475569">Market networks</text>
-    <text x="589" y="404" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Network of Market</text>
-    <text x="589" y="416" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Approach (NoM)</text>
-    <text x="589" y="428" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">Causal Loop Diagrams</text>
-    <text x="589" y="440" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#94a3b8">System dynamics</text>
-    <text x="589" y="452" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#1a7a4a">Steffi Peuckert · 01.04.2026</text>
+// Build adjacency map
+const adj = {};
+NODES.forEach(n => adj[n.id] = new Set());
+CONNECTIONS.forEach(([a,b]) => { adj[a].add(b); adj[b].add(a); });
 
-    <!-- ═══════════════════════════════════ -->
-    <!-- ARROWS: Layer 1 → iLAND -->
-    <!-- Jung → iLAND -->
-    <path d="M 68 137 C 68 160, 290 180, 295 185" fill="none" stroke="#1a7a4a" stroke-width="1.3" marker-end="url(#arr-green)"/>
-    <text x="118" y="168" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#1a7a4a">Ta,VPD,precip</text>
+// ══════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════
+const svg = document.getElementById('diagram');
+const NS = 'http://www.w3.org/2000/svg';
 
-    <!-- Christen → iLAND (main) -->
-    <path d="M 252 136 L 280 185" fill="none" stroke="#1a7a4a" stroke-width="1.8" marker-end="url(#arr-green)"/>
-    <text x="248" y="166" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#1a7a4a" font-weight="600">★ 100m microclimate</text>
+function el(tag, attrs={}) {
+  const e = document.createElementNS(NS, tag);
+  Object.entries(attrs).forEach(([k,v]) => e.setAttribute(k,v));
+  return e;
+}
+function txt(content, attrs={}) {
+  const e = el('text', attrs);
+  e.textContent = content;
+  return e;
+}
 
-    <!-- Christen → RoGeR -->
-    <path d="M 252 95 C 450 60, 620 80, 646 220" fill="none" stroke="#1a7a4a" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#arr-green)"/>
+// Defs (arrowheads per type)
+const defs = el('defs');
+Object.entries(CONN_STYLES).forEach(([type, s]) => {
+  const m = el('marker', { id:`arr-${type}`, markerWidth:'8', markerHeight:'7',
+    refX:'7', refY:'3.5', orient:'auto' });
+  const p = el('polygon', { points:'0 0,8 3.5,0 7', fill: s.stroke });
+  m.appendChild(p);
+  defs.appendChild(m);
+});
+svg.appendChild(defs);
 
-    <!-- Weiler GIS → iLAND -->
-    <path d="M 345 137 L 340 185" fill="none" stroke="#1a7a4a" stroke-width="1.3" marker-end="url(#arr-green)"/>
-    <text x="350" y="165" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#1a7a4a">Soil, structure</text>
+// Layer bands
+LAYERS.forEach(L => {
+  svg.appendChild(el('rect', { x:0, y:L.y, width:1000, height:L.h, fill:L.fill }));
+  svg.appendChild(el('rect', { x:0, y:L.y, width:1000, height:20, fill:L.band }));
+  const t = txt(L.label, { x:10, y:L.y+14, class:'band-label', fill:L.ink });
+  svg.appendChild(t);
+});
 
-    <!-- Weiler GIS → RoGeR -->
-    <path d="M 374 95 C 520 70, 600 130, 646 230" fill="none" stroke="#1a7a4a" stroke-width="1" marker-end="url(#arr-green)"/>
+// ── Connection lines (rendered BEFORE nodes so they sit underneath) ──
+const connEls = {}; // keyed by "from-to-type"
+const connLayer = el('g', { id:'connections' });
 
-    <!-- Seifert → iLAND (validation) -->
-    <path d="M 441 137 L 400 185" fill="none" stroke="#5b50c4" stroke-width="1.3" stroke-dasharray="5,2" marker-end="url(#arr-indigo)"/>
-    <text x="406" y="162" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#5b50c4">LiDAR init.</text>
+CONNECTIONS.forEach(([from, to, type]) => {
+  const s = CONN_STYLES[type];
+  const fn = NODES.find(n=>n.id===from);
+  const tn = NODES.find(n=>n.id===to);
+  if (!fn || !tn) return;
 
-    <!-- Kattenborn → iLAND (validation) -->
-    <path d="M 537 137 C 490 160, 445 175, 420 185" fill="none" stroke="#5b50c4" stroke-width="1.3" stroke-dasharray="5,2" marker-end="url(#arr-indigo)"/>
-    <text x="480" y="156" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#5b50c4">Mortality maps</text>
+  // Pick edge midpoints — top/bottom depending on layer relationship
+  let x1=fn.cx, y1=fn.cy, x2=tn.cx, y2=tn.cy;
 
-    <!-- Orth → iLAND (validation) -->
-    <path d="M 666 137 C 600 155, 520 175, 420 188" fill="none" stroke="#5b50c4" stroke-width="1.3" stroke-dasharray="5,2" marker-end="url(#arr-indigo)"/>
-    <text x="560" y="147" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#5b50c4">Drought benchmarks</text>
+  // Offset for bidirectional coupling
+  const isCouplingPair = type==='coupling';
+  const offset = isCouplingPair ? (from<to ? -6 : 6) : 0;
 
-    <!-- ═══ iLAND ↔ RoGeR COUPLING ═══ -->
-    <!-- iLAND → RoGeR -->
-    <path d="M 420 242 C 510 230, 580 235, 646 238" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arr-amber)"/>
-    <text x="490" y="228" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#d97706" font-weight="600">Canopy, LAI, root uptake</text>
-    <!-- RoGeR → iLAND -->
-    <path d="M 646 254 C 570 265, 500 262, 420 258" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arr-amber2)"/>
-    <text x="476" y="274" font-family="'IBM Plex Sans',monospace" font-size="7.5" fill="#d97706" font-weight="600">Soil water, lateral flow</text>
-    <!-- Coupling label -->
-    <rect x="490" y="238" width="116" height="13" rx="3" fill="#fffbeb" stroke="#d97706" stroke-width="0.8"/>
-    <text x="548" y="248.5" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="7.5" fill="#d97706" font-weight="700">⇄ BIDIRECTIONAL COUPLING</text>
+  // Choose connection anchor edges
+  if (fn.layer < tn.layer) { y1 = fn.cy + fn.h/2; y2 = tn.cy - tn.h/2; }
+  else if (fn.layer > tn.layer) { y1 = fn.cy - fn.h/2; y2 = tn.cy + tn.h/2; }
+  else {
+    // Same layer — route above or below
+    y1 = fn.cy - fn.h/2 - 8;
+    y2 = tn.cy - tn.h/2 - 8;
+  }
 
-    <!-- ═══ iLAND → Layer 3 ═══ -->
-    <!-- iLAND → Brown -->
-    <path d="M 244 303 C 200 325, 130 340, 100 358" fill="none" stroke="#1a7a4a" stroke-width="1.3" marker-end="url(#arr-green)"/>
-    <text x="128" y="336" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#1a7a4a">Forest state, ES</text>
+  // Simple quadratic curve
+  const mx = (x1+x2)/2 + offset;
+  const my = fn.layer === tn.layer
+    ? Math.min(fn.cy, tn.cy) - fn.h/2 - 30
+    : (y1+y2)/2;
 
-    <!-- iLAND → Stritih -->
-    <path d="M 270 303 C 250 325, 220 340, 210 358" fill="none" stroke="#1a7a4a" stroke-width="1.3" marker-end="url(#arr-green)"/>
+  const pathD = `M ${x1} ${y1} Q ${mx} ${my} ${x2+offset} ${y2}`;
 
-    <!-- iLAND → Hanewinkel -->
-    <path d="M 330 303 L 330 358" fill="none" stroke="#1a7a4a" stroke-width="1.3" marker-end="url(#arr-green)"/>
-    <text x="335" y="337" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#1a7a4a">Timber, carbon, ES</text>
+  const path = el('path', {
+    d: pathD,
+    stroke: s.stroke,
+    'stroke-width': s.width,
+    'stroke-dasharray': s.dash || '',
+    'marker-end': `url(#arr-${type})`,
+    class: 'conn',
+  });
 
-    <!-- iLAND → Pauliuk -->
-    <path d="M 380 303 C 410 325, 440 340, 459 358" fill="none" stroke="#1a7a4a" stroke-width="1.3" marker-end="url(#arr-green)"/>
-    <text x="400" y="328" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#1a7a4a">Harvest vol.</text>
+  const key = `${from}-${to}`;
+  connEls[key] = path;
+  connLayer.appendChild(path);
+});
+svg.appendChild(connLayer);
 
-    <!-- ═══ Layer 3 internal ═══ -->
-    <!-- Pauliuk ↔ Hanewinkel -->
-    <path d="M 459 414 L 388 414" fill="none" stroke="#7c8a9e" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr-slate)"/>
-    <path d="M 388 424 L 459 424" fill="none" stroke="#7c8a9e" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr-slate)"/>
-    <text x="418" y="412" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#7c8a9e">Carbon bal.</text>
-    <text x="418" y="435" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#7c8a9e">Mkt demand</text>
+// ── Node cards ──
+const nodeEls = {}; // id -> g element
+NODES.forEach(node => {
+  const g = el('g', { class:'node-group', id:`node-${node.id}` });
+  g.dataset.id = node.id;
 
-    <!-- Schanz → Hanewinkel -->
-    <path d="M 530 400 L 388 400" fill="none" stroke="#7c8a9e" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr-slate)"/>
-    <text x="456" y="396" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#7c8a9e">Market structure</text>
+  const L = LAYERS.find(l => l.id === node.layer);
+  const sw = node.strokeW || 1.5;
 
-    <!-- Schanz → Brown -->
-    <path d="M 530 440 C 350 460, 200 470, 124 468" fill="none" stroke="#7c8a9e" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr-slate)"/>
-    <text x="330" y="475" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#7c8a9e">Governance dynamics</text>
+  // Card background
+  const rect = el('rect', {
+    x: node.cx - node.w/2, y: node.cy - node.h/2,
+    width: node.w, height: node.h,
+    rx: 7, fill: '#fff',
+    stroke: node.stroke, 'stroke-width': sw,
+    class: 'node-rect',
+  });
+  g.appendChild(rect);
 
-    <!-- Stritih → Brown -->
-    <path d="M 136 414 L 124 414" fill="none" stroke="#d97706" stroke-width="1.2" marker-end="url(#arr-amber)"/>
-    <text x="65" y="354" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#d97706">Local mgmt→</text>
+  // Title bar background
+  const titleBar = el('rect', {
+    x: node.cx - node.w/2, y: node.cy - node.h/2,
+    width: node.w, height: 24,
+    rx: 7, fill: node.stroke + '22',
+  });
+  // Fix bottom corners
+  const titleBar2 = el('rect', {
+    x: node.cx - node.w/2, y: node.cy - node.h/2 + 14,
+    width: node.w, height: 10,
+    fill: node.stroke + '22',
+  });
+  g.appendChild(titleBar);
+  g.appendChild(titleBar2);
 
-    <!-- ═══ FEEDBACK LOOPS ═══ -->
-    <!-- Hanewinkel → iLAND (mgmt strategies) -->
-    <path d="M 258 380 C 110 365, 60 310, 80 260, 100 210, 180 195, 220 235" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,2" marker-end="url(#arr-red)"/>
-    <text x="42" y="300" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#c0392b" font-weight="700" transform="rotate(-90,42,300)">FEEDBACK LOOP 2</text>
-    <text x="55" y="310" font-family="'IBM Plex Sans',monospace" font-size="6.5" fill="#c0392b" transform="rotate(-90,55,310)">Optimised mgmt strategies</text>
+  // Node label
+  const titleEl = txt(node.label, {
+    x: node.cx, y: node.cy - node.h/2 + 15,
+    'text-anchor':'middle', fill: L.ink,
+    'font-size': node.w > 150 ? 13 : 10,
+    class: 'node-title',
+  });
+  g.appendChild(titleEl);
 
-    <!-- Brown → iLAND (land-use scenarios) - left feedback -->
-    <path d="M 14 395 C -10 350, -10 250, 20 220, 100 180, 180 190, 220 220" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="5,2" marker-end="url(#arr-red)"/>
-    <text x="10" y="290" font-family="'IBM Plex Mono',monospace" font-size="7" fill="#c0392b" font-weight="700" transform="rotate(-90,10,290)">FEEDBACK LOOP 3</text>
+  // Sub
+  const subEl = txt(node.sub, {
+    x: node.cx, y: node.cy - node.h/2 + 32,
+    'text-anchor':'middle', fill:'#475569',
+    'font-size': 8, class:'node-sub',
+  });
+  g.appendChild(subEl);
 
-    <!-- C4 governance output (right side) -->
-    <path d="M 648 414 C 740 414, 760 400, 780 380" fill="none" stroke="#1a4f8a" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-blue)"/>
-    <rect x="750" y="355" width="100" height="36" rx="4" fill="#dbeafe" stroke="#1a4f8a" stroke-width="1"/>
-    <text x="800" y="370" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="8" font-weight="700" fill="#1a4f8a">→ C4</text>
-    <text x="800" y="383" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#1a4f8a">Governance</text>
+  // Detail lines
+  node.detail.forEach((d, i) => {
+    const dt = txt(d, {
+      x: node.cx, y: node.cy - node.h/2 + 44 + i*13,
+      'text-anchor':'middle', fill:'#94a3b8',
+      'font-size': 7.5, class:'node-detail',
+    });
+    g.appendChild(dt);
+  });
 
-    <!-- C2 scenario label top right -->
-    <rect x="754" y="50" width="98" height="50" rx="4" fill="#dbeafe" stroke="#1a4f8a" stroke-width="1"/>
-    <text x="803" y="65" text-anchor="middle" font-family="'IBM Plex Mono',monospace" font-size="8.5" font-weight="700" fill="#1a4f8a">C2 SCENARIOS</text>
-    <text x="803" y="78" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#475569">SSP/RCP/NFF</text>
-    <text x="803" y="89" text-anchor="middle" font-family="'IBM Plex Sans',monospace" font-size="7" fill="#475569">→ all C3 models</text>
-    <path d="M 803 100 L 803 150, 420 175" fill="none" stroke="#1a4f8a" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-blue)"/>
+  // Hire badge (bottom)
+  const hireLine = node.hire.split('\n')[0];
+  const hireColor = hireLine.includes('⚠') ? '#c0392b'
+    : hireLine === 'TBD' ? '#94a3b8'
+    : '#1a7a4a';
+  const hireEl = txt(hireLine, {
+    x: node.cx, y: node.cy + node.h/2 - 7,
+    'text-anchor':'middle', fill: hireColor,
+    'font-size': 6.5, class:'node-detail',
+  });
+  g.appendChild(hireEl);
 
-  </svg>
+  g.addEventListener('click', () => onNodeClick(node.id));
 
-<p class="no-print">Print: <strong>Ctrl+P</strong> (or Cmd+P) → select <strong>A3 Landscape</strong> → disable browser headers &amp; footers</p>
+  svg.appendChild(g);
+  nodeEls[node.id] = g;
+});
 
+// C4 output box
+const c4 = el('g');
+c4.appendChild(el('rect', { x:900, y:380, width:90, height:40, rx:5,
+  fill:'#dbeafe', stroke:'#1a4f8a', 'stroke-width':1 }));
+c4.appendChild(txt('→ C4', { x:945, y:397, 'text-anchor':'middle',
+  'font-family':'IBM Plex Mono,monospace', 'font-size':10, 'font-weight':700, fill:'#1a4f8a' }));
+c4.appendChild(txt('Governance', { x:945, y:412, 'text-anchor':'middle',
+  'font-family':'IBM Plex Sans,sans-serif', 'font-size':8, fill:'#1a4f8a' }));
+svg.appendChild(c4);
+
+// C2 scenarios box
+const c2 = el('g');
+c2.appendChild(el('rect', { x:910, y:26, width:82, height:46, rx:5,
+  fill:'#dbeafe', stroke:'#1a4f8a', 'stroke-width':1 }));
+c2.appendChild(txt('C2 SCENARIOS', { x:951, y:41, 'text-anchor':'middle',
+  'font-family':'IBM Plex Mono,monospace', 'font-size':7.5, 'font-weight':700, fill:'#1a4f8a' }));
+c2.appendChild(txt('SSP/RCP/NFF', { x:951, y:54, 'text-anchor':'middle',
+  'font-family':'IBM Plex Sans,sans-serif', 'font-size':7, fill:'#475569' }));
+c2.appendChild(txt('→ all C3 models', { x:951, y:65, 'text-anchor':'middle',
+  'font-family':'IBM Plex Sans,sans-serif', 'font-size':7, fill:'#475569' }));
+svg.appendChild(c2);
+
+// ══════════════════════════════════════════════
+// INTERACTION
+// ══════════════════════════════════════════════
+let activeNode = null;
+
+function onNodeClick(id) {
+  if (activeNode === id) { resetAll(); return; }
+  activeNode = id;
+
+  document.getElementById('hint').classList.add('hidden');
+  document.getElementById('reset-btn').style.display = 'block';
+
+  const connected = adj[id];
+
+  // Dim/activate nodes
+  NODES.forEach(n => {
+    const g = nodeEls[n.id];
+    if (n.id === id) {
+      g.classList.add('active');
+      g.classList.remove('dimmed');
+    } else if (connected.has(n.id)) {
+      g.classList.remove('active','dimmed');
+    } else {
+      g.classList.add('dimmed');
+      g.classList.remove('active');
+    }
+  });
+
+  // Show/hide connections
+  Object.entries(connEls).forEach(([key, path]) => {
+    const [from, to] = key.split('-');
+    const relevant = from === id || to === id;
+    path.classList.toggle('visible', relevant);
+  });
+
+  // Info panel
+  const node = NODES.find(n=>n.id===id);
+  const connNames = [...connected].map(cid => {
+    const cn = NODES.find(n=>n.id===cid);
+    return cn ? cn.label : cid;
+  }).join('  ·  ');
+  document.getElementById('info-title').textContent = `${node.label} — ${node.sub}`;
+  document.getElementById('info-connects').textContent = `Connected to: ${connNames}`;
+  document.getElementById('info-hire').textContent = node.hire;
+  document.getElementById('info-panel').classList.add('visible');
+}
+
+function resetAll() {
+  activeNode = null;
+  NODES.forEach(n => {
+    nodeEls[n.id].classList.remove('active','dimmed');
+  });
+  Object.values(connEls).forEach(p => p.classList.remove('visible'));
+  document.getElementById('info-panel').classList.remove('visible');
+  document.getElementById('hint').classList.remove('hidden');
+  document.getElementById('reset-btn').style.display = 'none';
+}
+</script>
 </body>
 </html>
