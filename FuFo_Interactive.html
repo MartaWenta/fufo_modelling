@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Future Forests C3 — Interactive Modelling Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #1e3a5f;
+  --green:   #1a7a4a;
+  --blue:    #1a4f8a;
+  --amber:   #c47a06;
+  --muted:   #94a3b8;
+  --border:  #e2e8f0;
+  --bg:      #f0f4f8;
+
+  --l1-fill: #f0fdf7;
+  --l1-band: #dcfce7;
+  --l1-ink:  #1a7a4a;
+  --l1-node: #6bcf9e;
+
+  --l2-fill: #eff6ff;
+  --l2-band: #dbeafe;
+  --l2-ink:  #1a4f8a;
+  --l2-node: #93c5fd;
+
+  --l3-fill: #fffbeb;
+  --l3-band: #fed7aa;
+  --l3-ink:  #92400e;
+  --l3-node: #fbbf24;
+
+  --conn-data:     #1a7a4a;
+  --conn-valid:    #5b50c4;
+  --conn-couple:   #d97706;
+  --conn-feedback: #c0392b;
+  --conn-lateral:  #7c8a9e;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: #1e293b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+header {
+  background: var(--navy);
+  padding: 14px 24px 12px;
+  border-bottom: 3px solid var(--green);
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.h-left .tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: .2em;
+  color: #6bcf9e;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.h-left h1 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.02em;
+}
+.h-left .sub {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+  font-style: italic;
+}
+.h-right {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: #94a3b8;
+}
+.legend-line {
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+}
+.legend-line.dashed {
+  background: repeating-linear-gradient(to right, currentColor 0, currentColor 4px, transparent 4px, transparent 7px);
+  height: 0;
+  border-top: 2px dashed;
+}
+
+/* ── Main canvas ── */
+.canvas-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+svg#diagram {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Layer bands in SVG ── */
+.band-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* ── Node cards ── */
+.node-group { cursor: pointer; }
+.node-rect {
+  transition: filter .15s;
+  rx: 7;
+}
+.node-group:hover .node-rect,
+.node-group.active .node-rect {
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.18));
+}
+.node-group.dimmed { opacity: .18; pointer-events: none; }
+.node-group.dimmed .node-rect { filter: none; }
+
+.node-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  pointer-events: none;
+}
+.node-sub {
+  font-family: 'IBM Plex Sans', sans-serif;
+  pointer-events: none;
+}
+.node-detail {
+  font-family: 'IBM Plex Sans', sans-serif;
+  pointer-events: none;
+}
+
+/* ── Connection lines ── */
+.conn {
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+}
+.conn.visible { opacity: 1; }
+
+/* ── Info panel ── */
+#info-panel {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  max-width: 600px;
+  width: calc(100% - 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+  border-top: 3px solid var(--green);
+  z-index: 10;
+}
+#info-panel.visible { opacity: 1; }
+#info-title { font-weight: 700; font-size: 13px; color: #6bcf9e; }
+#info-connects { color: #94a3b8; font-size: 10px; line-height: 1.6; }
+#info-hire { color: #fbbf24; font-size: 10px; }
+
+/* ── Hint ── */
+#hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  color: var(--muted);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  pointer-events: none;
+  transition: opacity .3s;
+  letter-spacing: .06em;
+}
+#hint.hidden { opacity: 0; }
+
+/* ── Reset button ── */
+#reset-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #94a3b8;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .15s;
+  display: none;
+}
+#reset-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-left">
+    <div class="tag">Future Forests Excellence Cluster · Universität Freiburg · Research Area C3</div>
+    <h1>C3 Integrated Modelling Framework — Interactive Connection Map</h1>
+    <div class="sub">Click any node to reveal its connections · Roadmap status March 2026</div>
+  </div>
+  <div class="h-right">
+    <div class="legend-item"><div class="legend-line" style="background:#1a7a4a;height:2px"></div>Data flow</div>
+    <div class="legend-item"><div class="legend-line dashed" style="color:#5b50c4"></div>Validation</div>
+    <div class="legend-item"><div class="legend-line" style="background:#d97706;height:3px"></div>Coupling ⇄</div>
+    <div class="legend-item"><div class="legend-line dashed" style="color:#c0392b"></div>Feedback</div>
+    <div class="legend-item"><div class="legend-line dashed" style="color:#7c8a9e"></div>Lateral</div>
+  </div>
+</header>
+
+<div class="canvas-wrap">
+  <div id="hint">← Click a node to explore its connections →</div>
+  <button id="reset-btn" onclick="resetAll()">✕ Clear</button>
+  <svg id="diagram" viewBox="0 0 1000 590" preserveAspectRatio="xMidYMid meet"></svg>
+  <div id="info-panel">
+    <div>
+      <div id="info-title"></div>
+      <div id="info-connects"></div>
+    </div>
+    <div id="info-hire"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+
+const LAYERS = [
+  { id: 1, label: 'LAYER 1 — OBSERVATIONS & FORCING',  y: 0,   h: 195, fill: '#f0fdf7', band: '#dcfce7', ink: '#1a7a4a' },
+  { id: 2, label: 'LAYER 2 — BIOPHYSICAL ENGINE',      y: 195, h: 165, fill: '#eff6ff', band: '#dbeafe', ink: '#1a4f8a' },
+  { id: 3, label: 'LAYER 3 — SOCIAL & ECONOMIC',       y: 360, h: 195, fill: '#fffbeb', band: '#fed7aa', ink: '#92400e' },
+];
+
+// cx/cy = center of node card; w/h = card size
+const NODES = [
+  // Layer 1
+  { id:'jung',       layer:1, cx:82,  cy:110, w:120, h:110, label:'JUNG / SCHINDLER', sub:'HyClim Scenarios (C2)',
+    detail:['ERA5-Land reanalysis','CMIP6 downscaling','100m Ta, VPD, Prec, Rad'], stroke:'#6bcf9e',
+    hire:'Christopher Jung (PostDoc)\nStart: TBD' },
+  { id:'christen',   layer:1, cx:222, cy:110, w:120, h:110, label:'CHRISTEN', sub:'Microclimate ML (AMSES)',
+    detail:['300 plots / 150 stands','ML hindcasting 30yr','100m in-canopy T'], stroke:'#6bcf9e',
+    hire:'Tabea Wörner (PhD)\nStart: 01.04.2026' },
+  { id:'weiler_gis', layer:1, cx:362, cy:110, w:120, h:110, label:'WEILER GIS', sub:'Spatial data layers',
+    detail:['Soil properties & depth','Forest structure','Hydrology network'], stroke:'#6bcf9e',
+    hire:'TBD' },
+  { id:'seifert',    layer:1, cx:502, cy:110, w:120, h:110, label:'SEIFERT', sub:'LiDAR & Dendroecology',
+    detail:['TLS/ULS 3D point clouds','Tree positions & DBH','Dendrochronology'], stroke:'#6bcf9e',
+    hire:'TBD (Start: 01.07.2026?)' },
+  { id:'kattenborn', layer:1, cx:642, cy:110, w:120, h:110, label:'KATTENBORN', sub:'RS Mortality & Traits',
+    detail:['Drone CNN mortality','deadtree.earth','Sentinel-2 time series'], stroke:'#6bcf9e',
+    hire:'TBD' },
+  { id:'orth',       layer:1, cx:782, cy:110, w:120, h:110, label:'ORTH', sub:'Drought response fns',
+    detail:['VPD/SWC → veg function','ICOS/AmeriFlux towers','Global trait maps (TRY)'], stroke:'#6bcf9e',
+    hire:'TBD' },
+  { id:'stahl',      layer:1, cx:922, cy:110, w:110, h:110, label:'STAHL', sub:'Hydro-climate & extremes',
+    detail:['Downscaled reanalysis','Extreme value statistics','Hydro-climatic indices'], stroke:'#6bcf9e',
+    hire:'TBD' },
+
+  // Layer 2
+  { id:'iland',  layer:2, cx:370, cy:283, w:200, h:120, label:'iLAND', sub:'Forest Landscape & Disturbance Model',
+    detail:['Individual tree-based','Seifert / Stritih / Albrecht / Hanewinkel / Weiler','Open-source · Rammer et al. 2024'], stroke:'#93c5fd', strokeW:2.5,
+    hire:'TBD' },
+  { id:'roger',  layer:2, cx:720, cy:283, w:160, h:120, label:'RoGeR', sub:'Runoff Generation Research',
+    detail:['Plateau / Hillslope / Riparian','Lateral subsurface flow','Groundwater & capillary rise'], stroke:'#93c5fd',
+    hire:'TBD' },
+
+  // Layer 3
+  { id:'brown',      layer:3, cx:82,  cy:455, w:130, h:130, label:'BROWN', sub:'CRAFTY-EU Land-Use ABM',
+    detail:['EU27+3 · 1km resolution','LandSyMM global model','SSP/RCP/NFF scenarios'], stroke:'#fbbf24',
+    hire:'TBD (end 2026 ⚠)' },
+  { id:'stritih',    layer:3, cx:252, cy:455, w:130, h:130, label:'STRITIH', sub:'Participatory iLAND+ABE',
+    detail:['Forest managers','Observe → Plan → Act','Co-designed scenarios'], stroke:'#fbbf24',
+    hire:'Christina Dollinger (PostDoc)\nMargarethe-von-Wrangell\nStart: 01.05.2026' },
+  { id:'hanewinkel', layer:3, cx:430, cy:455, w:130, h:130, label:'HANEWINKEL', sub:'Forest Economics & Risk',
+    detail:['GFPM in GAMS','VaR / CVaR optimisation','SW Germany markets'], stroke:'#fbbf24',
+    hire:'TBD (deadline extended ⚠)' },
+  { id:'pauliuk',    layer:3, cx:610, cy:455, w:130, h:130, label:'PAULIUK', sub:'Wood Cascade & Carbon',
+    detail:['Material flow analysis (MFA)','Harvest → product → energy','100–200yr horizon'], stroke:'#fbbf24',
+    hire:'Simon Schulte\nStart: TBD' },
+  { id:'schanz',     layer:3, cx:790, cy:455, w:130, h:130, label:'SCHANZ', sub:'FESMarkets',
+    detail:['Network of Markets (NoM)','System dynamics + CLDs','Water / recreation / timber'], stroke:'#fbbf24',
+    hire:'Steffi Peuckert (PhD)\nStart: 01.04.2026' },
+];
+
+// Connection definitions [from, to, type]
+// types: data | validation | coupling | feedback | lateral
+const CONNECTIONS = [
+  // Jung/Schindler flows
+  ['jung','iland','data'],
+  ['jung','christen','lateral'],
+  ['jung','weiler_gis','lateral'],
+  ['jung','orth','lateral'],
+  ['jung','stahl','lateral'],
+  ['jung','roger','data'],
+  ['jung','brown','lateral'],
+
+  // Christen
+  ['christen','iland','data'],
+  ['christen','roger','data'],
+  ['christen','seifert','lateral'],
+  ['christen','weiler_gis','lateral'],
+  ['christen','orth','lateral'],
+  ['christen','stahl','lateral'],
+
+  // Weiler GIS
+  ['weiler_gis','iland','data'],
+  ['weiler_gis','roger','data'],
+  ['weiler_gis','kattenborn','lateral'],
+
+  // Seifert
+  ['seifert','iland','validation'],
+  ['seifert','kattenborn','lateral'],
+  ['seifert','weiler_gis','lateral'],
+
+  // Kattenborn
+  ['kattenborn','iland','validation'],
+  ['kattenborn','orth','lateral'],
+  ['kattenborn','hanewinkel','lateral'],
+  ['kattenborn','brown','lateral'],
+
+  // Orth
+  ['orth','iland','validation'],
+  ['orth','stahl','lateral'],
+  ['orth','weiler_gis','lateral'],
+
+  // Stahl
+  ['stahl','christen','lateral'],
+  ['stahl','orth','lateral'],
+  ['stahl','weiler_gis','lateral'],
+  ['stahl','kattenborn','lateral'],
+  ['stahl','brown','lateral'],
+
+  // iLAND ⇄ RoGeR bidirectional coupling
+  ['iland','roger','coupling'],
+  ['roger','iland','coupling'],
+
+  // iLAND → Layer 3
+  ['iland','brown','data'],
+  ['iland','stritih','data'],
+  ['iland','hanewinkel','data'],
+  ['iland','pauliuk','data'],
+
+  // Layer 3 internal
+  ['pauliuk','hanewinkel','lateral'],
+  ['hanewinkel','pauliuk','lateral'],
+  ['schanz','hanewinkel','lateral'],
+  ['schanz','brown','lateral'],
+  ['schanz','weiler_gis','lateral'],
+  ['schanz','iland','lateral'],
+  ['pauliuk','schanz','lateral'],
+  ['pauliuk','brown','lateral'],
+  ['pauliuk','weiler_gis','lateral'],
+  ['stritih','brown','data'],
+
+  // Feedback loops
+  ['hanewinkel','iland','feedback'],
+  ['brown','iland','feedback'],
+  ['stritih','iland','data'],
+];
+
+const CONN_STYLES = {
+  data:       { stroke: '#1a7a4a', width: 2,   dash: null  },
+  validation: { stroke: '#5b50c4', width: 1.5, dash: '6,3' },
+  coupling:   { stroke: '#d97706', width: 3,   dash: null  },
+  feedback:   { stroke: '#c0392b', width: 2,   dash: '7,3' },
+  lateral:    { stroke: '#7c8a9e', width: 1.2, dash: '4,3' },
+};
+
+// Build adjacency map
+const adj = {};
+NODES.forEach(n => adj[n.id] = new Set());
+CONNECTIONS.forEach(([a,b]) => { adj[a].add(b); adj[b].add(a); });
+
+// ══════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════
+const svg = document.getElementById('diagram');
+const NS = 'http://www.w3.org/2000/svg';
+
+function el(tag, attrs={}) {
+  const e = document.createElementNS(NS, tag);
+  Object.entries(attrs).forEach(([k,v]) => e.setAttribute(k,v));
+  return e;
+}
+function txt(content, attrs={}) {
+  const e = el('text', attrs);
+  e.textContent = content;
+  return e;
+}
+
+// Defs (arrowheads per type)
+const defs = el('defs');
+Object.entries(CONN_STYLES).forEach(([type, s]) => {
+  const m = el('marker', { id:`arr-${type}`, markerWidth:'8', markerHeight:'7',
+    refX:'7', refY:'3.5', orient:'auto' });
+  const p = el('polygon', { points:'0 0,8 3.5,0 7', fill: s.stroke });
+  m.appendChild(p);
+  defs.appendChild(m);
+});
+svg.appendChild(defs);
+
+// Layer bands
+LAYERS.forEach(L => {
+  svg.appendChild(el('rect', { x:0, y:L.y, width:1000, height:L.h, fill:L.fill }));
+  svg.appendChild(el('rect', { x:0, y:L.y, width:1000, height:20, fill:L.band }));
+  const t = txt(L.label, { x:10, y:L.y+14, class:'band-label', fill:L.ink });
+  svg.appendChild(t);
+});
+
+// ── Connection lines (rendered BEFORE nodes so they sit underneath) ──
+const connEls = {}; // keyed by "from-to-type"
+const connLayer = el('g', { id:'connections' });
+
+CONNECTIONS.forEach(([from, to, type]) => {
+  const s = CONN_STYLES[type];
+  const fn = NODES.find(n=>n.id===from);
+  const tn = NODES.find(n=>n.id===to);
+  if (!fn || !tn) return;
+
+  // Pick edge midpoints — top/bottom depending on layer relationship
+  let x1=fn.cx, y1=fn.cy, x2=tn.cx, y2=tn.cy;
+
+  // Offset for bidirectional coupling
+  const isCouplingPair = type==='coupling';
+  const offset = isCouplingPair ? (from<to ? -6 : 6) : 0;
+
+  // Choose connection anchor edges
+  if (fn.layer < tn.layer) { y1 = fn.cy + fn.h/2; y2 = tn.cy - tn.h/2; }
+  else if (fn.layer > tn.layer) { y1 = fn.cy - fn.h/2; y2 = tn.cy + tn.h/2; }
+  else {
+    // Same layer — route above or below
+    y1 = fn.cy - fn.h/2 - 8;
+    y2 = tn.cy - tn.h/2 - 8;
+  }
+
+  // Simple quadratic curve
+  const mx = (x1+x2)/2 + offset;
+  const my = fn.layer === tn.layer
+    ? Math.min(fn.cy, tn.cy) - fn.h/2 - 30
+    : (y1+y2)/2;
+
+  const pathD = `M ${x1} ${y1} Q ${mx} ${my} ${x2+offset} ${y2}`;
+
+  const path = el('path', {
+    d: pathD,
+    stroke: s.stroke,
+    'stroke-width': s.width,
+    'stroke-dasharray': s.dash || '',
+    'marker-end': `url(#arr-${type})`,
+    class: 'conn',
+  });
+
+  const key = `${from}-${to}`;
+  connEls[key] = path;
+  connLayer.appendChild(path);
+});
+svg.appendChild(connLayer);
+
+// ── Node cards ──
+const nodeEls = {}; // id -> g element
+NODES.forEach(node => {
+  const g = el('g', { class:'node-group', id:`node-${node.id}` });
+  g.dataset.id = node.id;
+
+  const L = LAYERS.find(l => l.id === node.layer);
+  const sw = node.strokeW || 1.5;
+
+  // Card background
+  const rect = el('rect', {
+    x: node.cx - node.w/2, y: node.cy - node.h/2,
+    width: node.w, height: node.h,
+    rx: 7, fill: '#fff',
+    stroke: node.stroke, 'stroke-width': sw,
+    class: 'node-rect',
+  });
+  g.appendChild(rect);
+
+  // Title bar background
+  const titleBar = el('rect', {
+    x: node.cx - node.w/2, y: node.cy - node.h/2,
+    width: node.w, height: 24,
+    rx: 7, fill: node.stroke + '22',
+  });
+  // Fix bottom corners
+  const titleBar2 = el('rect', {
+    x: node.cx - node.w/2, y: node.cy - node.h/2 + 14,
+    width: node.w, height: 10,
+    fill: node.stroke + '22',
+  });
+  g.appendChild(titleBar);
+  g.appendChild(titleBar2);
+
+  // Node label
+  const titleEl = txt(node.label, {
+    x: node.cx, y: node.cy - node.h/2 + 15,
+    'text-anchor':'middle', fill: L.ink,
+    'font-size': node.w > 150 ? 13 : 10,
+    class: 'node-title',
+  });
+  g.appendChild(titleEl);
+
+  // Sub
+  const subEl = txt(node.sub, {
+    x: node.cx, y: node.cy - node.h/2 + 32,
+    'text-anchor':'middle', fill:'#475569',
+    'font-size': 8, class:'node-sub',
+  });
+  g.appendChild(subEl);
+
+  // Detail lines
+  node.detail.forEach((d, i) => {
+    const dt = txt(d, {
+      x: node.cx, y: node.cy - node.h/2 + 44 + i*13,
+      'text-anchor':'middle', fill:'#94a3b8',
+      'font-size': 7.5, class:'node-detail',
+    });
+    g.appendChild(dt);
+  });
+
+  // Hire badge (bottom)
+  const hireLine = node.hire.split('\n')[0];
+  const hireColor = hireLine.includes('⚠') ? '#c0392b'
+    : hireLine === 'TBD' ? '#94a3b8'
+    : '#1a7a4a';
+  const hireEl = txt(hireLine, {
+    x: node.cx, y: node.cy + node.h/2 - 7,
+    'text-anchor':'middle', fill: hireColor,
+    'font-size': 6.5, class:'node-detail',
+  });
+  g.appendChild(hireEl);
+
+  g.addEventListener('click', () => onNodeClick(node.id));
+
+  svg.appendChild(g);
+  nodeEls[node.id] = g;
+});
+
+// C4 output box
+const c4 = el('g');
+c4.appendChild(el('rect', { x:900, y:380, width:90, height:40, rx:5,
+  fill:'#dbeafe', stroke:'#1a4f8a', 'stroke-width':1 }));
+c4.appendChild(txt('→ C4', { x:945, y:397, 'text-anchor':'middle',
+  'font-family':'IBM Plex Mono,monospace', 'font-size':10, 'font-weight':700, fill:'#1a4f8a' }));
+c4.appendChild(txt('Governance', { x:945, y:412, 'text-anchor':'middle',
+  'font-family':'IBM Plex Sans,sans-serif', 'font-size':8, fill:'#1a4f8a' }));
+svg.appendChild(c4);
+
+// C2 scenarios box
+const c2 = el('g');
+c2.appendChild(el('rect', { x:910, y:26, width:82, height:46, rx:5,
+  fill:'#dbeafe', stroke:'#1a4f8a', 'stroke-width':1 }));
+c2.appendChild(txt('C2 SCENARIOS', { x:951, y:41, 'text-anchor':'middle',
+  'font-family':'IBM Plex Mono,monospace', 'font-size':7.5, 'font-weight':700, fill:'#1a4f8a' }));
+c2.appendChild(txt('SSP/RCP/NFF', { x:951, y:54, 'text-anchor':'middle',
+  'font-family':'IBM Plex Sans,sans-serif', 'font-size':7, fill:'#475569' }));
+c2.appendChild(txt('→ all C3 models', { x:951, y:65, 'text-anchor':'middle',
+  'font-family':'IBM Plex Sans,sans-serif', 'font-size':7, fill:'#475569' }));
+svg.appendChild(c2);
+
+// ══════════════════════════════════════════════
+// INTERACTION
+// ══════════════════════════════════════════════
+let activeNode = null;
+
+function onNodeClick(id) {
+  if (activeNode === id) { resetAll(); return; }
+  activeNode = id;
+
+  document.getElementById('hint').classList.add('hidden');
+  document.getElementById('reset-btn').style.display = 'block';
+
+  const connected = adj[id];
+
+  // Dim/activate nodes
+  NODES.forEach(n => {
+    const g = nodeEls[n.id];
+    if (n.id === id) {
+      g.classList.add('active');
+      g.classList.remove('dimmed');
+    } else if (connected.has(n.id)) {
+      g.classList.remove('active','dimmed');
+    } else {
+      g.classList.add('dimmed');
+      g.classList.remove('active');
+    }
+  });
+
+  // Show/hide connections
+  Object.entries(connEls).forEach(([key, path]) => {
+    const [from, to] = key.split('-');
+    const relevant = from === id || to === id;
+    path.classList.toggle('visible', relevant);
+  });
+
+  // Info panel
+  const node = NODES.find(n=>n.id===id);
+  const connNames = [...connected].map(cid => {
+    const cn = NODES.find(n=>n.id===cid);
+    return cn ? cn.label : cid;
+  }).join('  ·  ');
+  document.getElementById('info-title').textContent = `${node.label} — ${node.sub}`;
+  document.getElementById('info-connects').textContent = `Connected to: ${connNames}`;
+  document.getElementById('info-hire').textContent = node.hire;
+  document.getElementById('info-panel').classList.add('visible');
+}
+
+function resetAll() {
+  activeNode = null;
+  NODES.forEach(n => {
+    nodeEls[n.id].classList.remove('active','dimmed');
+  });
+  Object.values(connEls).forEach(p => p.classList.remove('visible'));
+  document.getElementById('info-panel').classList.remove('visible');
+  document.getElementById('hint').classList.remove('hidden');
+  document.getElementById('reset-btn').style.display = 'none';
+}
+</script>
+</body>
+</html>
