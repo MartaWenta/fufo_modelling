@@ -174,14 +174,13 @@ svg#diagram {
   background: var(--navy);
   color: #fff;
   border-radius: 10px;
-  padding: 12px 20px;
+  padding: 14px 20px;
   font-size: 12px;
   font-family: 'IBM Plex Mono', monospace;
-  max-width: 600px;
+  max-width: 820px;
   width: calc(100% - 48px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   gap: 12px;
   opacity: 0;
   transition: opacity .2s;
@@ -190,9 +189,11 @@ svg#diagram {
   z-index: 10;
 }
 #info-panel.visible { opacity: 1; }
-#info-title { font-weight: 700; font-size: 13px; color: #6bcf9e; }
-#info-connects { color: #94a3b8; font-size: 10px; line-height: 1.6; }
-#info-hire { color: #fbbf24; font-size: 10px; }
+#info-title { font-weight: 700; font-size: 13px; color: #6bcf9e; margin-bottom: 3px; }
+#info-pi { color: #cbd5e1; font-size: 10px; margin-bottom: 4px; font-family: 'IBM Plex Sans', sans-serif; }
+#info-desc { color: #94a3b8; font-size: 10px; line-height: 1.55; font-family: 'IBM Plex Sans', sans-serif; margin-bottom: 4px; }
+#info-connects { color: #64748b; font-size: 9.5px; line-height: 1.6; }
+#info-hire { color: #fbbf24; font-size: 10px; white-space: nowrap; text-align: right; align-self: start; }
 
 /* ── Hint ── */
 #hint {
@@ -253,6 +254,8 @@ svg#diagram {
   <div id="info-panel">
     <div>
       <div id="info-title"></div>
+      <div id="info-pi"></div>
+      <div id="info-desc"></div>
       <div id="info-connects"></div>
     </div>
     <div id="info-hire"></div>
@@ -273,52 +276,161 @@ const LAYERS = [
 // cx/cy = center of node card; w/h = card size
 const NODES = [
   // Layer 1
-  { id:'jung',       layer:1, cx:82,  cy:110, w:120, h:110, label:'JUNG / SCHINDLER', sub:'HyClim Scenarios (C2)',
-    detail:['ERA5-Land reanalysis','CMIP6 downscaling','100m Ta, VPD, Prec, Rad'], stroke:'#6bcf9e',
-    hire:'Christopher Jung (PostDoc)\nStart: TBD' },
-  { id:'christen',   layer:1, cx:222, cy:110, w:120, h:110, label:'CHRISTEN', sub:'Microclimate ML (AMSES)',
-    detail:['300 plots / 150 stands','ML hindcasting 30yr','100m in-canopy T'], stroke:'#6bcf9e',
-    hire:'Tabea Wörner (PhD)\nStart: 01.04.2026' },
-  { id:'weiler_gis', layer:1, cx:362, cy:110, w:120, h:110, label:'WEILER GIS', sub:'Spatial data layers',
-    detail:['Soil properties & depth','Forest structure','Hydrology network'], stroke:'#6bcf9e',
-    hire:'TBD' },
-  { id:'seifert',    layer:1, cx:502, cy:110, w:120, h:110, label:'SEIFERT', sub:'LiDAR & Dendroecology',
-    detail:['TLS/ULS 3D point clouds','Tree positions & DBH','Dendrochronology'], stroke:'#6bcf9e',
-    hire:'TBD (Start: 01.07.2026?)' },
-  { id:'kattenborn', layer:1, cx:642, cy:110, w:120, h:110, label:'KATTENBORN', sub:'RS Mortality & Traits',
-    detail:['Drone CNN mortality','deadtree.earth','Sentinel-2 time series'], stroke:'#6bcf9e',
-    hire:'TBD' },
-  { id:'orth',       layer:1, cx:782, cy:110, w:120, h:110, label:'ORTH', sub:'Drought response fns',
-    detail:['VPD/SWC → veg function','ICOS/AmeriFlux towers','Global trait maps (TRY)'], stroke:'#6bcf9e',
-    hire:'TBD' },
-  { id:'stahl',      layer:1, cx:922, cy:110, w:110, h:110, label:'STAHL', sub:'Hydro-climate & extremes',
-    detail:['Downscaled reanalysis','Extreme value statistics','Hydro-climatic indices'], stroke:'#6bcf9e',
-    hire:'TBD' },
+  { id:'jung', layer:1, cx:82, cy:110, w:120, h:110,
+    label:'JUNG / SCHINDLER', sub:'HyClim Scenarios (C2)',
+    detail:[
+      'Statistical downscaling to 100 m grid',
+      'Air temperature, precipitation, vapour',
+      'pressure deficit, radiation, wind speed',
+    ], stroke:'#6bcf9e',
+    pi:'Prof. Dr. Dirk Schindler · Dr. Christopher Jung',
+    hire:'Dr. Christopher Jung (PostDoc) · Start: TBD',
+    desc:'Prepares regionalized reanalysis and future climate scenario data (ERA5-Land, CMIP6) for the entire cluster. Applies tree-ensemble machine learning for bias correction and statistical downscaling from 10–120 km to 100 m × 100 m resolution. Covers historical and future warming levels (1.5°C, 2°C, 3°C+).' },
+
+  { id:'christen', layer:1, cx:222, cy:110, w:120, h:110,
+    label:'CHRISTEN', sub:'Microclimate Modelling (AMSES)',
+    detail:[
+      'Machine learning hindcasting over 30 years',
+      '300 sensor plots across 150 forest stands',
+      'In-canopy air, soil & near-surface temperature',
+    ], stroke:'#6bcf9e',
+    pi:'Prof. Dr. Andreas Christen · Dr. Florian Schnabel · Prof. Dr. Markus Weiler',
+    hire:'Tabea Wörner (PhD) · Start: 01.04.2026',
+    desc:'Three-step approach: (1) quality control and adaptive sensor network design using station uniqueness rankings; (2) machine learning hindcasting of in-canopy microclimates over 30 years; (3) transferable regional model integrating geospatial predictors, sensor data and physical downscaling to predict below-canopy temperatures at any forested location in the Future Forests domain.' },
+
+  { id:'weiler_gis', layer:1, cx:362, cy:110, w:120, h:110,
+    label:'WEILER GIS', sub:'Spatial Data Infrastructure',
+    detail:[
+      'Soil properties, depth & hydraulic parameters',
+      'Forest structure & tree species distributions',
+      'Hydrology network & catchment delineations',
+    ], stroke:'#6bcf9e',
+    pi:'Prof. Dr. Markus Weiler',
+    hire:'TBD',
+    desc:'Provides the static spatial data backbone for the entire C3 framework at 100 m resolution: soil texture, depth, field capacity and wilting point from national soil maps; forest structure and canopy height from LiDAR terrain models; hydrology networks from catchment delineations. Feeds iLAND and RoGeR as primary spatial inputs.' },
+
+  { id:'seifert', layer:1, cx:502, cy:110, w:120, h:110,
+    label:'SEIFERT', sub:'LiDAR Inventory & Dendroecology',
+    detail:[
+      'Terrestrial & drone laser scanning (TLS/ULS)',
+      'Individual tree positions, diameter, height',
+      'Tree ring chronologies for growth history',
+    ], stroke:'#6bcf9e',
+    pi:'Prof. Dr. Thomas Seifert · Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler',
+    hire:'TBD · Start: 01.07.2026 (pending)',
+    desc:'Provides iLAND initialisation data from terrestrial (TLS) and drone (ULS) laser scanning — individual tree positions, diameter at breast height, height and species — combined with dendrochronology (tree ring) growth records. Also produces digital twin 3D models of forest stands. Scale: individual tree to catchments up to 10 000 ha.' },
+
+  { id:'kattenborn', layer:1, cx:642, cy:110, w:120, h:110,
+    label:'KATTENBORN', sub:'Remote Sensing Mortality & Traits',
+    detail:[
+      'Drone & convolutional neural network mortality mapping',
+      'deadtree.earth initiative · Sentinel-2 time series',
+      'Leaf area index, chlorophyll, crown area',
+    ], stroke:'#6bcf9e',
+    pi:'Prof. Dr. Teja Kattenborn · Prof. Dr. René Orth · Dr. Pia Müller',
+    hire:'TBD',
+    desc:'Drone and satellite-based mapping of tree mortality using convolutional neural networks. Contributes to the deadtree.earth initiative. Derives remote-sensing-based plant functional traits (leaf area index, chlorophyll, crown area) for iLAND validation and calibration. Scale: drone at stand level, Sentinel-2 at landscape to regional level.' },
+
+  { id:'orth', layer:1, cx:782, cy:110, w:120, h:110,
+    label:'ORTH', sub:'Forest Drought Response Functions',
+    detail:[
+      'Vegetation function vs soil water & vapour pressure deficit',
+      'ICOS & AmeriFlux eddy covariance flux towers',
+      'Global plant trait maps (TRY database)',
+    ], stroke:'#6bcf9e',
+    pi:'Prof. Dr. René Orth · Prof. Dr. Teja Kattenborn · Dr. Pia Müller',
+    hire:'TBD',
+    desc:'Quantifies the emergent response of forests to dryness using global satellite and flux tower data. Generates species-specific response functions relating vegetation function to soil water content and vapour pressure deficit — used to constrain drought mortality in iLAND. Reference: Lusk et al. 2025 (bioRxiv).' },
+
+  { id:'stahl', layer:1, cx:922, cy:110, w:110, h:110,
+    label:'STAHL', sub:'Hydro-climate & Extreme Events',
+    detail:[
+      'Downscaled reanalysis & climate model products',
+      'Extreme value statistics for drought & flood',
+      'Hydro-climatic indices for forest vulnerability',
+    ], stroke:'#6bcf9e',
+    pi:'Prof. Dr. Kerstin Stahl · Prof. Dr. Dirk Schindler',
+    hire:'TBD',
+    desc:'Provides downscaled reanalysis and climate model outputs with a focus on extreme value statistics and hydro-climatic research. Connects the climate and hydrology modelling streams. Outputs: drought and flood frequency indices, hydrologically relevant climate scenarios. Connected to six groups in the workshop collaboration matrix.' },
 
   // Layer 2
-  { id:'iland',  layer:2, cx:370, cy:283, w:200, h:120, label:'iLAND', sub:'Forest Landscape & Disturbance Model',
-    detail:['Individual tree-based','Seifert / Stritih / Albrecht / Hanewinkel / Weiler','Open-source · Rammer et al. 2024'], stroke:'#93c5fd', strokeW:2.5,
-    hire:'TBD' },
-  { id:'roger',  layer:2, cx:720, cy:283, w:160, h:120, label:'RoGeR', sub:'Runoff Generation Research',
-    detail:['Plateau / Hillslope / Riparian','Lateral subsurface flow','Groundwater & capillary rise'], stroke:'#93c5fd',
-    hire:'TBD' },
+  { id:'iland', layer:2, cx:370, cy:283, w:200, h:120,
+    label:'iLAND', sub:'Individual-based Forest Landscape & Disturbance Model',
+    detail:[
+      'Distance-dependent individual tree growth',
+      'Disturbance: wind, bark beetle, fire · Regeneration',
+      'Agent-Based Engine (ABE) for management decisions',
+    ], stroke:'#93c5fd', strokeW:2.5,
+    pi:'Prof. Dr. Thomas Seifert · Jun.-Prof. Dr. Ana Stritih · Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler',
+    hire:'TBD',
+    desc:'Central biophysical engine of C3. Open-source, widely applied, process-based and individual tree-based forest landscape model. Simulates forest dynamics from individual tree to catchment (~10 000 ha). Includes Agent-Based Engine (ABE) module for management decisions — direct interface to Stritih participatory modelling. Bidirectionally coupled with RoGeR. Reference: Rammer et al. (2024), Ecological Modelling 495, 110785.' },
+
+  { id:'roger', layer:2, cx:720, cy:283, w:160, h:120,
+    label:'RoGeR', sub:'Runoff Generation Research Model',
+    detail:[
+      'Three topographic contexts: plateau, hillslope, riparian',
+      'Lateral subsurface flow & groundwater exchange',
+      'Explains tree-to-tree drought mortality differences',
+    ], stroke:'#93c5fd',
+    pi:'Prof. Dr. Markus Weiler',
+    hire:'TBD',
+    desc:'Process-based hydrological model of water redistribution at the surface and subsurface, mediating local transpiration and trees\' vulnerability to drought. Explicitly represents lateral subsurface flow and groundwater exchange — key processes missing from most dynamic vegetation models. Bidirectionally coupled with iLAND.' },
 
   // Layer 3
-  { id:'brown',      layer:3, cx:82,  cy:455, w:130, h:130, label:'BROWN', sub:'CRAFTY-EU Land-Use ABM',
-    detail:['EU27+3 · 1km resolution','LandSyMM global model','SSP/RCP/NFF scenarios'], stroke:'#fbbf24',
-    hire:'TBD (end 2026 ⚠)' },
-  { id:'stritih',    layer:3, cx:252, cy:455, w:130, h:130, label:'STRITIH', sub:'Participatory iLAND+ABE',
-    detail:['Forest managers','Observe → Plan → Act','Co-designed scenarios'], stroke:'#fbbf24',
-    hire:'Christina Dollinger (PostDoc)\nMargarethe-von-Wrangell\nStart: 01.05.2026' },
-  { id:'hanewinkel', layer:3, cx:430, cy:455, w:130, h:130, label:'HANEWINKEL', sub:'Forest Economics & Risk',
-    detail:['GFPM in GAMS','VaR / CVaR optimisation','SW Germany markets'], stroke:'#fbbf24',
-    hire:'TBD (deadline extended ⚠)' },
-  { id:'pauliuk',    layer:3, cx:610, cy:455, w:130, h:130, label:'PAULIUK', sub:'Wood Cascade & Carbon',
-    detail:['Material flow analysis (MFA)','Harvest → product → energy','100–200yr horizon'], stroke:'#fbbf24',
-    hire:'Simon Schulte\nStart: TBD' },
-  { id:'schanz',     layer:3, cx:790, cy:455, w:130, h:130, label:'SCHANZ', sub:'FESMarkets',
-    detail:['Network of Markets (NoM)','System dynamics + CLDs','Water / recreation / timber'], stroke:'#fbbf24',
-    hire:'Steffi Peuckert (PhD)\nStart: 01.04.2026' },
+  { id:'brown', layer:3, cx:82, cy:455, w:130, h:130,
+    label:'BROWN', sub:'CRAFTY-EU · European Land-Use Agent-Based Model',
+    detail:[
+      'European Union 27+3 countries · 1 km resolution',
+      'Part of LandSyMM global land system model',
+      'Shared Socioeconomic Pathways & Nature\'s Futures Framework',
+    ], stroke:'#fbbf24',
+    pi:'Dr. Calum Brown · Jun.-Prof. Dr. Ana Stritih · Prof. Dr. Maja Schlüter · Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk',
+    hire:'TBD — options in CRAFTY team · Start: end 2026 ⚠',
+    desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model coupling land use decision-making, macro-economics, global trade, ecosystem processes, biodiversity and the climate system. Explores management patterns of future forest social-ecological systems. Links FuFo models to wider European land system dynamics under global scenarios (Shared Socioeconomic Pathways, Representative Concentration Pathways, Nature\'s Futures Framework). Key challenge: scale mismatch with iLAND (1 km vs 100 m).' },
+
+  { id:'stritih', layer:3, cx:252, cy:455, w:130, h:130,
+    label:'STRITIH', sub:'Participatory Modelling · iLAND + Agent-Based Engine',
+    detail:[
+      'Forest managers: Observe → Plan → Act cycle',
+      'Co-designed management scenarios with stakeholders',
+      'Landscape-scale scenario outputs feeding C3 models',
+    ], stroke:'#fbbf24',
+    pi:'Jun.-Prof. Dr. Ana Stritih',
+    hire:'Christina Dollinger (PostDoc, Margarete-von-Wrangell) · Start: 01.05.2026',
+    desc:'Integrates diverse actors\' perspectives on forest management objectives, decision-making and key future challenges into iLAND\'s Agent-Based Engine module. Conducts participatory process with local stakeholders (forest managers) to define management scenarios and evaluate their credibility and legitimacy. Potential study areas: Schwarzwald, Oberrhein (to be defined with SES-CaseLab). Scenario assumptions source currently underdetermined — should derive from stakeholder co-creation or Shared Socioeconomic Pathway / Nature\'s Futures Framework.' },
+
+  { id:'hanewinkel', layer:3, cx:430, cy:455, w:130, h:130,
+    label:'HANEWINKEL', sub:'Forest Economics & Risk Model',
+    detail:[
+      'Global Forest Products Model in GAMS',
+      'Value at Risk & Conditional Value at Risk optimisation',
+      'Partial equilibrium model for SW Germany markets',
+    ], stroke:'#fbbf24',
+    pi:'Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk',
+    hire:'TBD — deadline extended ⚠',
+    desc:'Economic modelling and evaluation framework for ecosystem services under risk and uncertainty. Adapts the Global Forest Products Model (Buongiorno et al.) for Southwest Germany using partial equilibrium modelling in GAMS (General Algebraic Modelling System). Applies robust management strategies optimised with Value at Risk and Conditional Value at Risk metrics. Links forest biophysical outputs to the industry sphere via Pauliuk wood cascade model.' },
+
+  { id:'pauliuk', layer:3, cx:610, cy:455, w:130, h:130,
+    label:'PAULIUK', sub:'Wood Cascade & Carbon Accounting',
+    detail:[
+      'Material flow analysis of wood product lifecycles',
+      'Carbon balance: material substitution & avoided emissions',
+      'Stand-level to national scale · 100–200 year horizon',
+    ], stroke:'#fbbf24',
+    pi:'Prof. Dr. Stefan Pauliuk · Dr. Simon Schulte',
+    hire:'Dr. Simon Schulte · Start: TBD',
+    desc:'Material flow analysis and life cycle assessment of wood products from harvest through cascading use to end-of-life. Evaluates the carbon balance impact of different wood use pathways (material substitution, energy use, long-lived products) over up to 200-year time horizons. Develops Adaptation and Transformation Pathways for the wood cascade in cooperation with stakeholders via SES-CaseLab.' },
+
+  { id:'schanz', layer:3, cx:790, cy:455, w:130, h:130,
+    label:'SCHANZ', sub:'FESMarkets · Forest Ecosystem Service Markets',
+    detail:[
+      'Network of Markets approach · System dynamics',
+      'Causal Loop Diagrams for governance interventions',
+      'Focus: water, recreation & timber markets',
+    ], stroke:'#fbbf24',
+    pi:'Prof. Dr. Heiner Schanz',
+    hire:'Steffi Peuckert (PhD) · Start: 01.04.2026',
+    desc:'Analyses the structural architecture of Forest Ecosystem Service market networks, with particular focus on water, recreation and protection services. Macro-level: system dynamics model of stocks and flows as a function of forest condition. Micro-level: actor perspectives via Causal Loop Diagrams. Provides governance dynamics for regulatory simulations. References: Schanz et al. (2019) Environmental Innovation and Societal Transitions; Mager & Schanz (2026, in preparation). Strong synergy with Yannek (group affiliation to be confirmed) on system dynamics.' },
 ];
 
 // Connection definitions [from, to, type]
@@ -638,6 +750,8 @@ function onNodeClick(id) {
     return cn ? cn.label : cid;
   }).join('  ·  ');
   document.getElementById('info-title').textContent = `${node.label} — ${node.sub}`;
+  document.getElementById('info-pi').textContent = node.pi || '';
+  document.getElementById('info-desc').textContent = node.desc || '';
   document.getElementById('info-connects').textContent = `Connected to: ${connNames}`;
   document.getElementById('info-hire').textContent = node.hire;
   document.getElementById('info-panel').classList.add('visible');
