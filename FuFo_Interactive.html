@@ -110,12 +110,13 @@ header {
 .canvas-wrap {
   flex: 1;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
+  min-height: 400px;
 }
 
 svg#diagram {
-  width: 100%;
-  height: 100%;
+  width: 1540px;
+  height: 900px;
   display: block;
 }
 
@@ -251,7 +252,7 @@ svg#diagram {
 <div class="canvas-wrap">
   <div id="hint">← Click a node to explore its connections →</div>
   <button id="reset-btn" onclick="resetAll()">✕ Clear</button>
-  <svg id="diagram" viewBox="0 0 1000 730" preserveAspectRatio="xMidYMid meet"></svg>
+  <svg id="diagram" viewBox="0 0 1540 900" preserveAspectRatio="xMidYMid meet"></svg>
   <div id="info-panel">
     <div>
       <div id="info-title"></div>
@@ -270,186 +271,146 @@ svg#diagram {
 
 const LAYERS = [
   { id: 0,  label: 'C1 — CONCEPTUAL & THEORETICAL FRAMEWORK',  y: 0,   h: 80,  fill: '#f5f3ff', band: '#ede9fe', ink: '#5b50c4' },
-  { id: 1,  label: 'LAYER 1 — OBSERVATIONS & CLIMATE FORCING', y: 80,  h: 195, fill: '#f0fdf7', band: '#dcfce7', ink: '#1a7a4a' },
-  { id: 2,  label: 'LAYER 2 — BIOPHYSICAL ENGINE',             y: 275, h: 165, fill: '#eff6ff', band: '#dbeafe', ink: '#1a4f8a' },
-  { id: 3,  label: 'LAYER 3 — SOCIAL-ECOLOGICAL FEEDBACKS',    y: 440, h: 200, fill: '#fffbeb', band: '#fed7aa', ink: '#92400e' },
-  { id: 99, label: 'CROSS-CUTTING — METHODOLOGY & UNCERTAINTY',y: 640, h: 80,  fill: '#f9fafb', band: '#f3f4f6', ink: '#374151' },
+  { id: 1,  label: 'LAYER 1 — OBSERVATIONS & CLIMATE FORCING', y: 80,  h: 255, fill: '#f0fdf7', band: '#dcfce7', ink: '#1a7a4a' },
+  { id: 2,  label: 'LAYER 2 — BIOPHYSICAL ENGINE',             y: 335, h: 215, fill: '#eff6ff', band: '#dbeafe', ink: '#1a4f8a' },
+  { id: 3,  label: 'LAYER 3 — SOCIAL-ECOLOGICAL FEEDBACKS',    y: 550, h: 260, fill: '#fffbeb', band: '#fed7aa', ink: '#92400e' },
+  { id: 99, label: 'CROSS-CUTTING — METHODOLOGY & UNCERTAINTY',y: 810, h: 80,  fill: '#f9fafb', band: '#f3f4f6', ink: '#374151' },
 ];
 
 // cx/cy = center of node card; w/h = card size
 const NODES = [
-  // Layer 0 — C1 conceptual framework
-  { id:'c1', layer:0, cx:420, cy:42, w:580, h:52,
-    label:'C1 — SES CONCEPTUAL FRAMEWORK', sub:'Pauliuk · Mölders · Schlüter · Kruse · Baumgärtner · Pregernig',
+  // ── Layer 0: C1 ──────────────────────────────────────────────
+  { id:'c1', layer:0, cx:770, cy:40, w:1480, h:56,
+    label:'C1 — SES CONCEPTUAL FRAMEWORK',
+    sub:'Lead: Pauliuk · Mölders   |   Contributors: Schlüter · Kruse · Baumgärtner · Pregernig · Dormann',
     detail:[], stroke:'#a78bfa', strokeW:2,
     pi:'Prof. Dr. Stefan Pauliuk (Lead) et al.',
     hire:'TBD',
-    desc:'The theoretical backbone of the entire cluster. C1 develops shared social-ecological systems definitions, indicators, and terminology so that biophysical models and social models can be meaningfully connected. Not a computational model — conceptual and theoretical infrastructure.' },
+    desc:'The theoretical backbone of the entire cluster. C1 develops shared social-ecological systems definitions, indicators, and terminology so that biophysical and social models can be meaningfully connected. Not a computational model — conceptual and theoretical infrastructure.' },
 
-  // Layer 1 — shifted down by 80px
-  { id:'jung', layer:1, cx:82, cy:190, w:120, h:110,
+  // ── Layer 1 ───────────────────────────────────────────────────
+  { id:'jung', layer:1, cx:121, cy:213, w:190, h:185,
     label:'JUNG / SCHINDLER', sub:'HyClim Scenarios (C2)',
-    detail:[
-      'Statistical downscaling to 100 m grid',
-      'Air temperature, precipitation, vapour',
-      'pressure deficit, radiation, wind speed',
-    ], stroke:'#6bcf9e',
+    detail:['Statistical downscaling to 100 m','Air temp, precip, vapour pressure','deficit, radiation, wind speed','Historical + future (CMIP6)'],
+    stroke:'#6bcf9e',
     pi:'Prof. Dr. Dirk Schindler · Dr. Christopher Jung',
-    hire:'Dr. Christopher Jung (PostDoc) · Start: TBD',
-    desc:'Prepares regionalized reanalysis and future climate scenario data (ERA5-Land, CMIP6) for the entire cluster. Applies tree-ensemble machine learning for bias correction and statistical downscaling from 10–120 km to 100 m × 100 m resolution. Covers historical and future warming levels (1.5°C, 2°C, 3°C+).' },
+    hire:'Dr. Christopher Jung · TBD',
+    desc:'Prepares regionalized reanalysis and future climate scenario data (ERA5-Land, CMIP6) for the entire cluster. Applies tree-ensemble machine learning for bias correction and statistical downscaling from ~10–120 km to 100 m × 100 m. Covers historical and future warming levels.' },
 
-  { id:'christen', layer:1, cx:222, cy:190, w:120, h:110,
-    label:'CHRISTEN', sub:'Microclimate Modelling (AMSES)',
-    detail:[
-      'Machine learning hindcasting over 30 years',
-      '300 sensor plots across 150 forest stands',
-      'In-canopy air, soil & near-surface temperature',
-    ], stroke:'#6bcf9e',
-    pi:'Prof. Dr. Andreas Christen · Dr. Florian Schnabel · Prof. Dr. Markus Weiler',
-    hire:'Tabea Wörner (PhD) · Start: 01.04.2026',
-    desc:'Three-step approach: (1) quality control and adaptive sensor network design; (2) machine learning hindcasting of in-canopy microclimates over 30 years; (3) transferable regional model to predict below-canopy temperatures at any forested location in the Future Forests domain.' },
+  { id:'christen', layer:1, cx:337, cy:213, w:190, h:185,
+    label:'CHRISTEN', sub:'Microclimate ML (AMSES)',
+    detail:['ML hindcasting over 30 years','300 sensor plots / 150 stands','In-canopy air, soil & surface','temperature at 100 m grid'],
+    stroke:'#6bcf9e',
+    pi:'Prof. Dr. Andreas Christen · Dr. Florian Schnabel · Prof. Dr. Weiler',
+    hire:'Tabea Wörner (PhD) · 01.04.2026',
+    desc:'Three-step approach: (1) adaptive sensor network design; (2) ML hindcasting of in-canopy microclimates over 30 years; (3) transferable regional model integrating geospatial predictors, sensor data and physical downscaling.' },
 
-  { id:'weiler_gis', layer:1, cx:362, cy:190, w:120, h:110,
+  { id:'weiler_gis', layer:1, cx:553, cy:213, w:190, h:185,
     label:'WEILER GIS', sub:'Spatial Data Infrastructure',
-    detail:[
-      'Soil properties, depth & hydraulic parameters',
-      'Forest structure & tree species distributions',
-      'Hydrology network & catchment delineations',
-    ], stroke:'#6bcf9e',
+    detail:['Soil properties, depth,','hydraulic parameters','Forest structure & species','Hydrology network & catchments'],
+    stroke:'#6bcf9e',
     pi:'Prof. Dr. Markus Weiler',
     hire:'TBD',
-    desc:'Provides the static spatial data backbone for the entire C3 framework at 100 m resolution: soil texture, depth, field capacity and wilting point; forest structure and canopy height from LiDAR terrain models; hydrology networks from catchment delineations.' },
+    desc:'Provides the static spatial data backbone for all C3 models at 100 m resolution: soil texture, depth, field capacity; forest structure and canopy height from LiDAR; hydrology networks from catchment delineations.' },
 
-  { id:'seifert', layer:1, cx:502, cy:190, w:120, h:110,
-    label:'SEIFERT', sub:'LiDAR Inventory & Dendroecology',
-    detail:[
-      'Terrestrial & drone laser scanning (TLS/ULS)',
-      'Individual tree positions, diameter, height',
-      'Tree ring chronologies for growth history',
-    ], stroke:'#6bcf9e',
-    pi:'Prof. Dr. Thomas Seifert · Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler',
-    hire:'TBD · Start: 01.07.2026 (pending)',
-    desc:'Provides iLAND initialisation data from terrestrial (TLS) and drone (ULS) laser scanning — individual tree positions, diameter at breast height, height and species — combined with dendrochronology (tree ring) growth records.' },
+  { id:'seifert', layer:1, cx:769, cy:213, w:190, h:185,
+    label:'SEIFERT', sub:'LiDAR & Dendroecology',
+    detail:['Terrestrial & drone laser','scanning (TLS / ULS)','Individual tree positions,','diameter, height, tree rings'],
+    stroke:'#6bcf9e',
+    pi:'Prof. Dr. Thomas Seifert · Dr. Axel Albrecht',
+    hire:'TBD · 01.07.2026 (pending)',
+    desc:'Provides iLAND initialisation data from laser scanning — individual tree positions, diameter at breast height, height and species — combined with dendrochronology growth records and digital twin 3D forest models.' },
 
-  { id:'kattenborn', layer:1, cx:642, cy:190, w:120, h:110,
-    label:'KATTENBORN', sub:'Remote Sensing Mortality & Traits',
-    detail:[
-      'Drone & convolutional neural network mortality mapping',
-      'deadtree.earth · Sentinel-2 time series',
-      'Leaf area index, chlorophyll, crown area',
-    ], stroke:'#6bcf9e',
+  { id:'kattenborn', layer:1, cx:985, cy:213, w:190, h:185,
+    label:'KATTENBORN', sub:'Remote Sensing Mortality',
+    detail:['Drone + neural network','tree mortality mapping','deadtree.earth initiative','Leaf area index, chlorophyll'],
+    stroke:'#6bcf9e',
     pi:'Prof. Dr. Teja Kattenborn · Prof. Dr. René Orth · Dr. Pia Müller',
     hire:'TBD',
-    desc:'Drone and satellite-based mapping of tree mortality using convolutional neural networks. Contributes to the deadtree.earth initiative. Derives remote-sensing-based plant functional traits for iLAND validation and calibration.' },
+    desc:'Drone and satellite-based mapping of tree mortality using convolutional neural networks. Contributes to the deadtree.earth initiative. Derives remote-sensing plant functional traits for iLAND validation.' },
 
-  { id:'orth', layer:1, cx:782, cy:190, w:120, h:110,
-    label:'ORTH', sub:'Forest Drought Response Functions',
-    detail:[
-      'Vegetation function vs soil water & vapour pressure deficit',
-      'ICOS & AmeriFlux eddy covariance flux towers',
-      'Global plant trait maps (TRY database)',
-    ], stroke:'#6bcf9e',
+  { id:'orth', layer:1, cx:1201, cy:213, w:190, h:185,
+    label:'ORTH', sub:'Drought Response Functions',
+    detail:['Vegetation response to soil','water & vapour pressure deficit','ICOS & AmeriFlux flux towers','Global plant traits (TRY)'],
+    stroke:'#6bcf9e',
     pi:'Prof. Dr. René Orth · Prof. Dr. Teja Kattenborn · Dr. Pia Müller',
     hire:'TBD',
-    desc:'Quantifies the emergent response of forests to dryness using global satellite and flux tower data. Generates species-specific response functions relating vegetation function to soil water content and vapour pressure deficit — used to constrain drought mortality in iLAND.' },
+    desc:'Quantifies the emergent response of forests to dryness using global satellite and flux tower data. Generates species-specific response functions relating vegetation function to soil water content and vapour pressure deficit.' },
 
-  { id:'stahl', layer:1, cx:922, cy:190, w:110, h:110,
-    label:'STAHL', sub:'Hydro-climate & Extreme Events',
-    detail:[
-      'Downscaled reanalysis & climate model products',
-      'Extreme value statistics for drought & flood',
-      'Hydro-climatic indices for forest vulnerability',
-    ], stroke:'#6bcf9e',
+  { id:'stahl', layer:1, cx:1417, cy:213, w:180, h:185,
+    label:'STAHL', sub:'Hydro-climate & Extremes',
+    detail:['Downscaled reanalysis &','climate model products','Extreme value statistics','Drought & flood indices'],
+    stroke:'#6bcf9e',
     pi:'Prof. Dr. Kerstin Stahl · Prof. Dr. Dirk Schindler',
     hire:'TBD',
-    desc:'Provides downscaled reanalysis and climate model outputs with a focus on extreme value statistics and hydro-climatic research. Connects the climate and hydrology modelling streams. Connected to six groups in the workshop collaboration matrix.' },
+    desc:'Provides downscaled reanalysis and climate model outputs with a focus on extreme value statistics and hydro-climatic research. Bridges the climate and hydrology modelling streams. Connected to six groups in the workshop matrix.' },
 
-  // Layer 2 — shifted down by 80px
-  { id:'iland', layer:2, cx:370, cy:363, w:200, h:120,
+  // ── Layer 2 ───────────────────────────────────────────────────
+  { id:'iland', layer:2, cx:490, cy:443, w:360, h:175,
     label:'iLAND', sub:'Individual-based Forest Landscape & Disturbance Model',
-    detail:[
-      'Distance-dependent individual tree growth',
-      'Disturbance: wind, bark beetle, fire · Regeneration',
-      'Agent-Based Engine (ABE) for management decisions',
-    ], stroke:'#93c5fd', strokeW:2.5,
-    pi:'Prof. Dr. Thomas Seifert · Jun.-Prof. Dr. Ana Stritih · Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler',
+    detail:['Distance-dependent individual tree growth','Wind, bark beetle, fire disturbances','Regeneration & silvicultural treatments','Agent-Based Engine (ABE) for management'],
+    stroke:'#93c5fd', strokeW:2.5,
+    pi:'Prof. Dr. Seifert · Jun.-Prof. Dr. Stritih · Dr. Albrecht · Prof. Dr. Hanewinkel · Prof. Dr. Weiler',
     hire:'TBD',
-    desc:'Central biophysical engine of C3. Open-source, widely applied, process-based and individual tree-based forest landscape model. Simulates forest dynamics from individual tree to catchment (~10 000 ha). Includes Agent-Based Engine (ABE) module for management decisions. Bidirectionally coupled with RoGeR. Reference: Rammer et al. (2024).' },
+    desc:'Central biophysical engine of C3. Open-source, widely applied, process-based individual tree-based forest landscape model. Simulates forest dynamics from individual tree to ~10 000 ha catchment. Includes Agent-Based Engine for management decisions. Bidirectionally coupled with RoGeR. Rammer et al. (2024).' },
 
-  { id:'roger', layer:2, cx:720, cy:363, w:160, h:120,
+  { id:'roger', layer:2, cx:1080, cy:443, w:300, h:175,
     label:'RoGeR', sub:'Runoff Generation Research Model',
-    detail:[
-      'Three topographic contexts: plateau, hillslope, riparian',
-      'Lateral subsurface flow & groundwater exchange',
-      'Explains tree-to-tree drought mortality differences',
-    ], stroke:'#93c5fd',
+    detail:['Plateau, hillslope & riparian','Lateral subsurface flow &','groundwater exchange','Explains tree-to-tree drought differences'],
+    stroke:'#93c5fd',
     pi:'Prof. Dr. Markus Weiler',
     hire:'TBD',
-    desc:'Process-based hydrological model of water redistribution at the surface and subsurface, mediating local transpiration and trees\' vulnerability to drought. Explicitly represents lateral subsurface flow and groundwater exchange — key processes missing from most dynamic vegetation models. Bidirectionally coupled with iLAND.' },
+    desc:'Process-based hydrological model of water redistribution at surface and subsurface, mediating local transpiration and drought vulnerability. Explicitly represents lateral subsurface flow and groundwater exchange — key processes missing from most vegetation models. Bidirectionally coupled with iLAND.' },
 
-  // Layer 3 — shifted down by 80px
-  { id:'brown', layer:3, cx:82, cy:540, w:130, h:130,
-    label:'BROWN', sub:'CRAFTY-EU · European Land-Use Agent-Based Model',
-    detail:[
-      'European Union 27+3 countries · 1 km resolution',
-      'Part of LandSyMM global land system model',
-      'Shared Socioeconomic Pathways & Nature\'s Futures Framework',
-    ], stroke:'#fbbf24',
-    pi:'Dr. Calum Brown · Jun.-Prof. Dr. Ana Stritih · Prof. Dr. Maja Schlüter · Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk',
-    hire:'TBD — options in CRAFTY team · Start: end 2026 ⚠',
-    desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model. Explores management patterns of future forest social-ecological systems. Links FuFo models to wider European land system dynamics under global scenarios (SSPs, RCPs, NFF). Key challenge: scale mismatch with iLAND (1 km vs 100 m).' },
+  // ── Layer 3 ───────────────────────────────────────────────────
+  { id:'brown', layer:3, cx:180, cy:677, w:230, h:205,
+    label:'BROWN', sub:'CRAFTY-EU Land-Use ABM',
+    detail:['EU27+3 · 1 km resolution','Part of LandSyMM global model','SSP / RCP / NFF scenarios','Scale gap: 1 km vs iLAND 100 m'],
+    stroke:'#fbbf24',
+    pi:'Dr. Calum Brown · Jun.-Prof. Dr. Stritih · Prof. Dr. Schlüter · Prof. Dr. Hanewinkel · Prof. Dr. Pauliuk',
+    hire:'TBD — end 2026 ⚠',
+    desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model. Explores management patterns of future forest social-ecological systems. Links FuFo models to wider European land system dynamics under global scenarios (SSPs, RCPs, NFF).' },
 
-  { id:'stritih', layer:3, cx:252, cy:540, w:130, h:130,
-    label:'STRITIH', sub:'Participatory Modelling · iLAND + Agent-Based Engine',
-    detail:[
-      'Forest managers: Observe → Plan → Act cycle',
-      'Co-designed management scenarios with stakeholders',
-      'Landscape-scale scenario outputs feeding C3 models',
-    ], stroke:'#fbbf24',
+  { id:'stritih', layer:3, cx:475, cy:677, w:230, h:205,
+    label:'STRITIH', sub:'Participatory Modelling · iLAND+ABE',
+    detail:['Forest managers: Observe→Plan→Act','Co-designed scenarios with','local stakeholders','Schwarzwald / Oberrhein (TBD)'],
+    stroke:'#fbbf24',
     pi:'Jun.-Prof. Dr. Ana Stritih',
-    hire:'Christina Dollinger (PostDoc, Margarete-von-Wrangell) · Start: 01.05.2026',
-    desc:'Integrates diverse actors\' perspectives on forest management objectives into iLAND\'s Agent-Based Engine module. Conducts participatory process with local stakeholders to define management scenarios. Scenario assumptions source currently underdetermined — should derive from stakeholder co-creation or SSP/NFF frameworks.' },
+    hire:'Christina Dollinger (PostDoc) · 01.05.2026',
+    desc:'Integrates diverse actors perspectives on forest management objectives into iLAND Agent-Based Engine. Conducts participatory process with forest managers to define credible scenarios. Scenario assumptions source currently underdetermined — should derive from stakeholder co-creation or SSP/NFF.' },
 
-  { id:'hanewinkel', layer:3, cx:430, cy:540, w:130, h:130,
-    label:'HANEWINKEL', sub:'Forest Economics & Risk Model',
-    detail:[
-      'Global Forest Products Model in GAMS',
-      'Value at Risk & Conditional Value at Risk optimisation',
-      'Partial equilibrium model for SW Germany markets',
-    ], stroke:'#fbbf24',
+  { id:'hanewinkel', layer:3, cx:770, cy:677, w:230, h:205,
+    label:'HANEWINKEL', sub:'Forest Economics & Risk',
+    detail:['Global Forest Products Model','implemented in GAMS','Value at Risk & Conditional','Value at Risk optimisation'],
+    stroke:'#fbbf24',
     pi:'Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk',
     hire:'TBD — deadline extended ⚠',
-    desc:'Economic modelling and evaluation framework for ecosystem services under risk and uncertainty. Adapts the Global Forest Products Model for Southwest Germany. Applies robust management strategies optimised with Value at Risk and Conditional Value at Risk metrics.' },
+    desc:'Economic modelling framework for ecosystem services under risk and uncertainty. Adapts the Global Forest Products Model for Southwest Germany using partial equilibrium modelling. Applies robust management strategies optimised with VaR and CVaR metrics.' },
 
-  { id:'pauliuk', layer:3, cx:610, cy:540, w:130, h:130,
-    label:'PAULIUK', sub:'Wood Cascade & Carbon Accounting',
-    detail:[
-      'Material flow analysis of wood product lifecycles',
-      'Carbon balance: material substitution & avoided emissions',
-      'Stand-level to national scale · 100–200 year horizon',
-    ], stroke:'#fbbf24',
+  { id:'pauliuk', layer:3, cx:1065, cy:677, w:230, h:205,
+    label:'PAULIUK', sub:'Wood Cascade & Carbon',
+    detail:['Material flow analysis (MFA)','of wood product lifecycles','Carbon balance: substitution','and avoided emissions · 100–200yr'],
+    stroke:'#fbbf24',
     pi:'Prof. Dr. Stefan Pauliuk · Dr. Simon Schulte',
-    hire:'Dr. Simon Schulte · Start: TBD',
-    desc:'Material flow analysis and life cycle assessment of wood products from harvest through cascading use to end-of-life. Evaluates the carbon balance impact of different wood use pathways over up to 200-year time horizons.' },
+    hire:'Dr. Simon Schulte · TBD',
+    desc:'Material flow analysis and life cycle assessment of wood products from harvest through cascading use to end-of-life. Evaluates carbon balance impact of different wood use pathways over up to 200-year time horizons.' },
 
-  { id:'schanz', layer:3, cx:790, cy:540, w:130, h:130,
-    label:'SCHANZ', sub:'FESMarkets · Forest Ecosystem Service Markets',
-    detail:[
-      'Network of Markets approach · System dynamics',
-      'Causal Loop Diagrams for governance interventions',
-      'Focus: water, recreation & timber markets',
-    ], stroke:'#fbbf24',
+  { id:'schanz', layer:3, cx:1360, cy:677, w:230, h:205,
+    label:'SCHANZ', sub:'FESMarkets',
+    detail:['Network of Markets (NoM)','System dynamics model','Causal Loop Diagrams','Water / recreation / timber'],
+    stroke:'#fbbf24',
     pi:'Prof. Dr. Heiner Schanz',
-    hire:'Steffi Peuckert (PhD) · Start: 01.04.2026',
+    hire:'Steffi Peuckert (PhD) · 01.04.2026',
     desc:'Analyses the structural architecture of Forest Ecosystem Service market networks. Macro-level: system dynamics model of stocks and flows. Micro-level: actor perspectives via Causal Loop Diagrams. Provides governance dynamics for regulatory simulations.' },
 
-  // Cross-cutting — Dormann
-  { id:'dormann', layer:99, cx:420, cy:662, w:500, h:52,
-    label:'DORMANN — CROSS-CUTTING', sub:'Model-Data Integration & Uncertainty Quantification · C1 + C3',
+  // ── Cross-cutting: Dormann ────────────────────────────────────
+  { id:'dormann', layer:99, cx:770, cy:840, w:1480, h:56,
+    label:'DORMANN — CROSS-CUTTING',
+    sub:'Model-Data Integration & Uncertainty Quantification · C1 + C3 · Also leads B1 (Evidentiary bases of decision-making)',
     detail:[], stroke:'#9ca3af', strokeW:2,
     pi:'Prof. Dr. Carsten Dormann',
     hire:'TBD',
-    desc:'Cross-cutting methodological role spanning C1 and C3. Provides rigorous statistical methods for integrating observational data with models, quantifying uncertainty, and developing species distribution models. Ensures C3 outputs are scientifically defensible. Also leads B1 (Evidentiary bases of decision-making).' },
+    desc:'Cross-cutting methodological role spanning C1 and C3. Provides rigorous statistical methods for integrating observational data with models, quantifying uncertainty, and developing species distribution and biodiversity models. Ensures C3 outputs are scientifically defensible.' },
 ];
 
 // Connection definitions [from, to, type]
@@ -588,8 +549,8 @@ svg.appendChild(defs);
 
 // Layer bands
 LAYERS.forEach(L => {
-  svg.appendChild(el('rect', { x:0, y:L.y, width:1000, height:L.h, fill:L.fill }));
-  svg.appendChild(el('rect', { x:0, y:L.y, width:1000, height:20, fill:L.band }));
+  svg.appendChild(el('rect', { x:0, y:L.y, width:1540, height:L.h, fill:L.fill }));
+  svg.appendChild(el('rect', { x:0, y:L.y, width:1540, height:20, fill:L.band }));
   const t = txt(L.label, { x:10, y:L.y+14, class:'band-label', fill:L.ink });
   svg.appendChild(t);
 });
@@ -677,9 +638,9 @@ NODES.forEach(node => {
   const textG = el('g', { 'clip-path': `url(#${clipId})` });
 
   // Title — scale font to fit wide vs narrow cards
-  const titleSize = node.w >= 400 ? 11 : (node.w > 150 ? 10 : 9.5);
+  const titleSize = node.w >= 400 ? 14 : (node.w > 150 ? 12 : 11);
   textG.appendChild(txt(node.label, {
-    x: node.cx, y: y0 + 14,
+    x: node.cx, y: y0 + 16,
     'text-anchor':'middle', fill: L ? L.ink : '#1e293b',
     'font-size': titleSize, 'font-weight': 700,
     'font-family': "'IBM Plex Mono',monospace",
@@ -688,9 +649,9 @@ NODES.forEach(node => {
   // Sub — only for taller cards
   if (node.h > 52) {
     textG.appendChild(txt(node.sub, {
-      x: node.cx, y: y0 + 28,
+      x: node.cx, y: y0 + 32,
       'text-anchor':'middle', fill:'#475569',
-      'font-size': 7.5, 'font-family': "'IBM Plex Sans',sans-serif",
+      'font-size': 9.5, 'font-family': "'IBM Plex Sans',sans-serif",
     }));
   }
 
@@ -698,9 +659,9 @@ NODES.forEach(node => {
   if (node.h >= 90) {
     node.detail.forEach((d, i) => {
       textG.appendChild(txt(d, {
-        x: node.cx, y: y0 + 40 + i * 12,
+        x: node.cx, y: y0 + 48 + i * 14,
         'text-anchor':'middle', fill:'#94a3b8',
-        'font-size': 7, 'font-family': "'IBM Plex Sans',sans-serif",
+        'font-size': 9, 'font-family': "'IBM Plex Sans',sans-serif",
       }));
     });
   }
@@ -711,9 +672,9 @@ NODES.forEach(node => {
     const hireColor = hireLine.includes('⚠') ? '#c0392b'
       : hireLine === 'TBD' ? '#94a3b8' : '#1a7a4a';
     textG.appendChild(txt(hireLine, {
-      x: node.cx, y: y0 + node.h - 6,
+      x: node.cx, y: y0 + node.h - 8,
       'text-anchor':'middle', fill: hireColor,
-      'font-size': 6.5, 'font-family': "'IBM Plex Sans',sans-serif",
+      'font-size': 8.5, 'font-family': "'IBM Plex Sans',sans-serif",
     }));
   }
 
@@ -726,23 +687,23 @@ NODES.forEach(node => {
 
 // C4 output box
 const c4 = el('g');
-c4.appendChild(el('rect', { x:900, y:460, width:90, height:40, rx:5,
+c4.appendChild(el('rect', { x:1410, y:570, width:90, height:40, rx:5,
   fill:'#dbeafe', stroke:'#1a4f8a', 'stroke-width':1 }));
-c4.appendChild(txt('→ C4', { x:945, y:477, 'text-anchor':'middle',
+c4.appendChild(txt('→ C4', { x:1455, y:587, 'text-anchor':'middle',
   'font-family':'IBM Plex Mono,monospace', 'font-size':10, 'font-weight':700, fill:'#1a4f8a' }));
-c4.appendChild(txt('Governance', { x:945, y:492, 'text-anchor':'middle',
+c4.appendChild(txt('Governance', { x:1455, y:602, 'text-anchor':'middle',
   'font-family':'IBM Plex Sans,sans-serif', 'font-size':8, fill:'#1a4f8a' }));
 svg.appendChild(c4);
 
 // C2 scenarios box
 const c2 = el('g');
-c2.appendChild(el('rect', { x:910, y:106, width:82, height:46, rx:5,
+c2.appendChild(el('rect', { x:1400, y:90, width:82, height:46, rx:5,
   fill:'#dbeafe', stroke:'#1a4f8a', 'stroke-width':1 }));
-c2.appendChild(txt('C2 SCENARIOS', { x:951, y:121, 'text-anchor':'middle',
+c2.appendChild(txt('C2 SCENARIOS', { x:1445, y:105, 'text-anchor':'middle',
   'font-family':'IBM Plex Mono,monospace', 'font-size':7.5, 'font-weight':700, fill:'#1a4f8a' }));
-c2.appendChild(txt('SSP/RCP/NFF', { x:951, y:134, 'text-anchor':'middle',
+c2.appendChild(txt('SSP/RCP/NFF', { x:1445, y:118, 'text-anchor':'middle',
   'font-family':'IBM Plex Sans,sans-serif', 'font-size':7, fill:'#475569' }));
-c2.appendChild(txt('→ all C3 models', { x:951, y:145, 'text-anchor':'middle',
+c2.appendChild(txt('→ all C3 models', { x:1445, y:131, 'text-anchor':'middle',
   'font-family':'IBM Plex Sans,sans-serif', 'font-size':7, fill:'#475569' }));
 svg.appendChild(c2);
 
