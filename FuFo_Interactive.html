@@ -8,227 +8,79 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy:    #1e3a5f;
-  --green:   #1a7a4a;
-  --blue:    #1a4f8a;
-  --amber:   #c47a06;
-  --muted:   #94a3b8;
-  --border:  #e2e8f0;
-  --bg:      #f0f4f8;
-
-  --l1-fill: #f0fdf7;
-  --l1-band: #dcfce7;
-  --l1-ink:  #1a7a4a;
-  --l1-node: #6bcf9e;
-
-  --l2-fill: #eff6ff;
-  --l2-band: #dbeafe;
-  --l2-ink:  #1a4f8a;
-  --l2-node: #93c5fd;
-
-  --l3-fill: #fffbeb;
-  --l3-band: #fed7aa;
-  --l3-ink:  #92400e;
-  --l3-node: #fbbf24;
-
-  --conn-data:     #1a7a4a;
-  --conn-valid:    #5b50c4;
-  --conn-couple:   #d97706;
-  --conn-feedback: #c0392b;
-  --conn-lateral:  #7c8a9e;
+  --navy:#1e3a5f; --green:#1a7a4a; --blue:#1a4f8a;
+  --muted:#94a3b8; --border:#e2e8f0;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'IBM Plex Sans', sans-serif;
-  background: var(--bg);
-  color: #1e293b;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans',sans-serif;background:#f0f4f8;color:#1e293b;
+     min-height:100vh;display:flex;flex-direction:column;}
 
 /* ── Header ── */
-header {
-  background: var(--navy);
-  padding: 14px 24px 12px;
-  border-bottom: 3px solid var(--green);
-  flex-shrink: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.h-left .tag {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 8.5px;
-  letter-spacing: .2em;
-  color: #6bcf9e;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-.h-left h1 {
-  font-size: 17px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -.02em;
-}
-.h-left .sub {
-  font-size: 11px;
-  color: #94a3b8;
-  margin-top: 2px;
-  font-style: italic;
-}
-.h-right {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  color: #94a3b8;
-}
-.legend-line {
-  width: 22px;
-  height: 2px;
-  border-radius: 1px;
-}
-.legend-line.dashed {
-  background: repeating-linear-gradient(to right, currentColor 0, currentColor 4px, transparent 4px, transparent 7px);
-  height: 0;
-  border-top: 2px dashed;
-}
+header{background:var(--navy);padding:12px 24px 10px;border-bottom:3px solid var(--green);
+       flex-shrink:0;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.h-left .tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;
+             color:#6bcf9e;text-transform:uppercase;margin-bottom:3px;}
+.h-left h1{font-size:16px;font-weight:700;color:#fff;letter-spacing:-.02em;}
+.h-left .sub{font-size:10px;color:#94a3b8;margin-top:2px;font-style:italic;}
+.h-right{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.leg{display:flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#94a3b8;}
+.leg-line{width:20px;height:2px;border-radius:1px;}
+.leg-dash{width:20px;height:0;border-top:2px dashed;}
 
-/* ── Main canvas ── */
-.canvas-wrap {
-  flex: 1;
-  position: relative;
-  overflow: auto;
-  min-height: 400px;
-}
+/* ── Toolbar ── */
+.toolbar{background:#fff;border-bottom:1px solid var(--border);padding:8px 20px;
+         display:flex;gap:6px;flex-wrap:wrap;align-items:center;flex-shrink:0;}
+.filter-btn{background:#f8fafc;border:1.5px solid var(--border);border-radius:5px;
+            padding:4px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;
+            cursor:pointer;transition:all .15s;color:#475569;}
+.filter-btn:hover,.filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+#reset-btn{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);color:#c0392b;
+           font-family:'IBM Plex Mono',monospace;font-size:10px;padding:4px 12px;
+           border-radius:5px;cursor:pointer;display:none;}
 
-svg#diagram {
-  width: 1540px;
-  height: 900px;
-  display: block;
-}
+/* ── Canvas: scrollable ── */
+.canvas-wrap{flex:1;overflow:auto;position:relative;min-height:200px;}
+#canvas{position:relative;width:1600px;min-height:900px;}
 
-/* ── Layer bands in SVG ── */
-.band-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
+/* ── SVG arrows overlay ── */
+#arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+
+/* ── Layer bands ── */
+.layer-band{position:absolute;left:0;right:0;}
+.layer-label{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
+             letter-spacing:.14em;text-transform:uppercase;padding:4px 14px 3px;}
 
 /* ── Node cards ── */
-.node-group { cursor: pointer; }
-.node-rect {
-  transition: filter .15s;
-  rx: 7;
-}
-.node-group:hover .node-rect,
-.node-group.active .node-rect {
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,.18));
-}
-.node-group.dimmed { opacity: .18; pointer-events: none; }
-.node-group.dimmed .node-rect { filter: none; }
+.node{position:absolute;border-radius:8px;background:#fff;cursor:pointer;
+      transition:box-shadow .15s,opacity .2s;overflow:hidden;}
+.node:hover{box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.node.active{box-shadow:0 6px 24px rgba(0,0,0,.2);}
+.node.dimmed{opacity:.15;pointer-events:none;}
+.node-head{padding:7px 10px 5px;border-bottom:1px solid #f1f5f9;}
+.node-title{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11px;
+            line-height:1.3;margin-bottom:2px;}
+.node-sub{font-size:10px;color:#475569;line-height:1.3;}
+.node-body{padding:6px 10px;}
+.node-detail{font-size:9.5px;color:#94a3b8;line-height:1.5;margin-bottom:2px;}
+.node-hire{font-size:9px;margin-top:4px;padding-top:4px;border-top:1px solid #f1f5f9;}
+.node-pi{font-size:8.5px;color:#64748b;margin-top:3px;font-style:italic;}
 
-.node-title {
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 700;
-  pointer-events: none;
-}
-.node-sub {
-  font-family: 'IBM Plex Sans', sans-serif;
-  pointer-events: none;
-}
-.node-detail {
-  font-family: 'IBM Plex Sans', sans-serif;
-  pointer-events: none;
-}
-
-/* ── Connection lines ── */
-.conn {
-  fill: none;
-  stroke-linecap: round;
-  opacity: 0;
-  transition: opacity .2s;
-  pointer-events: none;
-}
-.conn.visible { opacity: 1; }
+/* ── Wide banner nodes (C1, Dormann) ── */
+.node.banner{display:flex;align-items:center;}
+.node.banner .node-head{border-bottom:none;border-right:1px solid #f1f5f9;
+                         flex-shrink:0;width:320px;padding:8px 14px;}
+.node.banner .node-body{flex:1;padding:6px 14px;}
 
 /* ── Info panel ── */
-#info-panel {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--navy);
-  color: #fff;
-  border-radius: 10px;
-  padding: 14px 20px;
-  font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace;
-  max-width: 820px;
-  width: calc(100% - 48px);
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  opacity: 0;
-  transition: opacity .2s;
-  pointer-events: none;
-  border-top: 3px solid var(--green);
-  z-index: 10;
-}
-#info-panel.visible { opacity: 1; }
-#info-title { font-weight: 700; font-size: 13px; color: #6bcf9e; margin-bottom: 3px; }
-#info-pi { color: #cbd5e1; font-size: 10px; margin-bottom: 4px; font-family: 'IBM Plex Sans', sans-serif; }
-#info-desc { color: #94a3b8; font-size: 10px; line-height: 1.55; font-family: 'IBM Plex Sans', sans-serif; margin-bottom: 4px; }
-#info-connects { color: #64748b; font-size: 9.5px; line-height: 1.6; }
-#info-hire { color: #fbbf24; font-size: 10px; white-space: nowrap; text-align: right; align-self: start; }
-
-/* ── Hint ── */
-#hint {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  text-align: center;
-  color: var(--muted);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  pointer-events: none;
-  transition: opacity .3s;
-  letter-spacing: .06em;
-}
-#hint.hidden { opacity: 0; }
-
-/* ── Reset button ── */
-#reset-btn {
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.18);
-  color: #94a3b8;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  padding: 5px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all .15s;
-  display: none;
-}
-#reset-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+#info-panel{position:fixed;bottom:0;left:0;right:0;background:var(--navy);color:#fff;
+            border-top:3px solid var(--green);padding:12px 24px;
+            display:none;z-index:100;font-family:'IBM Plex Mono',monospace;}
+#info-panel.visible{display:grid;grid-template-columns:1fr auto;}
+#info-title{font-weight:700;font-size:13px;color:#6bcf9e;margin-bottom:3px;}
+#info-pi{color:#cbd5e1;font-size:10px;margin-bottom:3px;font-family:'IBM Plex Sans',sans-serif;}
+#info-desc{color:#94a3b8;font-size:10px;line-height:1.5;font-family:'IBM Plex Sans',sans-serif;max-width:900px;}
+#info-connects{color:#64748b;font-size:9px;margin-top:3px;}
+#info-hire{color:#fbbf24;font-size:10px;text-align:right;align-self:start;white-space:nowrap;padding-left:20px;}
 </style>
 </head>
 <body>
@@ -240,517 +92,511 @@ svg#diagram {
     <div class="sub">Click any node to reveal its connections · Roadmap status March 2026</div>
   </div>
   <div class="h-right">
-    <div class="legend-item"><div class="legend-line" style="background:#1a7a4a;height:2px"></div>Data flow</div>
-    <div class="legend-item"><div class="legend-line dashed" style="color:#5b50c4"></div>Validation</div>
-    <div class="legend-item"><div class="legend-line" style="background:#d97706;height:3px"></div>Coupling ⇄</div>
-    <div class="legend-item"><div class="legend-line dashed" style="color:#c0392b"></div>Feedback</div>
-    <div class="legend-item"><div class="legend-line dashed" style="color:#7c8a9e"></div>Lateral</div>
-    <div class="legend-item"><div class="legend-line dashed" style="color:#a78bfa"></div>Conceptual</div>
+    <div class="leg"><div class="leg-line" style="background:#1a7a4a"></div>Data flow</div>
+    <div class="leg"><div class="leg-dash" style="border-color:#5b50c4"></div>Validation</div>
+    <div class="leg"><div class="leg-line" style="background:#d97706;height:3px"></div>Coupling ⇄</div>
+    <div class="leg"><div class="leg-dash" style="border-color:#c0392b"></div>Feedback</div>
+    <div class="leg"><div class="leg-dash" style="border-color:#7c8a9e"></div>Lateral</div>
+    <div class="leg"><div class="leg-dash" style="border-color:#a78bfa"></div>Conceptual</div>
   </div>
 </header>
 
+<div class="toolbar">
+  <span style="font-size:10px;color:#94a3b8;font-family:'IBM Plex Mono',monospace">FILTER:</span>
+  <button class="filter-btn active" onclick="filterLayer('all',this)">All Layers</button>
+  <button class="filter-btn" onclick="filterLayer('0',this)">C1 Conceptual</button>
+  <button class="filter-btn" onclick="filterLayer('1',this)">Layer 1 — Observations</button>
+  <button class="filter-btn" onclick="filterLayer('2',this)">Layer 2 — Biophysical</button>
+  <button class="filter-btn" onclick="filterLayer('3',this)">Layer 3 — Social-Economic</button>
+  <button class="filter-btn" onclick="filterLayer('99',this)">Cross-cutting</button>
+  <button id="reset-btn" onclick="resetAll()">✕ Clear selection</button>
+</div>
+
 <div class="canvas-wrap">
-  <div id="hint">← Click a node to explore its connections →</div>
-  <button id="reset-btn" onclick="resetAll()">✕ Clear</button>
-  <svg id="diagram" viewBox="0 0 1540 900" preserveAspectRatio="xMidYMid meet"></svg>
-  <div id="info-panel">
-    <div>
-      <div id="info-title"></div>
-      <div id="info-pi"></div>
-      <div id="info-desc"></div>
-      <div id="info-connects"></div>
-    </div>
-    <div id="info-hire"></div>
+  <div id="canvas">
+    <svg id="arrows"><defs></defs></svg>
   </div>
 </div>
 
+<div id="info-panel">
+  <div>
+    <div id="info-title"></div>
+    <div id="info-pi"></div>
+    <div id="info-desc"></div>
+    <div id="info-connects"></div>
+  </div>
+  <div id="info-hire"></div>
+</div>
+
 <script>
-// ══════════════════════════════════════════════
-// DATA
-// ══════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
+// LAYOUT CONSTANTS
+// ══════════════════════════════════════════════════════════
+const PAD   = 20;   // left margin
+const GAP   = 14;   // gap between cards
+const NW    = 195;  // standard node width
+const NW_L2 = 340;  // Layer 2 wider nodes
+const NW_L3 = 220;  // Layer 3 nodes
 
-const LAYERS = [
-  { id: 0,  label: 'C1 — CONCEPTUAL & THEORETICAL FRAMEWORK',  y: 0,   h: 80,  fill: '#f5f3ff', band: '#ede9fe', ink: '#5b50c4' },
-  { id: 1,  label: 'LAYER 1 — OBSERVATIONS & CLIMATE FORCING', y: 80,  h: 255, fill: '#f0fdf7', band: '#dcfce7', ink: '#1a7a4a' },
-  { id: 2,  label: 'LAYER 2 — BIOPHYSICAL ENGINE',             y: 335, h: 215, fill: '#eff6ff', band: '#dbeafe', ink: '#1a4f8a' },
-  { id: 3,  label: 'LAYER 3 — SOCIAL-ECOLOGICAL FEEDBACKS',    y: 550, h: 260, fill: '#fffbeb', band: '#fed7aa', ink: '#92400e' },
-  { id: 99, label: 'CROSS-CUTTING — METHODOLOGY & UNCERTAINTY',y: 810, h: 80,  fill: '#f9fafb', band: '#f3f4f6', ink: '#374151' },
+// Layer Y positions and heights
+const LAYERS_DEF = [
+  { id:0,  y:0,    h:100,  fill:'#f5f3ff', band:'#ede9fe', ink:'#5b50c4',
+    label:'C1 — CONCEPTUAL & THEORETICAL FRAMEWORK' },
+  { id:1,  y:100,  h:280,  fill:'#f0fdf7', band:'#dcfce7', ink:'#1a7a4a',
+    label:'LAYER 1 — OBSERVATIONS & CLIMATE FORCING' },
+  { id:2,  y:380,  h:230,  fill:'#eff6ff', band:'#dbeafe', ink:'#1a4f8a',
+    label:'LAYER 2 — BIOPHYSICAL ENGINE' },
+  { id:3,  y:610,  h:280,  fill:'#fffbeb', band:'#fed7aa', ink:'#92400e',
+    label:'LAYER 3 — SOCIAL-ECOLOGICAL FEEDBACKS & GOVERNANCE' },
+  { id:99, y:890,  h:100,  fill:'#f9fafb', band:'#f3f4f6', ink:'#374151',
+    label:'CROSS-CUTTING — METHODOLOGY & UNCERTAINTY' },
 ];
+const CANVAS_H = 990;
+const CANVAS_W = 1600;
 
-// cx/cy = center of node card; w/h = card size
+// ══════════════════════════════════════════════════════════
+// NODE DATA
+// ══════════════════════════════════════════════════════════
 const NODES = [
-  // ── Layer 0: C1 ──────────────────────────────────────────────
-  { id:'c1', layer:0, cx:770, cy:40, w:1480, h:56,
-    label:'C1 — SES CONCEPTUAL FRAMEWORK',
-    sub:'Lead: Pauliuk · Mölders   |   Contributors: Schlüter · Kruse · Baumgärtner · Pregernig · Dormann',
-    detail:[], stroke:'#a78bfa', strokeW:2,
-    pi:'Prof. Dr. Stefan Pauliuk (Lead) et al.',
-    hire:'TBD',
-    desc:'The theoretical backbone of the entire cluster. C1 develops shared social-ecological systems definitions, indicators, and terminology so that biophysical and social models can be meaningfully connected. Not a computational model — conceptual and theoretical infrastructure.' },
+  // ── Layer 0: C1 ──
+  { id:'c1', layer:0, banner:true,
+    title:'C1 — SES CONCEPTUAL FRAMEWORK',
+    sub:'Lead: Prof. Dr. Stefan Pauliuk · Prof. Dr. Tanja Mölders',
+    detail:'Shared SES definitions, indicators, system boundaries & terminology for the whole cluster. Provides the theoretical backbone that all other models build on.',
+    pi:'Contributors: Schlüter · Kruse · Baumgärtner · Pregernig · Dormann',
+    hire:'TBD', hireOk:false,
+    stroke:'#a78bfa', inkColor:'#5b50c4',
+    desc:'The theoretical backbone of the entire Future Forests cluster. C1 develops shared social-ecological systems definitions, indicators, and terminology so that biophysical models and social models can be meaningfully connected. Not a computational model — it is conceptual and theoretical infrastructure.',
+    connects:[] },
 
-  // ── Layer 1 ───────────────────────────────────────────────────
-  { id:'jung', layer:1, cx:121, cy:213, w:190, h:185,
-    label:'JUNG / SCHINDLER', sub:'HyClim Scenarios (C2)',
-    detail:['Statistical downscaling to 100 m','Air temp, precip, vapour pressure','deficit, radiation, wind speed','Historical + future (CMIP6)'],
-    stroke:'#6bcf9e',
+  // ── Layer 1 ──
+  { id:'jung', layer:1,
+    title:'JUNG / SCHINDLER',
+    sub:'HyClim Scenarios (C2)',
+    detail:'Statistical downscaling of ERA5-Land reanalysis and CMIP6 climate models to 100 m × 100 m. Outputs: air temperature, precipitation, vapour pressure deficit, solar radiation, wind speed.',
     pi:'Prof. Dr. Dirk Schindler · Dr. Christopher Jung',
-    hire:'Dr. Christopher Jung · TBD',
-    desc:'Prepares regionalized reanalysis and future climate scenario data (ERA5-Land, CMIP6) for the entire cluster. Applies tree-ensemble machine learning for bias correction and statistical downscaling from ~10–120 km to 100 m × 100 m. Covers historical and future warming levels.' },
+    hire:'Dr. Christopher Jung (PostDoc) · Start: TBD', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Prepares regionalized reanalysis and future climate scenario data for the entire cluster. Applies tree-ensemble machine learning for bias correction and statistical downscaling from 10–120 km to 100 m resolution. Covers historical conditions and future warming levels (1.5°C, 2°C, 3°C+) under CMIP6 scenarios.',
+    connects:[] },
 
-  { id:'christen', layer:1, cx:337, cy:213, w:190, h:185,
-    label:'CHRISTEN', sub:'Microclimate ML (AMSES)',
-    detail:['ML hindcasting over 30 years','300 sensor plots / 150 stands','In-canopy air, soil & surface','temperature at 100 m grid'],
-    stroke:'#6bcf9e',
-    pi:'Prof. Dr. Andreas Christen · Dr. Florian Schnabel · Prof. Dr. Weiler',
-    hire:'Tabea Wörner (PhD) · 01.04.2026',
-    desc:'Three-step approach: (1) adaptive sensor network design; (2) ML hindcasting of in-canopy microclimates over 30 years; (3) transferable regional model integrating geospatial predictors, sensor data and physical downscaling.' },
+  { id:'christen', layer:1,
+    title:'CHRISTEN',
+    sub:'Microclimate Modelling (AMSES)',
+    detail:'3-step approach: adaptive sensor network design → ML hindcasting over 30 years → transferable regional model for below-canopy temperature at any forested site in the FuFo domain.',
+    pi:'Prof. Dr. Andreas Christen · Dr. Florian Schnabel · Prof. Dr. Markus Weiler',
+    hire:'Tabea Wörner (PhD) · Start: 01.04.2026', hireOk:true,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Three-step approach: (1) quality control and adaptive sensor network design using station uniqueness rankings; (2) machine learning hindcasting of in-canopy microclimates over 30 years at 300 plots across 150 stands; (3) transferable regional model integrating geospatial predictors, sensor data and physical downscaling.',
+    connects:[] },
 
-  { id:'weiler_gis', layer:1, cx:553, cy:213, w:190, h:185,
-    label:'WEILER GIS', sub:'Spatial Data Infrastructure',
-    detail:['Soil properties, depth,','hydraulic parameters','Forest structure & species','Hydrology network & catchments'],
-    stroke:'#6bcf9e',
+  { id:'weiler_gis', layer:1,
+    title:'WEILER GIS',
+    sub:'Spatial Data Infrastructure',
+    detail:'Soil properties & depth, forest structure & tree species distributions, hydrology network & catchment delineations — all at 100 m resolution across the FuFo domain.',
     pi:'Prof. Dr. Markus Weiler',
-    hire:'TBD',
-    desc:'Provides the static spatial data backbone for all C3 models at 100 m resolution: soil texture, depth, field capacity; forest structure and canopy height from LiDAR; hydrology networks from catchment delineations.' },
+    hire:'TBD', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Provides the static spatial data backbone for the entire C3 framework at 100 m resolution: soil texture, depth, field capacity and wilting point from national soil maps (BÜK200); forest structure and canopy height from LiDAR terrain models; hydrology networks from catchment delineations.',
+    connects:[] },
 
-  { id:'seifert', layer:1, cx:769, cy:213, w:190, h:185,
-    label:'SEIFERT', sub:'LiDAR & Dendroecology',
-    detail:['Terrestrial & drone laser','scanning (TLS / ULS)','Individual tree positions,','diameter, height, tree rings'],
-    stroke:'#6bcf9e',
-    pi:'Prof. Dr. Thomas Seifert · Dr. Axel Albrecht',
-    hire:'TBD · 01.07.2026 (pending)',
-    desc:'Provides iLAND initialisation data from laser scanning — individual tree positions, diameter at breast height, height and species — combined with dendrochronology growth records and digital twin 3D forest models.' },
+  { id:'seifert', layer:1,
+    title:'SEIFERT',
+    sub:'LiDAR & Dendroecology',
+    detail:'Terrestrial & drone laser scanning (TLS/ULS): individual tree positions, diameter at breast height, height, species. Tree ring chronologies for growth history. iLAND initialisation files.',
+    pi:'Prof. Dr. Thomas Seifert · Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler',
+    hire:'TBD · Start: 01.07.2026 (pending)', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Provides iLAND initialisation data from terrestrial (TLS) and drone (ULS) laser scanning combined with dendrochronology (tree ring) growth records. Also produces digital twin 3D models of forest stands. Scale: individual tree to catchments up to 10 000 ha.',
+    connects:[] },
 
-  { id:'kattenborn', layer:1, cx:985, cy:213, w:190, h:185,
-    label:'KATTENBORN', sub:'Remote Sensing Mortality',
-    detail:['Drone + neural network','tree mortality mapping','deadtree.earth initiative','Leaf area index, chlorophyll'],
-    stroke:'#6bcf9e',
+  { id:'kattenborn', layer:1,
+    title:'KATTENBORN',
+    sub:'Remote Sensing Mortality & Traits',
+    detail:'Drone + convolutional neural network tree mortality mapping (deadtree.earth). Sentinel-2 time series. Leaf area index, chlorophyll, crown area for iLAND validation.',
     pi:'Prof. Dr. Teja Kattenborn · Prof. Dr. René Orth · Dr. Pia Müller',
-    hire:'TBD',
-    desc:'Drone and satellite-based mapping of tree mortality using convolutional neural networks. Contributes to the deadtree.earth initiative. Derives remote-sensing plant functional traits for iLAND validation.' },
+    hire:'TBD', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Drone and satellite-based mapping of tree mortality using convolutional neural networks. Contributes to the deadtree.earth initiative. Derives remote-sensing-based plant functional traits for iLAND validation and calibration. Scale: drone at stand level, Sentinel-2 at landscape to regional level.',
+    connects:[] },
 
-  { id:'orth', layer:1, cx:1201, cy:213, w:190, h:185,
-    label:'ORTH', sub:'Drought Response Functions',
-    detail:['Vegetation response to soil','water & vapour pressure deficit','ICOS & AmeriFlux flux towers','Global plant traits (TRY)'],
-    stroke:'#6bcf9e',
+  { id:'orth', layer:1,
+    title:'ORTH',
+    sub:'Forest Drought Response Functions',
+    detail:'Species-specific response functions: vegetation function vs soil water content & vapour pressure deficit. Calibrated from ICOS/AmeriFlux flux towers and global plant trait maps (TRY database).',
     pi:'Prof. Dr. René Orth · Prof. Dr. Teja Kattenborn · Dr. Pia Müller',
-    hire:'TBD',
-    desc:'Quantifies the emergent response of forests to dryness using global satellite and flux tower data. Generates species-specific response functions relating vegetation function to soil water content and vapour pressure deficit.' },
+    hire:'TBD', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Quantifies the emergent response of forests to dryness using global satellite and flux tower data. Generates species-specific response functions relating vegetation function to soil water content and vapour pressure deficit — used to constrain drought mortality in iLAND. Reference: Lusk et al. 2025 (bioRxiv).',
+    connects:[] },
 
-  { id:'stahl', layer:1, cx:1417, cy:213, w:180, h:185,
-    label:'STAHL', sub:'Hydro-climate & Extremes',
-    detail:['Downscaled reanalysis &','climate model products','Extreme value statistics','Drought & flood indices'],
-    stroke:'#6bcf9e',
+  { id:'stahl', layer:1,
+    title:'STAHL',
+    sub:'Hydro-climate & Extreme Events',
+    detail:'Downscaled reanalysis & climate model products with focus on extreme value statistics. Drought and flood frequency indices. Bridges climate and hydrology modelling streams.',
     pi:'Prof. Dr. Kerstin Stahl · Prof. Dr. Dirk Schindler',
-    hire:'TBD',
-    desc:'Provides downscaled reanalysis and climate model outputs with a focus on extreme value statistics and hydro-climatic research. Bridges the climate and hydrology modelling streams. Connected to six groups in the workshop matrix.' },
+    hire:'TBD', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Provides downscaled reanalysis and climate model outputs with a focus on extreme value statistics and hydro-climatic research. Connects the climate and hydrology modelling streams. Connected to six groups per the workshop collaboration matrix.',
+    connects:[] },
 
-  // ── Layer 2 ───────────────────────────────────────────────────
-  { id:'iland', layer:2, cx:490, cy:443, w:360, h:175,
-    label:'iLAND', sub:'Individual-based Forest Landscape & Disturbance Model',
-    detail:['Distance-dependent individual tree growth','Wind, bark beetle, fire disturbances','Regeneration & silvicultural treatments','Agent-Based Engine (ABE) for management'],
-    stroke:'#93c5fd', strokeW:2.5,
-    pi:'Prof. Dr. Seifert · Jun.-Prof. Dr. Stritih · Dr. Albrecht · Prof. Dr. Hanewinkel · Prof. Dr. Weiler',
-    hire:'TBD',
-    desc:'Central biophysical engine of C3. Open-source, widely applied, process-based individual tree-based forest landscape model. Simulates forest dynamics from individual tree to ~10 000 ha catchment. Includes Agent-Based Engine for management decisions. Bidirectionally coupled with RoGeR. Rammer et al. (2024).' },
+  // ── Layer 2 ──
+  { id:'iland', layer:2, wide:true,
+    title:'iLAND — Individual-based Forest Landscape & Disturbance Model',
+    sub:'Central biophysical engine of C3 · Open-source · Rammer et al. (2024)',
+    detail:'Distance-dependent, individual tree-based forest growth simulator. Simulates growth, mortality, regeneration, and disturbances (wind, bark beetle, fire) from individual tree to ~10 000 ha. Includes Agent-Based Engine (ABE) module for management decisions — direct interface to Stritih participatory modelling. Bidirectionally coupled with RoGeR.',
+    pi:'Prof. Dr. Thomas Seifert · Jun.-Prof. Dr. Ana Stritih · Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler',
+    hire:'TBD', hireOk:false,
+    stroke:'#93c5fd', inkColor:'#1a4f8a',
+    desc:'Central biophysical engine of C3. Open-source, widely applied, process-based and individual tree-based forest landscape model. Simulates forest dynamics from individual tree to catchment. Includes Agent-Based Engine (ABE) module. Bidirectionally coupled with RoGeR (water model). Reference: Rammer et al. (2024), Ecological Modelling 495, 110785.',
+    connects:[] },
 
-  { id:'roger', layer:2, cx:1080, cy:443, w:300, h:175,
-    label:'RoGeR', sub:'Runoff Generation Research Model',
-    detail:['Plateau, hillslope & riparian','Lateral subsurface flow &','groundwater exchange','Explains tree-to-tree drought differences'],
-    stroke:'#93c5fd',
+  { id:'roger', layer:2,
+    title:'RoGeR',
+    sub:'Runoff Generation Research Model',
+    detail:'Process-based hydrology. Three topographic contexts: plateau (no lateral flow), hillslope (lateral subsurface in/outflow), riparian (groundwater & capillary rise). Explicitly models lateral subsurface flow — explains tree-to-tree drought mortality differences. Bidirectionally coupled with iLAND.',
     pi:'Prof. Dr. Markus Weiler',
-    hire:'TBD',
-    desc:'Process-based hydrological model of water redistribution at surface and subsurface, mediating local transpiration and drought vulnerability. Explicitly represents lateral subsurface flow and groundwater exchange — key processes missing from most vegetation models. Bidirectionally coupled with iLAND.' },
+    hire:'TBD', hireOk:false,
+    stroke:'#93c5fd', inkColor:'#1a4f8a',
+    desc:'Process-based hydrological model of water redistribution at the surface and subsurface, mediating local transpiration and trees\' vulnerability to drought. Explicitly represents lateral subsurface flow and groundwater exchange — key processes missing from most dynamic vegetation models.',
+    connects:[] },
 
-  // ── Layer 3 ───────────────────────────────────────────────────
-  { id:'brown', layer:3, cx:180, cy:677, w:230, h:205,
-    label:'BROWN', sub:'CRAFTY-EU Land-Use ABM',
-    detail:['EU27+3 · 1 km resolution','Part of LandSyMM global model','SSP / RCP / NFF scenarios','Scale gap: 1 km vs iLAND 100 m'],
-    stroke:'#fbbf24',
-    pi:'Dr. Calum Brown · Jun.-Prof. Dr. Stritih · Prof. Dr. Schlüter · Prof. Dr. Hanewinkel · Prof. Dr. Pauliuk',
-    hire:'TBD — end 2026 ⚠',
-    desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model. Explores management patterns of future forest social-ecological systems. Links FuFo models to wider European land system dynamics under global scenarios (SSPs, RCPs, NFF).' },
-
-  { id:'stritih', layer:3, cx:475, cy:677, w:230, h:205,
-    label:'STRITIH', sub:'Participatory Modelling · iLAND+ABE',
-    detail:['Forest managers: Observe→Plan→Act','Co-designed scenarios with','local stakeholders','Schwarzwald / Oberrhein (TBD)'],
-    stroke:'#fbbf24',
+  // ── Layer 3 ──
+  { id:'stritih', layer:3,
+    title:'STRITIH',
+    sub:'Participatory Modelling · iLAND + ABE',
+    detail:'Integrates diverse actors\' perspectives on forest management into iLAND\'s ABE module. Participatory process with forest managers: Observe → Plan → Act cycle. Co-designed management scenarios. Potential areas: Schwarzwald, Oberrhein (TBD).',
     pi:'Jun.-Prof. Dr. Ana Stritih',
-    hire:'Christina Dollinger (PostDoc) · 01.05.2026',
-    desc:'Integrates diverse actors perspectives on forest management objectives into iLAND Agent-Based Engine. Conducts participatory process with forest managers to define credible scenarios. Scenario assumptions source currently underdetermined — should derive from stakeholder co-creation or SSP/NFF.' },
+    hire:'Christina Dollinger (PostDoc, MvW) · 01.05.2026', hireOk:true,
+    stroke:'#fbbf24', inkColor:'#92400e',
+    desc:'Integrates diverse actors\' perspectives on forest management objectives into iLAND\'s Agent-Based Engine module. Conducts participatory process with local stakeholders to define management scenarios and evaluate their credibility. Scenario assumptions source currently underdetermined — should derive from stakeholder co-creation or SSP/NFF frameworks.',
+    connects:[] },
 
-  { id:'hanewinkel', layer:3, cx:770, cy:677, w:230, h:205,
-    label:'HANEWINKEL', sub:'Forest Economics & Risk',
-    detail:['Global Forest Products Model','implemented in GAMS','Value at Risk & Conditional','Value at Risk optimisation'],
-    stroke:'#fbbf24',
+  { id:'hanewinkel', layer:3,
+    title:'HANEWINKEL',
+    sub:'Forest Economics & Risk Model',
+    detail:'Global Forest Products Model (GFPM) implemented in GAMS. Partial equilibrium model for SW Germany. Optimises management strategies using Value at Risk (VaR) and Conditional Value at Risk (CVaR) under climate uncertainty.',
     pi:'Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk',
-    hire:'TBD — deadline extended ⚠',
-    desc:'Economic modelling framework for ecosystem services under risk and uncertainty. Adapts the Global Forest Products Model for Southwest Germany using partial equilibrium modelling. Applies robust management strategies optimised with VaR and CVaR metrics.' },
+    hire:'TBD — hiring deadline extended ⚠', hireOk:false,
+    stroke:'#fbbf24', inkColor:'#92400e',
+    desc:'Economic modelling and evaluation framework for ecosystem services under risk and uncertainty. Adapts the Global Forest Products Model (Buongiorno et al.) for Southwest Germany using partial equilibrium modelling in GAMS. Applies robust management strategies optimised with VaR and CVaR metrics.',
+    connects:[] },
 
-  { id:'pauliuk', layer:3, cx:1065, cy:677, w:230, h:205,
-    label:'PAULIUK', sub:'Wood Cascade & Carbon',
-    detail:['Material flow analysis (MFA)','of wood product lifecycles','Carbon balance: substitution','and avoided emissions · 100–200yr'],
-    stroke:'#fbbf24',
+  { id:'pauliuk', layer:3,
+    title:'PAULIUK',
+    sub:'Wood Cascade & Carbon Accounting',
+    detail:'Material flow analysis (MFA) and life cycle assessment of wood products from harvest through cascading use to end-of-life. Carbon balance: material substitution and avoided emissions. Stand-level to national scale. Up to 200-year time horizon.',
     pi:'Prof. Dr. Stefan Pauliuk · Dr. Simon Schulte',
-    hire:'Dr. Simon Schulte · TBD',
-    desc:'Material flow analysis and life cycle assessment of wood products from harvest through cascading use to end-of-life. Evaluates carbon balance impact of different wood use pathways over up to 200-year time horizons.' },
+    hire:'Dr. Simon Schulte · Start: TBD', hireOk:true,
+    stroke:'#fbbf24', inkColor:'#92400e',
+    desc:'Material flow analysis and life cycle assessment of wood products from harvest through cascading use to end-of-life. Evaluates the carbon balance impact of different wood use pathways (material substitution, energy use, long-lived products) over up to 200-year time horizons.',
+    connects:[] },
 
-  { id:'schanz', layer:3, cx:1360, cy:677, w:230, h:205,
-    label:'SCHANZ', sub:'FESMarkets',
-    detail:['Network of Markets (NoM)','System dynamics model','Causal Loop Diagrams','Water / recreation / timber'],
-    stroke:'#fbbf24',
+  { id:'schanz', layer:3,
+    title:'SCHANZ',
+    sub:'FESMarkets — Forest Ecosystem Service Markets',
+    detail:'Network of Markets (NoM) approach. Macro-level: system dynamics model of stocks & flows as function of forest condition. Micro-level: Causal Loop Diagrams for actor perspectives. Focus: water, recreation & timber markets.',
     pi:'Prof. Dr. Heiner Schanz',
-    hire:'Steffi Peuckert (PhD) · 01.04.2026',
-    desc:'Analyses the structural architecture of Forest Ecosystem Service market networks. Macro-level: system dynamics model of stocks and flows. Micro-level: actor perspectives via Causal Loop Diagrams. Provides governance dynamics for regulatory simulations.' },
+    hire:'Steffi Peuckert (PhD) · 01.04.2026', hireOk:true,
+    stroke:'#fbbf24', inkColor:'#92400e',
+    desc:'Analyses the structural architecture of Forest Ecosystem Service market networks. Macro-level: system dynamics model of stocks and flows. Micro-level: actor perspectives via Causal Loop Diagrams. Provides governance dynamics for regulatory simulations.',
+    connects:[] },
 
-  // ── Cross-cutting: Dormann ────────────────────────────────────
-  { id:'dormann', layer:99, cx:770, cy:840, w:1480, h:56,
-    label:'DORMANN — CROSS-CUTTING',
-    sub:'Model-Data Integration & Uncertainty Quantification · C1 + C3 · Also leads B1 (Evidentiary bases of decision-making)',
-    detail:[], stroke:'#9ca3af', strokeW:2,
+  { id:'brown', layer:3,
+    title:'BROWN',
+    sub:'CRAFTY-EU Land-Use Agent-Based Model',
+    detail:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of LandSyMM global model. Links FuFo models to European land system dynamics under SSP/RCP/NFF scenarios. Key challenge: 1 km vs iLAND 100 m scale mismatch.',
+    pi:'Dr. Calum Brown · Jun.-Prof. Dr. Stritih · Prof. Dr. Schlüter · Prof. Dr. Hanewinkel · Prof. Dr. Pauliuk',
+    hire:'TBD — options in CRAFTY team · End 2026 ⚠', hireOk:false,
+    stroke:'#fbbf24', inkColor:'#92400e',
+    desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model coupling land use decision-making, macro-economics, global trade, ecosystem processes, biodiversity and the climate system. Explores management patterns of future forest social-ecological systems.',
+    connects:[] },
+
+  // ── Cross-cutting: Dormann ──
+  { id:'dormann', layer:99, banner:true,
+    title:'DORMANN — CROSS-CUTTING: MODEL-DATA INTEGRATION & UNCERTAINTY QUANTIFICATION',
+    sub:'C1 + C3 · Also leads B1 (Evidentiary bases of decision-making) with Pregernig',
+    detail:'Provides rigorous statistical methods for calibration, validation, and uncertainty quantification across all C3 models. Statistical species distribution & biodiversity models. Bayesian parameter estimation & sensitivity analysis. Ensures C3 outputs are scientifically defensible.',
     pi:'Prof. Dr. Carsten Dormann',
-    hire:'TBD',
-    desc:'Cross-cutting methodological role spanning C1 and C3. Provides rigorous statistical methods for integrating observational data with models, quantifying uncertainty, and developing species distribution and biodiversity models. Ensures C3 outputs are scientifically defensible.' },
+    hire:'TBD', hireOk:false,
+    stroke:'#9ca3af', inkColor:'#374151',
+    desc:'Cross-cutting methodological role spanning C1 and C3. Provides rigorous statistical methods for integrating observational data with models, quantifying and propagating uncertainty through the modelling chain, and developing species distribution and biodiversity models. Ensures C3 outputs are scientifically defensible.',
+    connects:[] },
 ];
 
-// Connection definitions [from, to, type]
-// types: data | validation | coupling | feedback | lateral
-const CONNECTIONS = [
-  // Jung/Schindler flows
-  ['jung','iland','data'],
-  ['jung','christen','lateral'],
-  ['jung','weiler_gis','lateral'],
-  ['jung','orth','lateral'],
-  ['jung','stahl','lateral'],
-  ['jung','roger','data'],
-  ['jung','brown','lateral'],
-
-  // Christen
-  ['christen','iland','data'],
-  ['christen','roger','data'],
-  ['christen','seifert','lateral'],
-  ['christen','weiler_gis','lateral'],
-  ['christen','orth','lateral'],
-  ['christen','stahl','lateral'],
-
-  // Weiler GIS
-  ['weiler_gis','iland','data'],
-  ['weiler_gis','roger','data'],
-  ['weiler_gis','kattenborn','lateral'],
-
-  // Seifert
-  ['seifert','iland','validation'],
-  ['seifert','kattenborn','lateral'],
-  ['seifert','weiler_gis','lateral'],
-
-  // Kattenborn
-  ['kattenborn','iland','validation'],
-  ['kattenborn','orth','lateral'],
-  ['kattenborn','hanewinkel','lateral'],
-  ['kattenborn','brown','lateral'],
-
-  // Orth
-  ['orth','iland','validation'],
-  ['orth','stahl','lateral'],
-  ['orth','weiler_gis','lateral'],
-
-  // Stahl
-  ['stahl','christen','lateral'],
-  ['stahl','orth','lateral'],
-  ['stahl','weiler_gis','lateral'],
-  ['stahl','kattenborn','lateral'],
-  ['stahl','brown','lateral'],
-
-  // iLAND ⇄ RoGeR bidirectional coupling
-  ['iland','roger','coupling'],
-  ['roger','iland','coupling'],
-
-  // iLAND → Layer 3
-  ['iland','brown','data'],
-  ['iland','stritih','data'],
-  ['iland','hanewinkel','data'],
-  ['iland','pauliuk','data'],
-
-  // Layer 3 internal
-  ['pauliuk','hanewinkel','lateral'],
-  ['hanewinkel','pauliuk','lateral'],
-  ['schanz','hanewinkel','lateral'],
-  ['schanz','brown','lateral'],
-  ['schanz','weiler_gis','lateral'],
-  ['schanz','iland','lateral'],
-  ['pauliuk','schanz','lateral'],
-  ['pauliuk','brown','lateral'],
-  ['pauliuk','weiler_gis','lateral'],
-  ['stritih','brown','data'],
-
-  // Feedback loops
-  ['hanewinkel','iland','feedback'],
-  ['brown','iland','feedback'],
-  ['stritih','iland','data'],
-
-  // C1 → all Layer 3 and iLAND (conceptual framing)
-  ['c1','iland','conceptual'],
-  ['c1','stritih','conceptual'],
-  ['c1','brown','conceptual'],
-  ['c1','hanewinkel','conceptual'],
-  ['c1','pauliuk','conceptual'],
-  ['c1','schanz','conceptual'],
-
-  // Dormann → key groups (methodology support)
-  ['dormann','iland','lateral'],
-  ['dormann','orth','lateral'],
-  ['dormann','stritih','lateral'],
-  ['dormann','hanewinkel','lateral'],
-  ['dormann','kattenborn','lateral'],
-  ['dormann','c1','lateral'],
-];
-
+// ══════════════════════════════════════════════════════════
+// CONNECTIONS  [from, to, type]
+// ══════════════════════════════════════════════════════════
 const CONN_STYLES = {
-  data:       { stroke: '#1a7a4a', width: 2,   dash: null  },
-  validation: { stroke: '#5b50c4', width: 1.5, dash: '6,3' },
-  coupling:   { stroke: '#d97706', width: 3,   dash: null  },
-  feedback:   { stroke: '#c0392b', width: 2,   dash: '7,3' },
-  lateral:    { stroke: '#7c8a9e', width: 1.2, dash: '4,3' },
-  conceptual: { stroke: '#a78bfa', width: 1.5, dash: '3,4' },
+  data:       { stroke:'#1a7a4a', width:2,   dash:'' },
+  validation: { stroke:'#5b50c4', width:1.5, dash:'6,3' },
+  coupling:   { stroke:'#d97706', width:3,   dash:'' },
+  feedback:   { stroke:'#c0392b', width:2,   dash:'7,3' },
+  lateral:    { stroke:'#7c8a9e', width:1.2, dash:'4,3' },
+  conceptual: { stroke:'#a78bfa', width:1.5, dash:'3,4' },
 };
 
-// Build adjacency map
+const CONNECTIONS = [
+  ['jung','iland','data'],   ['jung','christen','lateral'], ['jung','weiler_gis','lateral'],
+  ['jung','orth','lateral'], ['jung','stahl','lateral'],    ['jung','roger','data'],
+  ['jung','brown','lateral'],
+  ['christen','iland','data'],   ['christen','roger','data'],
+  ['christen','seifert','lateral'], ['christen','weiler_gis','lateral'],
+  ['christen','orth','lateral'],    ['christen','stahl','lateral'],
+  ['weiler_gis','iland','data'], ['weiler_gis','roger','data'], ['weiler_gis','kattenborn','lateral'],
+  ['seifert','iland','validation'], ['seifert','kattenborn','lateral'], ['seifert','weiler_gis','lateral'],
+  ['kattenborn','iland','validation'], ['kattenborn','orth','lateral'],
+  ['kattenborn','hanewinkel','lateral'], ['kattenborn','brown','lateral'],
+  ['orth','iland','validation'], ['orth','stahl','lateral'], ['orth','weiler_gis','lateral'],
+  ['stahl','christen','lateral'], ['stahl','orth','lateral'], ['stahl','weiler_gis','lateral'],
+  ['stahl','kattenborn','lateral'], ['stahl','brown','lateral'],
+  ['iland','roger','coupling'],   ['roger','iland','coupling'],
+  ['iland','brown','data'],       ['iland','stritih','data'],
+  ['iland','hanewinkel','data'],  ['iland','pauliuk','data'],
+  ['pauliuk','hanewinkel','lateral'], ['hanewinkel','pauliuk','lateral'],
+  ['schanz','hanewinkel','lateral'],  ['schanz','brown','lateral'],
+  ['schanz','iland','lateral'],       ['pauliuk','schanz','lateral'],
+  ['pauliuk','brown','lateral'],      ['stritih','brown','data'],
+  ['stritih','iland','data'],
+  ['hanewinkel','iland','feedback'],  ['brown','iland','feedback'],
+  ['c1','iland','conceptual'],  ['c1','stritih','conceptual'],
+  ['c1','brown','conceptual'],  ['c1','hanewinkel','conceptual'],
+  ['c1','pauliuk','conceptual'],['c1','schanz','conceptual'],
+  ['dormann','iland','lateral'],    ['dormann','orth','lateral'],
+  ['dormann','stritih','lateral'],  ['dormann','hanewinkel','lateral'],
+  ['dormann','kattenborn','lateral'],['dormann','c1','lateral'],
+];
+
+// Adjacency
 const adj = {};
 NODES.forEach(n => adj[n.id] = new Set());
 CONNECTIONS.forEach(([a,b]) => { adj[a].add(b); adj[b].add(a); });
 
-// ══════════════════════════════════════════════
-// RENDER
-// ══════════════════════════════════════════════
-const svg = document.getElementById('diagram');
-const NS = 'http://www.w3.org/2000/svg';
+// ══════════════════════════════════════════════════════════
+// LAYOUT: compute positions
+// ══════════════════════════════════════════════════════════
+function layerDef(id) { return LAYERS_DEF.find(l => l.id === id); }
 
-function el(tag, attrs={}) {
+// Place nodes within their layer
+function layoutNodes() {
+  // Layer 0: C1 banner
+  const c1 = NODES.find(n=>n.id==='c1');
+  const L0 = layerDef(0);
+  c1._x = PAD; c1._y = L0.y + 22;
+  c1._w = CANVAS_W - PAD*2; c1._h = L0.h - 30;
+
+  // Layer 1: 7 nodes evenly spaced
+  const L1nodes = NODES.filter(n=>n.layer===1);
+  const L1 = layerDef(1);
+  const totalW1 = L1nodes.length * NW + (L1nodes.length-1)*GAP;
+  let x1 = (CANVAS_W - totalW1) / 2;
+  L1nodes.forEach(n => {
+    n._x = x1; n._y = L1.y + 28; n._w = NW; n._h = L1.h - 36;
+    x1 += NW + GAP;
+  });
+
+  // Layer 2: iLAND (wide) left-centre, RoGeR right
+  const L2 = layerDef(2);
+  const il = NODES.find(n=>n.id==='iland');
+  const ro = NODES.find(n=>n.id==='roger');
+  il._w = 560; il._h = L2.h - 36;
+  ro._w = 340; ro._h = L2.h - 36;
+  const total2 = il._w + GAP*3 + ro._w;
+  const off2 = (CANVAS_W - total2) / 2;
+  il._x = off2;       il._y = L2.y + 28;
+  ro._x = off2 + il._w + GAP*3; ro._y = L2.y + 28;
+
+  // Layer 3: 5 nodes evenly spaced
+  const L3nodes = NODES.filter(n=>n.layer===3);
+  const L3 = layerDef(3);
+  const totalW3 = L3nodes.length * NW_L3 + (L3nodes.length-1)*GAP;
+  let x3 = (CANVAS_W - totalW3) / 2;
+  L3nodes.forEach(n => {
+    n._x = x3; n._y = L3.y + 28; n._w = NW_L3; n._h = L3.h - 36;
+    x3 += NW_L3 + GAP;
+  });
+
+  // Dormann banner
+  const dm = NODES.find(n=>n.id==='dormann');
+  const L99 = layerDef(99);
+  dm._x = PAD; dm._y = L99.y + 22;
+  dm._w = CANVAS_W - PAD*2; dm._h = L99.h - 30;
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════
+function renderBands() {
+  const canvas = document.getElementById('canvas');
+  canvas.style.height = CANVAS_H + 'px';
+  canvas.style.width  = CANVAS_W + 'px';
+
+  LAYERS_DEF.forEach(L => {
+    const band = document.createElement('div');
+    band.className = 'layer-band';
+    band.style.cssText = `top:${L.y}px;height:${L.h}px;background:${L.fill};`;
+    const label = document.createElement('div');
+    label.className = 'layer-label';
+    label.style.cssText = `color:${L.ink};background:${L.band};`;
+    label.textContent = L.label;
+    band.appendChild(label);
+    canvas.appendChild(band);
+  });
+}
+
+const nodeEls = {};
+
+function renderNodes() {
+  const canvas = document.getElementById('canvas');
+  NODES.forEach(n => {
+    const div = document.createElement('div');
+    div.className = 'node' + (n.banner ? ' banner' : '');
+    div.id = 'node-' + n.id;
+    div.dataset.id = n.id;
+    div.dataset.layer = n.layer;
+    div.style.cssText = `
+      left:${n._x}px; top:${n._y}px;
+      width:${n._w}px; height:${n._h}px;
+      border:2px solid ${n.stroke};
+    `;
+
+    const hireColor = n.hire.includes('⚠') ? '#c0392b' : (n.hireOk ? '#1a7a4a' : '#94a3b8');
+
+    if (n.banner) {
+      div.innerHTML = `
+        <div class="node-head" style="background:${n.stroke}18;">
+          <div class="node-title" style="color:${n.inkColor};font-size:12px;">${n.title}</div>
+          <div class="node-sub">${n.sub}</div>
+          <div class="node-pi">${n.pi}</div>
+        </div>
+        <div class="node-body">
+          <div class="node-detail">${n.detail}</div>
+          <div class="node-hire" style="color:${hireColor};">${n.hire}</div>
+        </div>`;
+    } else {
+      div.innerHTML = `
+        <div class="node-head" style="background:${n.stroke}18;">
+          <div class="node-title" style="color:${n.inkColor};">${n.title}</div>
+          <div class="node-sub">${n.sub}</div>
+        </div>
+        <div class="node-body">
+          <div class="node-detail">${n.detail}</div>
+          <div class="node-hire" style="color:${hireColor};">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;
+                         color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;">
+              Researcher:</span><br>${n.hire}
+          </div>
+          <div class="node-pi">${n.pi}</div>
+        </div>`;
+    }
+
+    div.addEventListener('click', () => onNodeClick(n.id));
+    canvas.appendChild(div);
+    nodeEls[n.id] = div;
+  });
+}
+
+// ── SVG Arrows ──
+const NS = 'http://www.w3.org/2000/svg';
+function svgEl(tag, attrs={}) {
   const e = document.createElementNS(NS, tag);
   Object.entries(attrs).forEach(([k,v]) => e.setAttribute(k,v));
   return e;
 }
-function txt(content, attrs={}) {
-  const e = el('text', attrs);
-  e.textContent = content;
-  return e;
-}
 
-// Defs (arrowheads per type)
-const defs = el('defs');
-Object.entries(CONN_STYLES).forEach(([type, s]) => {
-  const m = el('marker', { id:`arr-${type}`, markerWidth:'8', markerHeight:'7',
-    refX:'7', refY:'3.5', orient:'auto' });
-  const p = el('polygon', { points:'0 0,8 3.5,0 7', fill: s.stroke });
-  m.appendChild(p);
-  defs.appendChild(m);
-});
-svg.appendChild(defs);
+const connEls = {};
 
-// Layer bands
-LAYERS.forEach(L => {
-  svg.appendChild(el('rect', { x:0, y:L.y, width:1540, height:L.h, fill:L.fill }));
-  svg.appendChild(el('rect', { x:0, y:L.y, width:1540, height:20, fill:L.band }));
-  const t = txt(L.label, { x:10, y:L.y+14, class:'band-label', fill:L.ink });
-  svg.appendChild(t);
-});
+function renderArrows() {
+  const svg = document.getElementById('arrows');
+  svg.style.height = CANVAS_H + 'px';
 
-// ── Connection lines (rendered BEFORE nodes so they sit underneath) ──
-const connEls = {}; // keyed by "from-to-type"
-const connLayer = el('g', { id:'connections' });
-
-CONNECTIONS.forEach(([from, to, type]) => {
-  const s = CONN_STYLES[type];
-  const fn = NODES.find(n=>n.id===from);
-  const tn = NODES.find(n=>n.id===to);
-  if (!fn || !tn) return;
-
-  // Pick edge midpoints — top/bottom depending on layer relationship
-  let x1=fn.cx, y1=fn.cy, x2=tn.cx, y2=tn.cy;
-
-  // Offset for bidirectional coupling
-  const isCouplingPair = type==='coupling';
-  const offset = isCouplingPair ? (from<to ? -6 : 6) : 0;
-
-  // Choose connection anchor edges
-  if (fn.layer < tn.layer) { y1 = fn.cy + fn.h/2; y2 = tn.cy - tn.h/2; }
-  else if (fn.layer > tn.layer) { y1 = fn.cy - fn.h/2; y2 = tn.cy + tn.h/2; }
-  else {
-    // Same layer — route above or below
-    y1 = fn.cy - fn.h/2 - 8;
-    y2 = tn.cy - tn.h/2 - 8;
-  }
-
-  // Simple quadratic curve
-  const mx = (x1+x2)/2 + offset;
-  const my = fn.layer === tn.layer
-    ? Math.min(fn.cy, tn.cy) - fn.h/2 - 30
-    : (y1+y2)/2;
-
-  const pathD = `M ${x1} ${y1} Q ${mx} ${my} ${x2+offset} ${y2}`;
-
-  const path = el('path', {
-    d: pathD,
-    stroke: s.stroke,
-    'stroke-width': s.width,
-    'stroke-dasharray': s.dash || '',
-    'marker-end': `url(#arr-${type})`,
-    class: 'conn',
+  // Arrowhead markers
+  const defs = svg.querySelector('defs');
+  Object.entries(CONN_STYLES).forEach(([type, s]) => {
+    const m = svgEl('marker', { id:`arr-${type}`, markerWidth:'8', markerHeight:'7',
+      refX:'7', refY:'3.5', orient:'auto' });
+    const p = svgEl('polygon', { points:'0 0,8 3.5,0 7', fill:s.stroke });
+    m.appendChild(p); defs.appendChild(m);
   });
 
-  const key = `${from}-${to}`;
-  connEls[key] = path;
-  connLayer.appendChild(path);
-});
-svg.appendChild(connLayer);
+  CONNECTIONS.forEach(([from, to, type]) => {
+    const fn = NODES.find(n=>n.id===from);
+    const tn = NODES.find(n=>n.id===to);
+    if (!fn||!tn) return;
 
-// ── Node cards ──
-const nodeEls = {}; // id -> g element
-NODES.forEach(node => {
-  const g = el('g', { class:'node-group', id:`node-${node.id}` });
-  g.dataset.id = node.id;
+    const s = CONN_STYLES[type];
 
-  const L = LAYERS.find(l => l.id === node.layer);
-  const sw = node.strokeW || 1.5;
-  const x0 = node.cx - node.w/2;
-  const y0 = node.cy - node.h/2;
+    // Edge centres
+    const fx = fn._x + fn._w/2, fy = fn._y + fn._h/2;
+    const tx = tn._x + tn._w/2, ty = tn._y + tn._h/2;
 
-  // Clip path so text never overflows the card
-  const clipId = `clip-${node.id}`;
-  const clipPath = el('clipPath', { id: clipId });
-  clipPath.appendChild(el('rect', {
-    x: x0 + 2, y: y0 + 2, width: node.w - 4, height: node.h - 4, rx: 5
-  }));
-  defs.appendChild(clipPath);
+    // Determine entry/exit edges
+    let x1=fx, y1=fy, x2=tx, y2=ty;
+    const offset = (type==='coupling') ? (from<to ? -8:8) : 0;
 
-  // Card background
-  g.appendChild(el('rect', {
-    x: x0, y: y0, width: node.w, height: node.h,
-    rx: 7, fill: '#fff', stroke: node.stroke, 'stroke-width': sw,
-    class: 'node-rect',
-  }));
+    if (fn.layer < tn.layer) {
+      y1 = fn._y + fn._h; y2 = tn._y;
+    } else if (fn.layer > tn.layer) {
+      y1 = fn._y; y2 = tn._y + tn._h;
+    } else {
+      // same layer — arc above
+      y1 = fn._y - 2; y2 = tn._y - 2;
+    }
 
-  // Title bar tint
-  g.appendChild(el('rect', { x: x0, y: y0, width: node.w, height: 22, rx: 7, fill: node.stroke + '28' }));
-  g.appendChild(el('rect', { x: x0, y: y0 + 14, width: node.w, height: 8, fill: node.stroke + '28' }));
+    const mx = (x1+x2)/2 + offset;
+    const my = fn.layer===tn.layer
+      ? Math.min(fn._y, tn._y) - 35
+      : (y1+y2)/2;
 
-  // Clipped text group
-  const textG = el('g', { 'clip-path': `url(#${clipId})` });
-
-  // Title — scale font to fit wide vs narrow cards
-  const titleSize = node.w >= 400 ? 14 : (node.w > 150 ? 12 : 11);
-  textG.appendChild(txt(node.label, {
-    x: node.cx, y: y0 + 16,
-    'text-anchor':'middle', fill: L ? L.ink : '#1e293b',
-    'font-size': titleSize, 'font-weight': 700,
-    'font-family': "'IBM Plex Mono',monospace",
-  }));
-
-  // Sub — only for taller cards
-  if (node.h > 52) {
-    textG.appendChild(txt(node.sub, {
-      x: node.cx, y: y0 + 32,
-      'text-anchor':'middle', fill:'#475569',
-      'font-size': 9.5, 'font-family': "'IBM Plex Sans',sans-serif",
-    }));
-  }
-
-  // Detail lines — only for cards tall enough
-  if (node.h >= 90) {
-    node.detail.forEach((d, i) => {
-      textG.appendChild(txt(d, {
-        x: node.cx, y: y0 + 48 + i * 14,
-        'text-anchor':'middle', fill:'#94a3b8',
-        'font-size': 9, 'font-family': "'IBM Plex Sans',sans-serif",
-      }));
+    const path = svgEl('path', {
+      d:`M ${x1+offset} ${y1} Q ${mx} ${my} ${x2+offset} ${y2}`,
+      stroke: s.stroke, 'stroke-width': s.width,
+      'stroke-dasharray': s.dash,
+      fill:'none', 'stroke-linecap':'round',
+      'marker-end':`url(#arr-${type})`,
+      class:'conn',
     });
-  }
+    path.style.cssText = 'opacity:0;transition:opacity .2s;';
 
-  // Hire badge bottom — only for tall cards
-  if (node.h >= 90) {
-    const hireLine = node.hire.split('\n')[0];
-    const hireColor = hireLine.includes('⚠') ? '#c0392b'
-      : hireLine === 'TBD' ? '#94a3b8' : '#1a7a4a';
-    textG.appendChild(txt(hireLine, {
-      x: node.cx, y: y0 + node.h - 8,
-      'text-anchor':'middle', fill: hireColor,
-      'font-size': 8.5, 'font-family': "'IBM Plex Sans',sans-serif",
-    }));
-  }
+    const key = `${from}-${to}`;
+    connEls[key] = path;
+    svg.appendChild(path);
+  });
+}
 
-  g.appendChild(textG);
-  g.addEventListener('click', () => onNodeClick(node.id));
-
-  svg.appendChild(g);
-  nodeEls[node.id] = g;
-});
-
-// C4 output box
-const c4 = el('g');
-c4.appendChild(el('rect', { x:1410, y:570, width:90, height:40, rx:5,
-  fill:'#dbeafe', stroke:'#1a4f8a', 'stroke-width':1 }));
-c4.appendChild(txt('→ C4', { x:1455, y:587, 'text-anchor':'middle',
-  'font-family':'IBM Plex Mono,monospace', 'font-size':10, 'font-weight':700, fill:'#1a4f8a' }));
-c4.appendChild(txt('Governance', { x:1455, y:602, 'text-anchor':'middle',
-  'font-family':'IBM Plex Sans,sans-serif', 'font-size':8, fill:'#1a4f8a' }));
-svg.appendChild(c4);
-
-// C2 scenarios box
-const c2 = el('g');
-c2.appendChild(el('rect', { x:1400, y:90, width:82, height:46, rx:5,
-  fill:'#dbeafe', stroke:'#1a4f8a', 'stroke-width':1 }));
-c2.appendChild(txt('C2 SCENARIOS', { x:1445, y:105, 'text-anchor':'middle',
-  'font-family':'IBM Plex Mono,monospace', 'font-size':7.5, 'font-weight':700, fill:'#1a4f8a' }));
-c2.appendChild(txt('SSP/RCP/NFF', { x:1445, y:118, 'text-anchor':'middle',
-  'font-family':'IBM Plex Sans,sans-serif', 'font-size':7, fill:'#475569' }));
-c2.appendChild(txt('→ all C3 models', { x:1445, y:131, 'text-anchor':'middle',
-  'font-family':'IBM Plex Sans,sans-serif', 'font-size':7, fill:'#475569' }));
-svg.appendChild(c2);
-
-// ══════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 // INTERACTION
-// ══════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 let activeNode = null;
 
 function onNodeClick(id) {
   if (activeNode === id) { resetAll(); return; }
   activeNode = id;
-
-  document.getElementById('hint').classList.add('hidden');
   document.getElementById('reset-btn').style.display = 'block';
 
   const connected = adj[id];
 
-  // Dim/activate nodes
   NODES.forEach(n => {
-    const g = nodeEls[n.id];
-    if (n.id === id) {
-      g.classList.add('active');
-      g.classList.remove('dimmed');
-    } else if (connected.has(n.id)) {
-      g.classList.remove('active','dimmed');
-    } else {
-      g.classList.add('dimmed');
-      g.classList.remove('active');
-    }
+    const el = nodeEls[n.id];
+    el.classList.remove('active','dimmed');
+    if (n.id === id) el.classList.add('active');
+    else if (!connected.has(n.id)) el.classList.add('dimmed');
   });
 
-  // Show/hide connections
   Object.entries(connEls).forEach(([key, path]) => {
-    const [from, to] = key.split('-');
-    const relevant = from === id || to === id;
-    path.classList.toggle('visible', relevant);
+    const [f,t] = key.split('-');
+    path.style.opacity = (f===id||t===id) ? '1' : '0';
   });
 
-  // Info panel
   const node = NODES.find(n=>n.id===id);
   const connNames = [...connected].map(cid => {
     const cn = NODES.find(n=>n.id===cid);
-    return cn ? cn.label : cid;
+    return cn ? cn.title.split('—')[0].trim() : cid;
   }).join('  ·  ');
-  document.getElementById('info-title').textContent = `${node.label} — ${node.sub}`;
-  document.getElementById('info-pi').textContent = node.pi || '';
-  document.getElementById('info-desc').textContent = node.desc || '';
+
+  document.getElementById('info-title').textContent = node.title;
+  document.getElementById('info-pi').textContent = node.pi;
+  document.getElementById('info-desc').textContent = node.desc;
   document.getElementById('info-connects').textContent = `Connected to: ${connNames}`;
   document.getElementById('info-hire').textContent = node.hire;
   document.getElementById('info-panel').classList.add('visible');
@@ -758,14 +604,25 @@ function onNodeClick(id) {
 
 function resetAll() {
   activeNode = null;
-  NODES.forEach(n => {
-    nodeEls[n.id].classList.remove('active','dimmed');
-  });
-  Object.values(connEls).forEach(p => p.classList.remove('visible'));
+  NODES.forEach(n => nodeEls[n.id].classList.remove('active','dimmed'));
+  Object.values(connEls).forEach(p => p.style.opacity='0');
   document.getElementById('info-panel').classList.remove('visible');
-  document.getElementById('hint').classList.remove('hidden');
   document.getElementById('reset-btn').style.display = 'none';
 }
+
+function filterLayer(layer, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  NODES.forEach(n => {
+    nodeEls[n.id].style.display = (layer==='all'||String(n.layer)===layer) ? '' : 'none';
+  });
+}
+
+// ── Boot ──
+layoutNodes();
+renderBands();
+renderNodes();
+renderArrows();
 </script>
 </body>
 </html>
