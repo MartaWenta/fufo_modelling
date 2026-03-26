@@ -281,7 +281,7 @@ const NODES = [
   // Layer 0 — C1 conceptual framework
   { id:'c1', layer:0, cx:420, cy:42, w:580, h:52,
     label:'C1 — SES CONCEPTUAL FRAMEWORK', sub:'Pauliuk · Mölders · Schlüter · Kruse · Baumgärtner · Pregernig',
-    detail:['Shared definitions, indicators & system boundaries for the whole cluster'], stroke:'#a78bfa', strokeW:2,
+    detail:[], stroke:'#a78bfa', strokeW:2,
     pi:'Prof. Dr. Stefan Pauliuk (Lead) et al.',
     hire:'TBD',
     desc:'The theoretical backbone of the entire cluster. C1 develops shared social-ecological systems definitions, indicators, and terminology so that biophysical models and social models can be meaningfully connected. Not a computational model — conceptual and theoretical infrastructure.' },
@@ -446,7 +446,7 @@ const NODES = [
   // Cross-cutting — Dormann
   { id:'dormann', layer:99, cx:420, cy:662, w:500, h:52,
     label:'DORMANN — CROSS-CUTTING', sub:'Model-Data Integration & Uncertainty Quantification · C1 + C3',
-    detail:['Statistical models · Bayesian inference · Calibration & validation across all C3 groups'], stroke:'#9ca3af', strokeW:2,
+    detail:[], stroke:'#9ca3af', strokeW:2,
     pi:'Prof. Dr. Carsten Dormann',
     hire:'TBD',
     desc:'Cross-cutting methodological role spanning C1 and C3. Provides rigorous statistical methods for integrating observational data with models, quantifying uncertainty, and developing species distribution models. Ensures C3 outputs are scientifically defensible. Also leads B1 (Evidentiary bases of decision-making).' },
@@ -651,71 +651,73 @@ NODES.forEach(node => {
 
   const L = LAYERS.find(l => l.id === node.layer);
   const sw = node.strokeW || 1.5;
+  const x0 = node.cx - node.w/2;
+  const y0 = node.cy - node.h/2;
+
+  // Clip path so text never overflows the card
+  const clipId = `clip-${node.id}`;
+  const clipPath = el('clipPath', { id: clipId });
+  clipPath.appendChild(el('rect', {
+    x: x0 + 2, y: y0 + 2, width: node.w - 4, height: node.h - 4, rx: 5
+  }));
+  defs.appendChild(clipPath);
 
   // Card background
-  const rect = el('rect', {
-    x: node.cx - node.w/2, y: node.cy - node.h/2,
-    width: node.w, height: node.h,
-    rx: 7, fill: '#fff',
-    stroke: node.stroke, 'stroke-width': sw,
+  g.appendChild(el('rect', {
+    x: x0, y: y0, width: node.w, height: node.h,
+    rx: 7, fill: '#fff', stroke: node.stroke, 'stroke-width': sw,
     class: 'node-rect',
-  });
-  g.appendChild(rect);
+  }));
 
-  // Title bar background
-  const titleBar = el('rect', {
-    x: node.cx - node.w/2, y: node.cy - node.h/2,
-    width: node.w, height: 24,
-    rx: 7, fill: node.stroke + '22',
-  });
-  // Fix bottom corners
-  const titleBar2 = el('rect', {
-    x: node.cx - node.w/2, y: node.cy - node.h/2 + 14,
-    width: node.w, height: 10,
-    fill: node.stroke + '22',
-  });
-  g.appendChild(titleBar);
-  g.appendChild(titleBar2);
+  // Title bar tint
+  g.appendChild(el('rect', { x: x0, y: y0, width: node.w, height: 22, rx: 7, fill: node.stroke + '28' }));
+  g.appendChild(el('rect', { x: x0, y: y0 + 14, width: node.w, height: 8, fill: node.stroke + '28' }));
 
-  // Node label
-  const titleEl = txt(node.label, {
-    x: node.cx, y: node.cy - node.h/2 + 15,
-    'text-anchor':'middle', fill: L.ink,
-    'font-size': node.w > 150 ? 13 : 10,
-    class: 'node-title',
-  });
-  g.appendChild(titleEl);
+  // Clipped text group
+  const textG = el('g', { 'clip-path': `url(#${clipId})` });
 
-  // Sub
-  const subEl = txt(node.sub, {
-    x: node.cx, y: node.cy - node.h/2 + 32,
-    'text-anchor':'middle', fill:'#475569',
-    'font-size': 8, class:'node-sub',
-  });
-  g.appendChild(subEl);
+  // Title — scale font to fit wide vs narrow cards
+  const titleSize = node.w >= 400 ? 11 : (node.w > 150 ? 10 : 9.5);
+  textG.appendChild(txt(node.label, {
+    x: node.cx, y: y0 + 14,
+    'text-anchor':'middle', fill: L ? L.ink : '#1e293b',
+    'font-size': titleSize, 'font-weight': 700,
+    'font-family': "'IBM Plex Mono',monospace",
+  }));
 
-  // Detail lines
-  node.detail.forEach((d, i) => {
-    const dt = txt(d, {
-      x: node.cx, y: node.cy - node.h/2 + 44 + i*13,
-      'text-anchor':'middle', fill:'#94a3b8',
-      'font-size': 7.5, class:'node-detail',
+  // Sub — only for taller cards
+  if (node.h > 52) {
+    textG.appendChild(txt(node.sub, {
+      x: node.cx, y: y0 + 28,
+      'text-anchor':'middle', fill:'#475569',
+      'font-size': 7.5, 'font-family': "'IBM Plex Sans',sans-serif",
+    }));
+  }
+
+  // Detail lines — only for cards tall enough
+  if (node.h >= 90) {
+    node.detail.forEach((d, i) => {
+      textG.appendChild(txt(d, {
+        x: node.cx, y: y0 + 40 + i * 12,
+        'text-anchor':'middle', fill:'#94a3b8',
+        'font-size': 7, 'font-family': "'IBM Plex Sans',sans-serif",
+      }));
     });
-    g.appendChild(dt);
-  });
+  }
 
-  // Hire badge (bottom)
-  const hireLine = node.hire.split('\n')[0];
-  const hireColor = hireLine.includes('⚠') ? '#c0392b'
-    : hireLine === 'TBD' ? '#94a3b8'
-    : '#1a7a4a';
-  const hireEl = txt(hireLine, {
-    x: node.cx, y: node.cy + node.h/2 - 7,
-    'text-anchor':'middle', fill: hireColor,
-    'font-size': 6.5, class:'node-detail',
-  });
-  g.appendChild(hireEl);
+  // Hire badge bottom — only for tall cards
+  if (node.h >= 90) {
+    const hireLine = node.hire.split('\n')[0];
+    const hireColor = hireLine.includes('⚠') ? '#c0392b'
+      : hireLine === 'TBD' ? '#94a3b8' : '#1a7a4a';
+    textG.appendChild(txt(hireLine, {
+      x: node.cx, y: y0 + node.h - 6,
+      'text-anchor':'middle', fill: hireColor,
+      'font-size': 6.5, 'font-family': "'IBM Plex Sans',sans-serif",
+    }));
+  }
 
+  g.appendChild(textG);
   g.addEventListener('click', () => onNodeClick(node.id));
 
   svg.appendChild(g);
