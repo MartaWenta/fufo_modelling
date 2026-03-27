@@ -137,8 +137,8 @@ def card(g):
     {g.get('short_description','')}
   </div>
 
-  <!-- Three columns: inputs / outputs / researcher -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
+  <!-- Two columns: inputs / outputs -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
       {io_rows(g.get('inputs',[]), "←")}
@@ -146,15 +146,6 @@ def card(g):
     <div>
       <div class="col-head">Outputs</div>
       {io_rows(g.get('outputs',[]), "→")}
-    </div>
-    <div>
-      <div class="col-head">Languages</div>
-      <div style="margin-bottom:8px">{langs}</div>
-      <div class="col-head">Researcher / Start</div>
-      <div style="font-size:12px">{hire_html}
-        <span style="color:#94a3b8;font-size:11px;margin-left:6px">{hire_start}</span>
-      </div>
-      {f'<div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic;">{notes}</div>' if notes else ''}
     </div>
   </div>
 </div>
@@ -239,28 +230,11 @@ html = f"""<!DOCTYPE html>
     C3 Integrated Modelling Framework — Model Registry
   </div>
   <div style="font-size:12px;color:#64748b;margin-top:4px;max-width:800px;line-height:1.5;">
-    This registry describes all modelling groups contributing to Future Forests Research Area C3.
+    This registry describes modelling groups contributing to Future Forests Research Area C3.
     For each group you will find: the scientific question they address, their modelling approach,
-    what data they need and what they produce, and the current status of hiring.
-    It is designed to be readable for researchers from all disciplines — natural science and social science alike.
+    what data they need and what they produce.
     · Generated {date.today().strftime("%-d %B %Y")}
   </div>
-</div>
-
-<!-- Summary stats -->
-<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-  {''.join([
-    f'<div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 16px;text-align:center;">'
-    f'<div style="font-size:22px;font-weight:700;color:{c}">{v}</div>'
-    f'<div style="font-size:11px;color:#64748b;font-family:IBM Plex Mono,monospace">{l}</div></div>'
-    for v,l,c in [
-      (total,"Total Groups","#1e3a5f"),
-      (ops,"Operational","#1a7a4a"),
-      (dev,"In Development","#d97706"),
-      (pln,"Planned","#94a3b8"),
-      (hired,"Hires Confirmed","#5b50c4"),
-    ]
-  ])}
 </div>
 
 <!-- Filter bar -->
