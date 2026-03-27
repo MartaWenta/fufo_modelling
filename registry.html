@@ -47,7 +47,7 @@
     For each group you will find: the scientific question they address, their modelling approach,
     what data they need and what they produce, and the current status of hiring.
     It is designed to be readable for researchers from all disciplines — natural science and social science alike.
-    · Generated 26 March 2026
+    · Generated 27 March 2026
   </div>
 </div>
 
@@ -164,12 +164,12 @@
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
       <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
-      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Statistical downscaling / Machine learning</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Statistical downscaling / Machine learning (tree-ensemble)</span>
     </div>
   </div>
 
   <!-- Key question — most prominent for social scientists -->
-  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a7a4a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a7a4a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">What will the climate look like in our forests at fine spatial scale, now and under future warming scenarios?</div></div>
+  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a7a4a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a7a4a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">What are the relevant hydro-climatic conditions and extreme events that future forests in our study region will face, historically and under future warming scenarios?</div></div>
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -180,11 +180,11 @@
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">ERA5-Land gridded reanalysis (0.10 x 0.10 degrees, hourly)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ECMWF (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Global Historical Climatology Network — >2000 measurement sites in Central Europe</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← NOAA GHCN (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">CMIP6 global climate model outputs under various SSP/RCP scenarios</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ESGF (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Digital elevation model predictors</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← National surveys</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Land use model predictors</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Copernicus / national surveys</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">ERA5-Land gridded reanalysis (0.10 x 0.10 degrees, hourly)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ECMWF (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Global Historical Climatology Network — >2000 measurement sites in Central Europe</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← NOAA GHCN (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">CMIP6 global climate model outputs under various SSP/RCP scenarios</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ESGF (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Digital elevation model predictors</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← National surveys</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Land use model predictors (verify source)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Copernicus / national surveys (to be confirmed)</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Downscaled hourly/daily fields at 100 m x 100 m: air temperature (Ta), precipitation (Prec), dew point, wind speed, solar radiation (Rad), vapour pressure deficit (VPD), derived climate indices</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ christen, iland, roger, stritih</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Climate simulations under CMIP6 global warming levels (1.5C, 2C, 3C+)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland, roger, brown</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Downscaled hourly/daily fields at 100 m x 100 m: air temperature (Ta), precipitation (Prec), dew point, wind speed, solar radiation (Rad), vapour pressure deficit (VPD), derived climate indices</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ christen, iland, roger, stritih</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Climate projections under CMIP6 global warming levels (1.5C, 2C, 3C+)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland, roger, brown</span></div>
     </div>
     <div>
       <div class="col-head">Languages</div>
@@ -193,7 +193,7 @@
       <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
         <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
       </div>
-      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic;">Leads HyClimScenarios (C2). Primary climate forcing for the entire C3 framework. Applicants: Stahl, Schindler, Christen, Orth.</div>
+      
     </div>
   </div>
 </div>
@@ -213,34 +213,34 @@
       <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
         Prof. Dr. Kerstin Stahl
         <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
-          Hydro-climatic Modelling and Extreme Events
+          Extreme Event Storylines & Coupled Groundwater Hydrology
         </span>
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Dirk Schindler</div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Dirk Schindler · Prof. Dr. Markus Weiler</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
       <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
-      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Statistical / Extreme value analysis</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Extreme event storylines / Coupled surface-groundwater modelling</span>
     </div>
   </div>
 
   <!-- Key question — most prominent for social scientists -->
-  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a7a4a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a7a4a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">How often and how severely will forests experience drought, floods, and extreme weather events?</div></div>
+  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a7a4a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a7a4a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">What would happen to forests if a catastrophic drought sequence like 2018–2022 were to recur in 2050 — and how deep does the damage reach into the groundwater system?</div></div>
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
-    Provides downscaled reanalysis data and downscaled climate model outputs with a focus on extreme value statistics and hydro-climatic research. Supplies hydrological and meteorological forcing for multiple C3 groups and connects the climate and hydrology modelling streams.
+    C2 co-lead (with Hanewinkel). Stahl's role is fundamentally different from Jung's continuous climate projections: she specialises in what happens at the extremes. She develops event storylines and stress-tests of the 'what-if' type — for example, what if the catastrophic drought sequence of 2018–2022, which was severely damaging to forests, were to recur in 2050 when forest SESs may have partially adapted? She also leads coupled surface-groundwater hydrological modelling, extending RoGeR with the groundwater model MODFLOW (Hellwig et al. 2021) to assess how groundwater disconnection from forest root systems intensifies drought stress. Stahl and Weiler have a long joint track record applying hydrological models from small headwater catchments to all of Germany, including the DRIeR collaborative project on drought and StressRes on stakeholder scenario co-design.
   </div>
 
   <!-- Three columns: inputs / outputs / researcher -->
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Downscaled reanalysis products</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung_schindler / ECMWF</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Downscaled climate model outputs (CMIP6)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung_schindler / ESGF</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Downscaled climate projections (historical and future scenarios)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung_schindler / ECMWF / ESGF</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Long-term hydrological observation records (streamflow, groundwater levels)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← German water authorities / GRDC</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">RoGeR model outputs — soil water and lateral flow</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler (roger)</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Extreme value statistics and hydro-climatic indices (drought, flood frequency)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ brown, christen, jung_schindler, kattenborn, orth, weiler_gis</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Hydrologically relevant climate scenario products</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ weiler_gis, roger</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Extreme event storylines and stress-test scenarios (e.g. recurrence of 2018–22 drought in 2050)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / structured scenario parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland, roger, brown, christen, kattenborn, orth</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Coupled surface-groundwater model outputs — groundwater levels under drought stress</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland, roger, weiler_gis</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Hydro-climatic indices: drought frequency, severity, duration</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ brown, hanewinkel</span></div>
     </div>
     <div>
       <div class="col-head">Languages</div>
@@ -249,7 +249,7 @@
       <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
         <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
       </div>
-      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic;">Connected to 6 groups per workshop matrix. Bridges climate and hydrology modelling streams. Works closely with Jung/Schindler on HyClimScenarios.</div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic;">C2 co-lead with Hanewinkel. Connected to 6 groups per workshop matrix — one of the most connected nodes. Previous joint projects with Weiler: DRIeR (drought), StressRes (scenario co-design). FRIAS focus theme on Environmental Modelling with Dormann and Baumgärtner.</div>
     </div>
   </div>
 </div>
@@ -269,10 +269,10 @@
       <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
         Prof. Dr. Andreas Christen
         <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
-          In-canopy Microclimate ML Model (AMSES)
+          In-canopy Microclimate ML Model & Biogeochemical Monitoring (AMSES)
         </span>
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Markus Weiler · Dr. Florian Schnabel</div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Friederike Lang · Prof. Dr. Markus Weiler · Dr. Florian Schnabel</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
       <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
@@ -281,31 +281,31 @@
   </div>
 
   <!-- Key question — most prominent for social scientists -->
-  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a7a4a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a7a4a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">What are the exact temperature and humidity conditions inside and below forest canopies across the region?</div></div>
+  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a7a4a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a7a4a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">What are the exact temperature, humidity, and soil conditions inside forests — and how do they control soil carbon storage and water quality?</div></div>
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
-    Three-step approach: (1) quality control and adaptive network design using station uniqueness rankings; (2) ML hindcasting of in-canopy microclimates over 30 years; (3) transferable regional model integrating geospatial predictors, sensor data and physical downscaling to predict below-canopy temperatures at any forested location in the FuFo domain.
+    Theme A1 investigates how climatic changes amplify or moderate within-forest microclimatic conditions, what drives this propagation, and how within-forest hydro-meteorological conditions affect soil carbon dynamics and water cycles. It is built around approximately 300 observational forest plots and 40–50 research catchments. Christen and Lang co-lead. The modelling component follows a three-step approach: (1) quality control and adaptive sensor network design using station uniqueness rankings; (2) ML hindcasting of in-canopy microclimates over 30 years at each sensor network site; (3) a transferable regional model integrating geospatial predictors, sensor data and physical downscaling to predict below-canopy temperatures and humidity at any forested location in the FuFo domain. In parallel, Lang leads the biogeochemical dimension: impacts of forest microclimate on soil carbon dynamics (C-model) and on the water cycle and clean water provisioning (WP4), using the 40–50 research catchments.
   </div>
 
   <!-- Three columns: inputs / outputs / researcher -->
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">ERA5-Land reanalysis / HyClimScenarios output (Jung)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung / ECMWF</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Sensor network time series — air temperature (Ta) and humidity from 300 field plots</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / HDF5</span><span style="color:#64748b;font-size:10px;margin-left:6px">← FuFo field sensor network</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Geospatial predictors: forest structure, orography (slope, aspect, elevation), soils</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / LAS</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler_gis / seifert</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Physical downscaling (PDS) climate fields</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung_schindler</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">ERA5-Land reanalysis / HyClimScenarios output (Jung)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung_schindler / ECMWF</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Sensor network time series — air temperature (Ta) and humidity from ~300 field plots across 150 stands</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / HDF5</span><span style="color:#64748b;font-size:10px;margin-left:6px">← FuFo field sensor network (A1)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Geospatial predictors: forest structure (canopy height, LAI), orography (slope, aspect, elevation), soils</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / LAS</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler_gis / seifert</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Physical downscaling climate fields</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung_schindler</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Soil samples and lysimeter data for soil carbon and nutrient flux analysis (Lang/WP3)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / laboratory data</span><span style="color:#64748b;font-size:10px;margin-left:6px">← A1 field campaigns</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Hydrological observations across 40-50 research catchments (Lang/WP4)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← A1 field campaigns / German water authorities</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">100 m x 100 m gridded microclimate: in-canopy air temperature (Ta), soil temperature, near-surface temperature; 30-year hindcast; statistics and frequency of climate extremes</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland, roger, stritih</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">100 m x 100 m gridded in-canopy microclimate: air temperature (Ta), soil temperature, near-surface temperature; 30-year hindcast and climate extreme statistics</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland, roger, stritih</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Soil carbon dynamics model for study regions (C-model, Lang/WP3)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / model output</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland, pauliuk</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Water cycle and clean water provisioning assessments across catchments (Lang/WP4)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / reports</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ roger, weiler_gis</span></div>
     </div>
     <div>
       <div class="col-head">Languages</div>
       <div style="margin-bottom:8px"><span style="background:#f1f5f9;color:#1a7a4a;border-radius:3px;padding:1px 6px;font-size:11px;margin:1px;display:inline-block;">Python</span></div>
       <div class="col-head">Researcher / Start</div>
-      <div style="font-size:12px"><span style="color:#1a7a4a;font-weight:600">Tabea Worner (PhD)</span>
+      <div style="font-size:12px"><span style="color:#1a7a4a;font-weight:600">Tabea Wörner (PhD)</span>
         <span style="color:#94a3b8;font-size:11px;margin-left:6px">2026-04-01</span>
       </div>
-      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic;">Works closely with HyClimScenarios (Jung/C2) for future scenario forcing. Model output is the primary fine-scale climate driver for iLAND.</div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic;">Theme A1 co-lead: Christen + Friederike Lang. Contributors: Kammerer, Orth, Puhlmann, Seifert, Stahl, Weiler. The biogeochemical and water cycle dimensions (Lang) are as important as the microclimate ML work (Christen).</div>
     </div>
   </div>
 </div>
@@ -325,7 +325,7 @@
       <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
         Prof. Dr. Markus Weiler
         <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
-          Spatial Data Layers (GIS)
+          Spatial Data Infrastructure & Ecohydrological Framework (GIS)
         </span>
       </div>
       
@@ -337,18 +337,18 @@
   </div>
 
   <!-- Key question — most prominent for social scientists -->
-  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a7a4a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a7a4a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">What does the physical landscape look like — where are the soils, forests, and water networks?</div></div>
+  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a7a4a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a7a4a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">What does the physical landscape look like — where are the soils, forests, and water networks — and how do forests interact with the water cycle from stand to watershed?</div></div>
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
-    Provides the static spatial data infrastructure for the entire C3 framework: soil properties, forest structure, hydrology network, and tree species distributions at 100 m resolution.
+    Weiler's role in C3 spans two nodes: this GIS infrastructure layer and the RoGeR hydrological model (Layer 2). Here, his group provides the static spatial data backbone for all C3 models: soil properties, forest structure, hydrology network, and catchment delineations at 100 m resolution across the FuFo domain. The data draws on national soil maps (BÜK200), forest inventory (BWI), and LiDAR terrain models from LGL Baden-Württemberg. Beyond data provision, Weiler brings broad ecohydrological expertise — from stand-level water balance to state-wide hydrological modelling — developed across multiple joint projects: DRIeR (drought, with Stahl and Bauhus), WaldlabOR (decentralised water retention in the Black Forest), and a coupling of RoGeR with bark beetle infestation risk at 10 m resolution (with Puhlmann). He also contributes to Theme A1 (water cycle and clean water provisioning, WP4, with Lang and Christen).
   </div>
 
   <!-- Three columns: inputs / outputs / researcher -->
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">National soil maps (BUeK200) — soil texture, depth, hydraulic properties</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / Shapefile</span><span style="color:#64748b;font-size:10px;margin-left:6px">← BGR Federal Institute for Geosciences (open)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Forest inventory data (Bundeswaldinventur BWI)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Shapefile / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ForstBW / BMEL (restricted)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">LiDAR terrain and canopy height models</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">LAS / GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← LGL Baden-Wuerttemberg</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">National soil maps (BÜK200) — soil texture, depth, hydraulic properties</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / Shapefile</span><span style="color:#64748b;font-size:10px;margin-left:6px">← BGR Federal Institute for Geosciences (open)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Forest inventory data (Bundeswaldinventur BWI)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Shapefile / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ForstBW / BMEL (restricted)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">LiDAR terrain and canopy height models</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">LAS / GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← LGL Baden-Württemberg</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
@@ -612,34 +612,34 @@
       <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
         Prof. Dr. Markus Weiler
         <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
-          RoGeR — Runoff Generation Research Model
+          RoGeR — Runoff Generation Research Model (modular toolkit)
         </span>
       </div>
       
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
       <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
-      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Process-based hydrological model</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Process-based hydrological model (no parameter calibration)</span>
     </div>
   </div>
 
   <!-- Key question — most prominent for social scientists -->
-  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a4f8a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a4f8a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">How does water move through soils and landscapes, and which trees are most vulnerable to drought because of where they stand?</div></div>
+  <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.7);border-radius:6px;border-left:3px solid #1a4f8a;"><span style="font-family:IBM Plex Mono,monospace;font-size:8.5px;color:#1a4f8a;text-transform:uppercase;letter-spacing:.12em;font-weight:700;">Key Question</span><div style="font-size:12.5px;color:#1e293b;margin-top:3px;font-style:italic;">How does water move through soils and landscapes — and which trees are most vulnerable to drought because of where they stand on the hillslope or how connected they are to groundwater?</div></div>
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
-    Process-based hydrological model of water redistribution at the surface and subsurface, mediating local transpiration and trees vulnerability to drought. Three topographic contexts: plateau (1D, no lateral flow), hillslope (lateral subsurface in- and outflow), and riparian/valley (groundwater and capillary rise). Explicitly represents lateral subsurface flow and groundwater exchange — key processes missing from most dynamic vegetation models.
+    Process-based hydrological model toolkit for water redistribution at the surface and subsurface, mediating local transpiration and trees' vulnerability to drought. A key distinctive feature: no calibration of model parameters — all parameters are derived from measurable soil and terrain properties. RoGeR is a modular family: RoGeR (core runoff processes), RoGeR_WB (full water balance, variable timestep), RoGeR_dyn (2D dynamic surface runoff), RoGeR_WB_Dyn (combined). Scale: 1 m to several 1000 km², timestep 1 min to 1 day. Three topographic contexts are modelled explicitly: plateau (1D, no lateral flow, current dynamic vegetation models only cover this case), hillslope (lateral subsurface inflow and outflow from upslope), and riparian/valley bottom (groundwater and capillary rise). This explicit representation of lateral subsurface flow explains tree-to-tree drought mortality differences on the same hillslope — a process missing from most dynamic vegetation models. In FuFo, Stahl is developing a coupling of RoGeR with the groundwater model MODFLOW, extending the system to deeper water cycle dynamics under climate stress (building on Hellwig et al. 2021). Weiler and Puhlmann have also coupled RoGeR to predict bark beetle infestation sites at 10 m resolution from soil water stress.
   </div>
 
   <!-- Three columns: inputs / outputs / researcher -->
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Climate forcing: precipitation (Prec), potential evapotranspiration (PET)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung_schindler, christen</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Soil properties: texture, depth, hydraulic conductivity</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler_gis</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Topography: slope, aspect, catchment delineation</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler_gis</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Canopy structure, leaf area index (LAI), root water uptake — bidirectional coupling</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Climate forcing: precipitation (Prec), potential evapotranspiration (PET)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← jung_schindler, christen, stahl</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Soil properties: texture, depth, hydraulic conductivity (directly measured — no calibration)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler_gis</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Topography: slope, aspect, catchment delineation</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← weiler_gis</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Canopy structure, leaf area index (LAI), root water uptake — bidirectional coupling</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iland</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Soil water content (SWC) in root zone, lateral subsurface flow</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Streamflow and catchment water balance</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ brown, hanewinkel</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Groundwater and capillary rise fluxes</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Soil water content (SWC) in root zone, lateral subsurface flow — fed back to iLAND</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Streamflow and catchment water balance</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ brown, hanewinkel</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Groundwater fluxes and capillary rise (extended via MODFLOW coupling with Stahl)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iland, stahl</span></div>
     </div>
     <div>
       <div class="col-head">Languages</div>
@@ -648,7 +648,7 @@
       <div style="font-size:12px"><span style="color:#94a3b8">TBD</span>
         <span style="color:#94a3b8;font-size:11px;margin-left:6px">TBD</span>
       </div>
-      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic;">Bidirectionally coupled with iLAND. Three topographic contexts modelled: plateau (1D), hillslope, riparian/valley. Key: lateral subsurface flow explains tree-to-tree drought mortality differences.</div>
+      <div style="margin-top:8px;font-size:11px;color:#64748b;font-style:italic;">Bidirectionally coupled with iLAND: iLAND → RoGeR (canopy, LAI, root uptake); RoGeR → iLAND (soil water content, lateral flow). Key feature: no parameter calibration — all parameters measurable. Modular: RoGeR, RoGeR_WB, RoGeR_WB_Urban, RoGeR_dyn, RoGeR_WB_Dyn.</div>
     </div>
   </div>
 </div>
