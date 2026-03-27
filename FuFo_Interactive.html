@@ -43,7 +43,7 @@ header{background:var(--navy);padding:12px 24px 10px;border-bottom:3px solid var
 #canvas{position:relative;width:1600px;min-height:900px;}
 
 /* ── SVG arrows overlay ── */
-#arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+#arrows{position:absolute;top:0;left:0;pointer-events:none;overflow:visible;}
 
 /* ── Layer bands ── */
 .layer-band{position:absolute;left:0;right:0;}
@@ -508,7 +508,9 @@ const connEls = {};
 
 function renderArrows() {
   const svg = document.getElementById('arrows');
-  svg.style.height = CANVAS_H + 'px';
+  svg.setAttribute('width',  CANVAS_W);
+  svg.setAttribute('height', CANVAS_H);
+  svg.setAttribute('viewBox', `0 0 ${CANVAS_W} ${CANVAS_H}`);
 
   // Arrowhead markers
   const defs = svg.querySelector('defs');
@@ -558,7 +560,7 @@ function renderArrows() {
     });
     path.style.cssText = 'opacity:0;transition:opacity .2s;';
 
-    const key = `${from}-${to}`;
+    const key = `${from}|||${to}`;
     connEls[key] = path;
     svg.appendChild(path);
   });
@@ -584,7 +586,7 @@ function onNodeClick(id) {
   });
 
   Object.entries(connEls).forEach(([key, path]) => {
-    const [f,t] = key.split('-');
+    const [f,t] = key.split('|||');
     path.style.opacity = (f===id||t===id) ? '1' : '0';
   });
 
