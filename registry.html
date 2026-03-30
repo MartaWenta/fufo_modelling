@@ -44,6 +44,9 @@
   </div>
   <div style="font-size:12px;color:#64748b;margin-top:4px;max-width:800px;line-height:1.5;">
     This registry describes modelling groups contributing to Future Forests Research Area C3.
+    For each group you will find: the scientific question they address, their modelling approach,
+    what data they need and what they produce.
+    · Generated 30 March 2026
   </div>
 </div>
 
@@ -56,6 +59,10 @@
   <button class="filter-btn" onclick="filterCards('layer-2',this)">Biophysical</button>
   <button class="filter-btn" onclick="filterCards('layer-3',this)">Social-Economic</button>
   <button class="filter-btn" onclick="filterCards('layer-99',this)">Cross-cutting</button>
+  <span style="font-size:11px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;margin-left:8px">STATUS:</span>
+  <button class="filter-btn" onclick="filterCards('operational',this)">Operational</button>
+  <button class="filter-btn" onclick="filterCards('in_development',this)">In Development</button>
+  <button class="filter-btn" onclick="filterCards('planned',this)">Planned</button>
 </div>
 
 
@@ -67,6 +74,7 @@
 </div>
 
 <div class="card" id="card-c1_framework"
+     data-layer="0" data-status="in_development"
      style="border-left:4px solid #5b50c4;background:#f5f3ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -113,6 +121,7 @@
 </div>
 
 <div class="card" id="card-c2_scenarios"
+     data-layer="0" data-status="in_development"
      style="border-left:4px solid #5b50c4;background:#f5f3ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -166,6 +175,7 @@
 </div>
 
 <div class="card" id="card-jung_schindler"
+     data-layer="1" data-status="in_development"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -212,6 +222,7 @@
 </div>
 
 <div class="card" id="card-stahl"
+     data-layer="1" data-status="in_development"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -258,6 +269,7 @@
 </div>
 
 <div class="card" id="card-christen"
+     data-layer="1" data-status="in_development"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -304,6 +316,7 @@
 </div>
 
 <div class="card" id="card-weiler_gis"
+     data-layer="1" data-status="operational"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -350,6 +363,7 @@
 </div>
 
 <div class="card" id="card-seifert"
+     data-layer="1" data-status="in_development"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -396,6 +410,7 @@
 </div>
 
 <div class="card" id="card-kattenborn"
+     data-layer="1" data-status="operational"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -442,6 +457,7 @@
 </div>
 
 <div class="card" id="card-orth"
+     data-layer="1" data-status="operational"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -495,6 +511,7 @@
 </div>
 
 <div class="card" id="card-iland"
+     data-layer="2" data-status="operational"
      style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -541,6 +558,7 @@
 </div>
 
 <div class="card" id="card-roger"
+     data-layer="2" data-status="operational"
      style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -594,6 +612,7 @@
 </div>
 
 <div class="card" id="card-stritih"
+     data-layer="3" data-status="in_development"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -640,6 +659,7 @@
 </div>
 
 <div class="card" id="card-hanewinkel"
+     data-layer="3" data-status="planned"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -686,6 +706,7 @@
 </div>
 
 <div class="card" id="card-pauliuk"
+     data-layer="3" data-status="in_development"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -732,6 +753,7 @@
 </div>
 
 <div class="card" id="card-schanz"
+     data-layer="3" data-status="planned"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -778,6 +800,7 @@
 </div>
 
 <div class="card" id="card-brown"
+     data-layer="3" data-status="planned"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -830,9 +853,57 @@
   <div style="font-size:11.5px;color:#475569;margin-top:3px;">Not a standalone model but methodological infrastructure. Provides calibration, validation, and uncertainty quantification that cuts across all groups.</div>
 </div>
 
+<div class="card" id="card-dormann"
+     data-layer="99" data-status="in_development"
+     style="border:2px dashed #374151;background:#f9fafb;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#374151;text-transform:uppercase;margin-bottom:3px;">
+        Cross-cutting — Methodology & Uncertainty  ·  CROSS-CUTTING
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Carsten Dormann
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Model-Data Integration & Uncertainty Quantification
+        </span>
+      </div>
+      
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Statistical modelling / Bayesian inference / Uncertainty quantification</span>
+    </div>
+  </div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    This cross-cutting role provides the statistical methods to quantify, propagate, and communicate uncertainty across the C3 framework — covering Bayesian parameter estimation, sensitivity analysis, model-data integration, and species distribution modelling. Rather than a standalone model, Dormann contributes methodological infrastructure applicable across all C3 groups, ensuring outputs are not just predictions but scientifically defensible statements with known confidence bounds. He also co-leads B1 (evidentiary bases of decision-making) with Pregernig.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Model outputs from all C3 groups (for uncertainty analysis)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← All C3 groups</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Observational data for model-data integration</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">CSV / databases</span><span style="color:#64748b;font-size:10px;margin-left:6px">← RA A field campaigns, remote sensing</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Evidence base for ecosystem services (for B1)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Literature / data</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Scientific literature / field data</span></div>
+    </div>
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Uncertainty envelopes and sensitivity analyses for C3 model chain</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">R/Python functions / reports</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iLAND, RoGeR, Orth, Stritih, Hanewinkel</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Statistical species distribution and biodiversity models</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">R functions / GeoTIFF</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iLAND, Kattenborn, Brown</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Model calibration and validation frameworks</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">R/Python code / documentation</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ All C3 groups</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Evidence syntheses for decision support (B1)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Reports</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ C1 Framework, C4</span></div>
+    </div>
+  </div>
+</div>
+<div style='height:20px'></div>
+
 <div style="text-align:center;font-size:10px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;
             margin-top:20px;padding-top:12px;border-top:1px solid #e2e8f0;">
-  Scientific Modelling Coordinator · SES-ModelLab · Future Forests 
+  Source: models.yml · Scientific Modelling Coordinator · SES-ModelLab · Future Forests C3
   · <a href="FuFo_Interactive.html" style="color:#1a4f8a">↗ Interactive Connection Map</a>
   · <a href="FuFo_Original_Fullpage.html" style="color:#1a4f8a">↗ Static Connection Map</a>
 </div>
