@@ -35,7 +35,6 @@
     min-height: 100vh;
   }
 
-  /* ── Header ── */
   header {
     background: var(--navy);
     color: #fff;
@@ -59,16 +58,15 @@
     font-size: 12px;
     color: #94a3b8;
     margin-top: 3px;
+    line-height: 1.5;
   }
 
-  /* ── Layout ── */
   .wrap {
     max-width: 860px;
     margin: 0 auto;
     padding: 28px 24px 60px;
   }
 
-  /* ── Layer indicator bar ── */
   #layer-bar {
     height: 5px;
     border-radius: 3px;
@@ -77,7 +75,6 @@
     transition: background .3s;
   }
 
-  /* ── Section cards ── */
   .section {
     background: var(--white);
     border: 1px solid var(--border);
@@ -113,7 +110,6 @@
     padding: 18px 20px;
   }
 
-  /* ── Form elements ── */
   .row { display: flex; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
   .field { display: flex; flex-direction: column; flex: 1; min-width: 180px; }
   .field.full { flex: 0 0 100%; min-width: 0; }
@@ -158,7 +154,6 @@
   textarea { resize: vertical; min-height: 64px; }
   select { cursor: pointer; }
 
-  /* ── Tag inputs (languages, formats) ── */
   .tag-group {
     display: flex;
     flex-wrap: wrap;
@@ -171,7 +166,10 @@
     cursor: text;
     transition: border-color .15s;
   }
-  .tag-group:focus-within { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(30,58,95,.08); }
+  .tag-group:focus-within {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(30,58,95,.08);
+  }
   .tag {
     background: #f1f5f9;
     color: var(--slate);
@@ -183,22 +181,40 @@
     gap: 5px;
     animation: pop .12s ease;
   }
-  @keyframes pop { from { transform: scale(.85); opacity:0; } to { transform: scale(1); opacity:1; } }
+  @keyframes pop {
+    from { transform: scale(.85); opacity:0; }
+    to { transform: scale(1); opacity:1; }
+  }
   .tag button {
-    background: none; border: none; cursor: pointer;
-    color: var(--muted); font-size: 13px; line-height: 1;
-    padding: 0; display: flex; align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
   }
   .tag button:hover { color: var(--red); }
   .tag-input {
-    border: none; outline: none; font-size: 12px;
+    border: none;
+    outline: none;
+    font-size: 12px;
     font-family: 'IBM Plex Sans', sans-serif;
-    background: transparent; min-width: 80px; flex: 1;
-    padding: 2px 4px; color: #1e293b;
+    background: transparent;
+    min-width: 80px;
+    flex: 1;
+    padding: 2px 4px;
+    color: #1e293b;
   }
-  .tag-hint { font-size: 10px; color: var(--muted); margin-top: 3px; font-style: italic; }
+  .tag-hint {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 3px;
+    font-style: italic;
+  }
 
-  /* ── Repeating I/O blocks ── */
   .io-block {
     border: 1px solid var(--border);
     border-radius: 7px;
@@ -218,10 +234,14 @@
   }
   .remove-btn {
     position: absolute;
-    top: 10px; right: 12px;
-    background: none; border: none;
-    color: var(--muted); font-size: 16px;
-    cursor: pointer; line-height: 1;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 16px;
+    cursor: pointer;
+    line-height: 1;
     transition: color .12s;
   }
   .remove-btn:hover { color: var(--red); }
@@ -242,29 +262,56 @@
     width: 100%;
     justify-content: center;
   }
-  .add-btn:hover { border-color: var(--navy); color: var(--navy); background: #f0f4f8; }
+  .add-btn:hover {
+    border-color: var(--navy);
+    color: var(--navy);
+    background: #f0f4f8;
+  }
 
-  /* ── Generate button ── */
-  #generate-btn {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    background: var(--navy);
-    color: #fff;
-    border: none;
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 24px 0 18px;
+  }
+  .primary-btn,
+  .secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 14px 18px;
     border-radius: 8px;
     font-size: 14px;
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 700;
-    letter-spacing: .06em;
+    letter-spacing: .04em;
     cursor: pointer;
-    margin: 24px 0 18px;
-    transition: background .15s, transform .1s;
+    transition: background .15s, transform .1s, border-color .15s;
+    border: none;
+    flex: 1 1 280px;
   }
-  #generate-btn:hover { background: #16304f; }
-  #generate-btn:active { transform: scale(.99); }
+  .primary-btn {
+    background: var(--navy);
+    color: #fff;
+  }
+  .primary-btn:hover { background: #16304f; }
+  .secondary-btn {
+    background: var(--white);
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+  }
+  .secondary-btn:hover { background: #f0f4f8; }
+  .primary-btn:active,
+  .secondary-btn:active {
+    transform: scale(.99);
+  }
+  .primary-btn:disabled,
+  .secondary-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+  }
 
-  /* ── Output panel ── */
   #output-panel {
     display: none;
     border: 1.5px solid var(--navy);
@@ -273,7 +320,10 @@
     margin-top: 8px;
     animation: slideIn .2s ease;
   }
-  @keyframes slideIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform:none; } }
+  @keyframes slideIn {
+    from { opacity:0; transform: translateY(8px); }
+    to { opacity:1; transform:none; }
+  }
   .output-head {
     background: var(--navy);
     color: #fff;
@@ -299,7 +349,10 @@
     transition: background .15s;
   }
   #copy-btn:hover { background: rgba(255,255,255,.22); }
-  #copy-btn.copied { background: var(--green); border-color: var(--green); }
+  #copy-btn.copied {
+    background: var(--green);
+    border-color: var(--green);
+  }
   #yaml-out {
     background: #0f1923;
     color: #e2f0ff;
@@ -313,23 +366,41 @@
     overflow-y: auto;
   }
   .y-key   { color: #6bcf9e; }
-  .y-val   { color: #fcd34d; }
   .y-str   { color: #93c5fd; }
-  .y-com   { color: #4a6a8a; font-style: italic; }
   .y-dash  { color: #f472b6; }
 
-  /* ── Validation ── */
-  .field-error input, .field-error select, .field-error textarea {
+  #submit-panel {
+    display: none;
+    margin-top: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--white);
+    padding: 14px 16px;
+    animation: slideIn .2s ease;
+  }
+  #submit-panel.visible { display: block; }
+  #submit-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  #submit-message {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #334155;
+  }
+  #submit-message.success { color: var(--green); }
+  #submit-message.error { color: var(--red); }
+
+  .field-error input,
+  .field-error select,
+  .field-error textarea {
     border-color: var(--red) !important;
   }
-  .err-msg {
-    font-size: 10.5px;
-    color: var(--red);
-    margin-top: 3px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
 
-  /* layer-aware section borders */
   body.layer-1 .section { border-top: 3px solid var(--l1-bdr); }
   body.layer-2 .section { border-top: 3px solid var(--l2-bdr); }
   body.layer-3 .section { border-top: 3px solid var(--l3-bdr); }
@@ -343,13 +414,12 @@
 <header>
   <div class="tag">Future Forests Excellence Cluster · Universität Freiburg · Research Area C3</div>
   <h1>C3 Model Registry — Group Entry Form</h1>
-  <p>Fill in what you know. Leave fields blank or "TBD" if not yet confirmed. Your entry generates a YAML block to submit to the Modelling Coordinator.</p>
+  <p>Fill in what you know. Leave fields blank or "TBD" if not yet confirmed. Generate the YAML entry, then submit it to open a GitHub pull request.</p>
 </header>
 
 <div class="wrap">
   <div id="layer-bar"></div>
 
-  <!-- ── 1. Group Identity ── -->
   <div class="section">
     <div class="section-head">
       <span class="section-num">01</span>
@@ -363,17 +433,18 @@
             <option value="">— select —</option>
             <option value="jung"        data-layer="1" data-name="Christopher Jung">Christopher Jung</option>
             <option value="christen"    data-layer="1" data-name="Andreas Christen">Andreas Christen</option>
-            <option value="weiler_gis"  data-layer="1" data-name="Markus Weiler">Markus Weiler</option>
+            <option value="weiler_gis"  data-layer="1" data-name="Markus Weiler">Markus Weiler (GIS)</option>
             <option value="seifert"     data-layer="1" data-name="Thomas Seifert">Thomas Seifert</option>
             <option value="kattenborn"  data-layer="1" data-name="Teja Kattenborn">Teja Kattenborn</option>
             <option value="orth"        data-layer="1" data-name="René Orth">René Orth</option>
-            <option value="iland"       data-layer="2" data-name="Thomas Seifert">Thomas Seifert</option>
-            <option value="roger"       data-layer="2" data-name="Markus Weiler">Markus Weiler</option>
+            <option value="iland"       data-layer="2" data-name="Thomas Seifert">Seifert</option>
+            <option value="roger"       data-layer="2" data-name="Markus Weiler">Markus Weiler (RoGeR)</option>
             <option value="stritih"     data-layer="3" data-name="Ana Stritih">Ana Stritih</option>
             <option value="hanewinkel"  data-layer="3" data-name="Marc Hanewinkel">Marc Hanewinkel</option>
             <option value="pauliuk"     data-layer="3" data-name="Stefan Pauliuk">Stefan Pauliuk</option>
             <option value="schanz"      data-layer="3" data-name="Heiner Schanz">Heiner Schanz</option>
-            <option value="brown"       data-layer="3" data-name="Calum Brown">Calum Brown</option>
+            <option value="brown_calum" data-layer="3" data-name="Calum Brown">Calum Brown</option>
+            <option value="brown_ana"   data-layer="3" data-name="Ana Stritih">Ana Stritih</option>
             <option value="other"       data-layer="" data-name="">Other (fill below)</option>
           </select>
         </div>
@@ -401,7 +472,6 @@
     </div>
   </div>
 
-  <!-- ── 2. Model Description ── -->
   <div class="section">
     <div class="section-head">
       <span class="section-num">02</span>
@@ -436,7 +506,6 @@
     </div>
   </div>
 
-  <!-- ── 3. Inputs ── -->
   <div class="section">
     <div class="section-head">
       <span class="section-num">03</span>
@@ -444,11 +513,10 @@
     </div>
     <div class="section-body">
       <div id="inputs-container"></div>
-      <button class="add-btn" onclick="addIO('inputs-container','input')">＋ Add input dataset / forcing</button>
+      <button type="button" class="add-btn" onclick="addIO('inputs-container','input')">＋ Add input dataset / forcing</button>
     </div>
   </div>
 
-  <!-- ── 4. Outputs ── -->
   <div class="section">
     <div class="section-head">
       <span class="section-num">04</span>
@@ -456,11 +524,10 @@
     </div>
     <div class="section-body">
       <div id="outputs-container"></div>
-      <button class="add-btn" onclick="addIO('outputs-container','output')">＋ Add output product</button>
+      <button type="button" class="add-btn" onclick="addIO('outputs-container','output')">＋ Add output product</button>
     </div>
   </div>
 
-  <!-- ── 5. Notes ── -->
   <div class="section">
     <div class="section-head">
       <span class="section-num">05</span>
@@ -474,24 +541,36 @@
     </div>
   </div>
 
-  <button id="generate-btn" onclick="generate()">⟶ Generate YAML Entry</button>
+  <div class="btn-row">
+    <button id="generate-btn" class="primary-btn" type="button" onclick="generate()">⟶ Generate YAML Entry</button>
+    <button id="submit-btn" class="secondary-btn" type="button" onclick="submitToGitHub()">↗ Submit to GitHub PR</button>
+  </div>
 
   <div id="output-panel">
     <div class="output-head">
-      <span>YAML — paste this into models.yml</span>
+      <span>YAML — preview</span>
       <button id="copy-btn" onclick="copyYAML()">Copy</button>
     </div>
     <pre id="yaml-out"></pre>
   </div>
 
-</div><!-- /wrap -->
+  <div id="submit-panel">
+    <div id="submit-title">GitHub submission</div>
+    <div id="submit-message"></div>
+  </div>
+</div>
 
 <script>
-// ── State ────────────────────────────────────────────
+// Change this to your backend URL.
+// Example:
+// const BACKEND_URL = 'https://your-backend.example.com/submit-model';
+const BACKEND_URL = '/submit-model';
+
 let langs = [];
 let ioCounters = { input: 0, output: 0 };
+let latestYAML = '';
+let latestPayload = null;
 
-// ── PI auto-fill ──────────────────────────────────────
 function onPIChange() {
   const sel = document.getElementById('pi');
   const opt = sel.options[sel.selectedIndex];
@@ -512,8 +591,6 @@ function onLayerChange() {
   document.body.className = v ? 'layer-' + v : '';
 }
 
-
-// ── Tag input (languages) ─────────────────────────────
 const langInput = document.getElementById('lang-input');
 langInput.addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ',') {
@@ -537,7 +614,7 @@ function renderTags() {
   langs.forEach((l, i) => {
     const tag = document.createElement('span');
     tag.className = 'tag';
-    tag.innerHTML = `${l}<button onclick="removeLang(${i})" title="remove">×</button>`;
+    tag.innerHTML = `${escapeHtml(l)}<button type="button" onclick="removeLang(${i})" title="remove">×</button>`;
     group.insertBefore(tag, langInput);
   });
 }
@@ -547,7 +624,6 @@ function removeLang(i) {
   renderTags();
 }
 
-// ── I/O blocks ────────────────────────────────────────
 function addIO(containerId, type) {
   const n = ++ioCounters[type];
   const container = document.getElementById(containerId);
@@ -555,15 +631,17 @@ function addIO(containerId, type) {
   div.className = 'io-block';
   div.id = `${type}-block-${n}`;
 
-  const consumerLabel = type === 'output'
+  const extraField = type === 'output'
     ? `<div class="field"><label>Consumed by <span class="hint">group IDs, comma-sep.</span></label>
-       <input type="text" id="${type}-consumers-${n}" placeholder="e.g. iland, roger, hanewinkel"></div>`
+         <input type="text" id="${type}-consumers-${n}" placeholder="e.g. iland, roger, hanewinkel"></div>
+       <div class="field"><label>Spatial Resolution <span class="hint">if applicable</span></label>
+         <input type="text" id="${type}-resolution-${n}" placeholder="e.g. 100m × 100m"></div>`
     : `<div class="field"><label>Source <span class="hint">group ID or dataset origin</span></label>
-       <input type="text" id="${type}-source-${n}" placeholder="e.g. seifert  or  ECMWF (open)"></div>`;
+         <input type="text" id="${type}-source-${n}" placeholder="e.g. seifert  or  ECMWF (open)"></div>`;
 
   div.innerHTML = `
     <div class="io-block-head">${type.toUpperCase()} #${n}</div>
-    <button class="remove-btn" onclick="removeBlock('${type}-block-${n}')" title="Remove">×</button>
+    <button class="remove-btn" type="button" onclick="removeBlock('${type}-block-${n}')" title="Remove">×</button>
     <div class="row">
       <div class="field full">
         <label>Name / Description <span class="req">*</span></label>
@@ -575,10 +653,10 @@ function addIO(containerId, type) {
         <label>File Format</label>
         <input type="text" id="${type}-format-${n}" placeholder="e.g. NetCDF, GeoTIFF, CSV, SQLite">
       </div>
-      ${consumerLabel}
-      ${type === 'output' ? `<div class="field"><label>Spatial Resolution <span class="hint">if applicable</span></label>
-        <input type="text" id="${type}-resolution-${n}" placeholder="e.g. 100m × 100m"></div>` : ''}
-    </div>`;
+      ${extraField}
+    </div>
+  `;
+
   container.appendChild(div);
 }
 
@@ -587,110 +665,288 @@ function removeBlock(id) {
   if (el) el.remove();
 }
 
-// ── YAML generation ───────────────────────────────────
-function esc(s) { return (s||'').trim().replace(/"/g, '\\"'); }
-function q(s)   { return s ? `"${esc(s)}"` : '"TBD"'; }
-function yn(s)  { return (s && s !== 'TBD') ? q(s) : '"TBD"'; }
+function escapeYamlDoubleQuoted(s) {
+  return String(s || '')
+    .trim()
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"');
+}
+
+function q(s) {
+  return `"${escapeYamlDoubleQuoted(s || 'TBD')}"`;
+}
 
 function collectIO(type) {
   const blocks = document.querySelectorAll(`[id^="${type}-block-"]`);
   const items = [];
+
   blocks.forEach(b => {
     const n = b.id.split('-').pop();
-    const name   = (document.getElementById(`${type}-name-${n}`)?.value || '').trim();
+    const name = (document.getElementById(`${type}-name-${n}`)?.value || '').trim();
     const format = (document.getElementById(`${type}-format-${n}`)?.value || '').trim();
     const source = (document.getElementById(`${type}-source-${n}`)?.value || '').trim();
     const consumers = (document.getElementById(`${type}-consumers-${n}`)?.value || '').trim();
     const resolution = (document.getElementById(`${type}-resolution-${n}`)?.value || '').trim();
-    if (name) items.push({ name, format, source, consumers, resolution });
+
+    if (name) {
+      items.push({ name, format, source, consumers, resolution });
+    }
   });
+
   return items;
 }
 
 function formatIOBlock(items, type) {
   if (!items.length) return '      []\n';
+
   return items.map(item => {
     let s = `      - name: ${q(item.name)}\n`;
-    if (item.format)     s += `        format: ${q(item.format)}\n`;
-    if (type === 'input'  && item.source)
+    if (item.format) s += `        format: ${q(item.format)}\n`;
+
+    if (type === 'input' && item.source) {
       s += `        source: ${q(item.source)}\n`;
-    if (type === 'output' && item.consumers) {
-      const list = item.consumers.split(',').map(x => x.trim()).filter(Boolean);
-      s += `        consumers: [${list.map(x => `"${x}"`).join(', ')}]\n`;
     }
-    if (type === 'output' && item.resolution)
+
+    if (type === 'output' && item.consumers) {
+      const list = item.consumers
+        .split(',')
+        .map(x => x.trim())
+        .filter(Boolean);
+      s += `        consumers: [${list.map(x => `"${escapeYamlDoubleQuoted(x)}"`).join(', ')}]\n`;
+    }
+
+    if (type === 'output' && item.resolution) {
       s += `        resolution: ${q(item.resolution)}\n`;
+    }
+
     return s;
   }).join('');
 }
 
-function generate() {
-  // Validate required
+function validateForm() {
   let ok = true;
-  ['pi','model-name','description'].forEach(id => {
-    const el = document.getElementById(id);
+
+  [
+    document.getElementById('pi'),
+    document.getElementById('layer'),
+    document.getElementById('model-name'),
+    document.getElementById('description')
+  ].forEach(el => {
     const wrap = el.closest('.field');
-    if (!el.value.trim()) {
-      if (wrap) { wrap.classList.add('field-error'); }
+    const hasValue = !!el.value.trim();
+    if (!hasValue) {
       ok = false;
+      if (wrap) wrap.classList.add('field-error');
     } else {
       if (wrap) wrap.classList.remove('field-error');
     }
   });
-  if (!ok) { document.getElementById('generate-btn').style.background='#c0392b'; setTimeout(()=>document.getElementById('generate-btn').style.background='',600); return; }
 
-  const piSel  = document.getElementById('pi');
+  const piSel = document.getElementById('pi');
+  if (piSel.value === 'other') {
+    ['custom-pi', 'custom-id'].forEach(id => {
+      const el = document.getElementById(id);
+      const wrap = el.closest('.field');
+      const hasValue = !!el.value.trim();
+      if (!hasValue) {
+        ok = false;
+        if (wrap) wrap.classList.add('field-error');
+      } else {
+        if (wrap) wrap.classList.remove('field-error');
+      }
+    });
+  }
+
+  if (!ok) {
+    const btn = document.getElementById('generate-btn');
+    const old = btn.style.background;
+    btn.style.background = '#c0392b';
+    setTimeout(() => { btn.style.background = old; }, 600);
+  }
+
+  return ok;
+}
+
+function buildSubmissionData() {
+  if (!validateForm()) return null;
+
+  const piSel = document.getElementById('pi');
   const isOther = piSel.value === 'other';
-  const id     = isOther ? (document.getElementById('custom-id').value.trim() || 'unknown') : piSel.value;
-  const piName = isOther ? (document.getElementById('custom-pi').value.trim() || 'TBD')
-                         : (piSel.options[piSel.selectedIndex].dataset.name || piSel.value);
-  const layer  = document.getElementById('layer').value || '1';
-  const mname  = document.getElementById('model-name').value.trim();
-  const mtype  = document.getElementById('model-type').value.trim();
-  const desc   = document.getElementById('description').value.trim();
-  const notes  = document.getElementById('notes').value.trim();
 
-  const inputs  = collectIO('input');
+  const rawId = isOther
+    ? document.getElementById('custom-id').value.trim()
+    : piSel.value;
+
+  const id = rawId
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_-]/g, '');
+
+  const piName = isOther
+    ? document.getElementById('custom-pi').value.trim()
+    : (piSel.options[piSel.selectedIndex].dataset.name || piSel.value);
+
+  const layer = document.getElementById('layer').value.trim();
+  const modelName = document.getElementById('model-name').value.trim();
+  const modelType = document.getElementById('model-type').value.trim();
+  const description = document.getElementById('description').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+
+  const inputs = collectIO('input');
   const outputs = collectIO('output');
 
-  const langList = langs.length ? `[${langs.map(l => `"${l}"`).join(', ')}]` : '[]';
+  const langList = langs.length
+    ? `[${langs.map(l => `"${escapeYamlDoubleQuoted(l)}"`).join(', ')}]`
+    : '[]';
 
   let yaml = `  - id: ${id}\n`;
   yaml += `    layer: ${layer}\n`;
   yaml += `    pi: ${q(piName)}\n`;
-  yaml += `    model_name: ${q(mname)}\n`;
-  yaml += `    short_description: ${q(desc)}\n`;
-  if (mtype) yaml += `    type: ${q(mtype)}\n`;
+  yaml += `    model_name: ${q(modelName)}\n`;
+  yaml += `    short_description: ${q(description)}\n`;
+  if (modelType) yaml += `    type: ${q(modelType)}\n`;
   yaml += `    language: ${langList}\n`;
-  yaml += `    inputs:\n${formatIOBlock(inputs,'input')}`;
-  yaml += `    outputs:\n${formatIOBlock(outputs,'output')}`;
+  yaml += `    inputs:\n${formatIOBlock(inputs, 'input')}`;
+  yaml += `    outputs:\n${formatIOBlock(outputs, 'output')}`;
   if (notes) yaml += `    notes: ${q(notes)}\n`;
 
-  // Syntax-highlight
-  const highlighted = yaml
+  const today = new Date().toISOString().slice(0, 10);
+  const safeModel = modelName
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9_-]/g, '');
+
+  const filename = `${today}-${id}-${safeModel || 'model'}.yml`;
+
+  return {
+    repo: 'MartaWenta/fufo_modelling',
+    output_folder: 'submissions',
+    filename,
+    branch_name: `submission/${today}-${id}-${safeModel || 'model'}`,
+    pr_title: `Add model entry: ${modelName}`,
+    pr_body:
+`Automated submission from model_entry_form.html
+
+PI: ${piName}
+Layer: ${layer}
+Model: ${modelName}
+
+Please review this YAML entry before merging.`,
+    id,
+    layer,
+    pi_name: piName,
+    model_name: modelName,
+    yaml
+  };
+}
+
+function highlightYaml(yaml) {
+  return yaml
     .replace(/^(  - id:|    layer:|    pi:|    model_name:|    short_description:|    type:|    language:|    inputs:|    outputs:|    notes:|      - name:|        format:|        source:|        consumers:|        resolution:)/gm,
       m => `<span class="y-key">${m}</span>`)
-    .replace(/"([^"]*)"/g, (m, v) => `<span class="y-str">"${v}"</span>`)
+    .replace(/"([^"]*)"/g, (m, v) => `<span class="y-str">"${escapeHtml(v)}"</span>`)
     .replace(/^(  - )/gm, `<span class="y-dash">  - </span>`);
+}
 
-  document.getElementById('yaml-out').innerHTML = highlighted;
+function generate() {
+  const data = buildSubmissionData();
+  if (!data) return;
+
+  latestPayload = data;
+  latestYAML = data.yaml;
+
+  document.getElementById('yaml-out').innerHTML = highlightYaml(data.yaml);
   document.getElementById('output-panel').style.display = 'block';
   document.getElementById('output-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  setSubmitMessage('', '');
+  document.getElementById('submit-panel').classList.remove('visible');
+}
+
+async function submitToGitHub() {
+  const data = buildSubmissionData();
+  if (!data) return;
+
+  latestPayload = data;
+  latestYAML = data.yaml;
+
+  document.getElementById('yaml-out').innerHTML = highlightYaml(data.yaml);
+  document.getElementById('output-panel').style.display = 'block';
+
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
+
+  setSubmitMessage('Submitting YAML to backend…', '');
+  document.getElementById('submit-panel').classList.add('visible');
+
+  try {
+    const res = await fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const raw = await res.text();
+    let json = {};
+    try {
+      json = raw ? JSON.parse(raw) : {};
+    } catch {
+      json = { message: raw };
+    }
+
+    if (!res.ok) {
+      throw new Error(json.message || `Request failed with status ${res.status}`);
+    }
+
+    const prUrl = json.pr_url || json.pull_request_url || '';
+    const branch = json.branch_name || data.branch_name;
+    const filePath = json.file_path || `${data.output_folder}/${data.filename}`;
+
+    let msg = `Submission created on branch ${branch}. File: ${filePath}.`;
+    if (prUrl) {
+      msg += ` Pull request: <a href="${prUrl}" target="_blank" rel="noopener noreferrer">${prUrl}</a>`;
+    }
+
+    setSubmitMessage(msg, 'success');
+  } catch (err) {
+    setSubmitMessage(err.message || 'Submission failed.', 'error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = '↗ Submit to GitHub PR';
+  }
+}
+
+function setSubmitMessage(message, type) {
+  const el = document.getElementById('submit-message');
+  el.className = type || '';
+  el.innerHTML = message || '';
 }
 
 function copyYAML() {
-  const text = document.getElementById('yaml-out').innerText;
+  const text = latestYAML || document.getElementById('yaml-out').innerText;
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('copy-btn');
     btn.textContent = '✓ Copied';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
   });
 }
 
-// Start with one input and one output block pre-added
-addIO('inputs-container','input');
-addIO('outputs-container','output');
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+addIO('inputs-container', 'input');
+addIO('outputs-container', 'output');
 </script>
 </body>
 </html>
