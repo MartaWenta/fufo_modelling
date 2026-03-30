@@ -108,6 +108,8 @@ groups:
       start: "TBD"
 
   - id: christen
+    layer: 1
+    pi: "Prof. Dr. Andreas Christen"
     pi_collaborators: ["Prof. Dr. Markus Weiler", "Dr. Florian Schnabel"]
     project: "Theme A1 WP1 — Adaptive Sensor Network"
     model_name: "Adaptive Sensor Network & In-canopy Microclimate Model (A1)"
