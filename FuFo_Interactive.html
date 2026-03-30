@@ -162,22 +162,42 @@ const NODES = [
   { id:'c1', layer:0, banner:true,
     title:'C1 — SES CONCEPTUAL FRAMEWORK',
     sub:'Lead: Prof. Dr. Stefan Pauliuk · Prof. Dr. Tanja Mölders',
-    detail:'Shared SES definitions, indicators, system boundaries & terminology for the whole cluster. Provides the theoretical backbone that all other models build on.',
+    detail:'Shared SES definitions, indicators, system boundaries & terminology for the whole cluster. Conceptual foundation for A&TPs, governance innovations (C4), and a consistent depiction of future forests as novel SESs.',
     pi:'Contributors: Schlüter · Kruse · Baumgärtner · Pregernig · Dormann',
     hire:'TBD', hireOk:false,
     stroke:'#a78bfa', inkColor:'#5b50c4',
-    desc:'The theoretical backbone of the entire Future Forests cluster. C1 develops shared social-ecological systems definitions, indicators, and terminology so that biophysical models and social models can be meaningfully connected. Not a computational model — it is conceptual and theoretical infrastructure.',
+    desc:'The theoretical backbone of the entire Future Forests cluster. C1 develops shared social-ecological systems definitions, indicators, and terminology so that biophysical models and social models can be meaningfully connected. Provides the conceptual foundation for building comprehensive models and investigating Adaptation and Transformation Pathways for novel forest SESs.',
+    connects:[] },
+
+  { id:'c2_scenarios', layer:0, banner:true,
+    title:'C2 — TRANSDISCIPLINARY REGIONALISED SCENARIOS',
+    sub:'Lead: Prof. Dr. Marc Hanewinkel · Prof. Dr. Kerstin Stahl',
+    detail:'Consistent, stakeholder-verified hydro-climatic and socio-economic scenarios for future forests. Feeds all C3 models and C4 governance work. Combines downscaled climate projections with extreme event storylines and co-created regional narratives.',
+    pi:'Contributors: Brown · Christen · Pauliuk · Orth · Schindler · Weiler',
+    hire:'Dr. Christopher Jung (PostDoc)', hireOk:true,
+    stroke:'#60a5fa', inkColor:'#1e40af',
+    desc:'C2 develops consistent and stakeholder-verified scenarios depicting the future hydro-climatic and socio-economic conditions under which future forests will develop. Combines long-term climate model projections with extreme event storylines and co-created regional socio-economic narratives, all specified for the FuFo study regions within global frameworks (SSPs, RCPs, NFF). Feeds all C3 modelling groups and C4 governance experimentation.',
     connects:[] },
 
   // ── Layer 1 ──
   { id:'jung', layer:1,
     title:'JUNG / SCHINDLER',
-    sub:'HyClim Scenarios (C2)',
+    sub:'HyClim Scenarios (C2) · Extreme event scenarios with Stahl',
     detail:'Statistical downscaling of ERA5-Land reanalysis and CMIP6 climate models to 100 m × 100 m. Outputs: air temperature, precipitation, vapour pressure deficit, solar radiation, wind speed.',
     pi:'Prof. Dr. Dirk Schindler · Dr. Christopher Jung',
     hire:'Dr. Christopher Jung (PostDoc) · Start: TBD', hireOk:false,
     stroke:'#6bcf9e', inkColor:'#1a7a4a',
     desc:'Prepares regionalized reanalysis and future climate scenario data for the entire cluster. Applies tree-ensemble machine learning for bias correction and statistical downscaling from 10–120 km to 100 m resolution. Covers historical conditions and future warming levels (1.5°C, 2°C, 3°C+) under CMIP6 scenarios.',
+    connects:[] },
+
+  { id:'stahl', layer:1,
+    title:'STAHL',
+    sub:'Extreme Event Storylines & Groundwater Hydrology',
+    detail:'Extreme event stress-test scenarios (what if 2018–22 drought recurs in 2050?). Coupled surface-groundwater modelling extending RoGeR with MODFLOW. C2 co-lead.',
+    pi:'Prof. Dr. Kerstin Stahl',
+    hire:'TBD', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Stahl contributes two things to C3: extreme event storylines and stress-test scenarios (what would happen if the 2018–2022 drought sequence recurred under future conditions?), and coupled surface-groundwater hydrological modelling extending RoGeR with MODFLOW. She co-leads C2 with Hanewinkel and is connected to six C3 groups.',
     connects:[] },
 
   { id:'christen', layer:1,
@@ -230,17 +250,7 @@ const NODES = [
     desc:'Quantifies the emergent response of forests to dryness using global satellite and flux tower data. Generates species-specific response functions relating vegetation function to soil water content and vapour pressure deficit — used to constrain drought mortality in iLAND. Reference: Lusk et al. 2025 (bioRxiv).',
     connects:[] },
 
-  { id:'stahl', layer:1,
-    title:'STAHL',
-    sub:'Hydro-climate & Extreme Events',
-    detail:'Downscaled reanalysis & climate model products with focus on extreme value statistics. Drought and flood frequency indices. Bridges climate and hydrology modelling streams.',
-    pi:'Prof. Dr. Kerstin Stahl · Prof. Dr. Dirk Schindler',
-    hire:'TBD', hireOk:false,
-    stroke:'#6bcf9e', inkColor:'#1a7a4a',
-    desc:'Provides downscaled reanalysis and climate model outputs with a focus on extreme value statistics and hydro-climatic research. Connects the climate and hydrology modelling streams. Connected to six groups per the workshop collaboration matrix.',
-    connects:[] },
 
-  // ── Layer 2 ──
   { id:'iland', layer:2, wide:true,
     title:'iLAND — Individual-based Forest Landscape & Disturbance Model',
     sub:'Central biophysical engine of C3 · Open-source · Rammer et al. (2024)',
@@ -312,16 +322,7 @@ const NODES = [
     desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model coupling land use decision-making, macro-economics, global trade, ecosystem processes, biodiversity and the climate system. Explores management patterns of future forest social-ecological systems.',
     connects:[] },
 
-  // ── Cross-cutting: Dormann ──
-  { id:'dormann', layer:99, banner:true,
-    title:'DORMANN — CROSS-CUTTING: MODEL-DATA INTEGRATION & UNCERTAINTY QUANTIFICATION',
-    sub:'C1 + C3 · Also leads B1 (Evidentiary bases of decision-making) with Pregernig',
-    detail:'Provides rigorous statistical methods for calibration, validation, and uncertainty quantification across all C3 models. Statistical species distribution & biodiversity models. Bayesian parameter estimation & sensitivity analysis. Ensures C3 outputs are scientifically defensible.',
-    pi:'Prof. Dr. Carsten Dormann',
-    hire:'TBD', hireOk:false,
-    stroke:'#9ca3af', inkColor:'#374151',
-    desc:'Cross-cutting methodological role spanning C1 and C3. Provides rigorous statistical methods for integrating observational data with models, quantifying and propagating uncertainty through the modelling chain, and developing species distribution and biodiversity models. Ensures C3 outputs are scientifically defensible.',
-    connects:[] },
+
 ];
 
 // ══════════════════════════════════════════════════════════
@@ -337,19 +338,18 @@ const CONN_STYLES = {
 };
 
 const CONNECTIONS = [
-  ['jung','iland','data'],   ['jung','christen','lateral'], ['jung','weiler_gis','lateral'],
-  ['jung','orth','lateral'], ['jung','stahl','lateral'],    ['jung','roger','data'],
-  ['jung','brown','lateral'],
-  ['christen','iland','data'],   ['christen','roger','data'],
-  ['christen','seifert','lateral'], ['christen','weiler_gis','lateral'],
-  ['christen','orth','lateral'],    ['christen','stahl','lateral'],
+  ['jung','iland','data'],    ['jung','christen','lateral'], ['jung','weiler_gis','lateral'],
+  ['jung','orth','lateral'],  ['jung','roger','data'],       ['jung','brown','lateral'],
+  ['jung','stahl','lateral'],  ['stahl','orth','lateral'],    ['stahl','christen','lateral'],
+  ['stahl','kattenborn','lateral'], ['stahl','brown','lateral'], ['stahl','weiler_gis','lateral'],
+  ['stahl','roger','data'],    ['stahl','iland','data'],
+  ['christen','iland','data'],    ['christen','roger','data'],
+  ['christen','seifert','lateral'],['christen','weiler_gis','lateral'],['christen','orth','lateral'],
   ['weiler_gis','iland','data'], ['weiler_gis','roger','data'], ['weiler_gis','kattenborn','lateral'],
   ['seifert','iland','validation'], ['seifert','kattenborn','lateral'], ['seifert','weiler_gis','lateral'],
   ['kattenborn','iland','validation'], ['kattenborn','orth','lateral'],
   ['kattenborn','hanewinkel','lateral'], ['kattenborn','brown','lateral'],
-  ['orth','iland','validation'], ['orth','stahl','lateral'], ['orth','weiler_gis','lateral'],
-  ['stahl','christen','lateral'], ['stahl','orth','lateral'], ['stahl','weiler_gis','lateral'],
-  ['stahl','kattenborn','lateral'], ['stahl','brown','lateral'],
+  ['orth','iland','validation'], ['orth','weiler_gis','lateral'],
   ['iland','roger','coupling'],   ['roger','iland','coupling'],
   ['iland','brown','data'],       ['iland','stritih','data'],
   ['iland','hanewinkel','data'],  ['iland','pauliuk','data'],
@@ -362,6 +362,9 @@ const CONNECTIONS = [
   ['c1','iland','conceptual'],  ['c1','stritih','conceptual'],
   ['c1','brown','conceptual'],  ['c1','hanewinkel','conceptual'],
   ['c1','pauliuk','conceptual'],['c1','schanz','conceptual'],
+  ['c2_scenarios','iland','data'],    ['c2_scenarios','roger','data'],
+  ['c2_scenarios','brown','data'],    ['c2_scenarios','hanewinkel','data'],
+  ['c2_scenarios','stritih','data'],  ['c2_scenarios','pauliuk','data'],
   ['dormann','iland','lateral'],    ['dormann','orth','lateral'],
   ['dormann','stritih','lateral'],  ['dormann','hanewinkel','lateral'],
   ['dormann','kattenborn','lateral'],['dormann','c1','lateral'],
@@ -379,11 +382,13 @@ function layerDef(id) { return LAYERS_DEF.find(l => l.id === id); }
 
 // Place nodes within their layer
 function layoutNodes() {
-  // Layer 0: C1 banner
+  // Layer 0: C1 and C2 side by side
   const c1 = NODES.find(n=>n.id==='c1');
+  const c2s = NODES.find(n=>n.id==='c2_scenarios');
   const L0 = layerDef(0);
-  c1._x = PAD; c1._y = L0.y + 22;
-  c1._w = CANVAS_W - PAD*2; c1._h = L0.h - 30;
+  const halfW = (CANVAS_W - PAD*2 - GAP) / 2;
+  c1._x = PAD;              c1._y = L0.y + 22; c1._w = halfW; c1._h = L0.h - 30;
+  c2s._x = PAD + halfW + GAP; c2s._y = L0.y + 22; c2s._w = halfW; c2s._h = L0.h - 30;
 
   // Layer 1: 7 nodes evenly spaced
   const L1nodes = NODES.filter(n=>n.layer===1);
@@ -416,11 +421,6 @@ function layoutNodes() {
     x3 += NW_L3 + GAP;
   });
 
-  // Dormann banner
-  const dm = NODES.find(n=>n.id==='dormann');
-  const L99 = layerDef(99);
-  dm._x = PAD; dm._y = L99.y + 22;
-  dm._w = CANVAS_W - PAD*2; dm._h = L99.h - 30;
 }
 
 // ══════════════════════════════════════════════════════════
