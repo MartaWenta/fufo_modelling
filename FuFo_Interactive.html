@@ -97,8 +97,7 @@ header{background:var(--navy);padding:12px 24px 10px;border-bottom:3px solid var
     <div class="leg"><div class="leg-line" style="background:#d97706;height:3px"></div>Coupling ⇄</div>
     <div class="leg"><div class="leg-dash" style="border-color:#c0392b"></div>Feedback</div>
     <div class="leg"><div class="leg-dash" style="border-color:#7c8a9e"></div>Lateral</div>
-    <div class="leg"><div class="leg-dash" style="border-color:#a78bfa"></div>Conceptual</div>
-  </div>
+      </div>
 </header>
 
 <div class="toolbar">
@@ -108,7 +107,6 @@ header{background:var(--navy);padding:12px 24px 10px;border-bottom:3px solid var
   <button class="filter-btn" onclick="filterLayer('1',this)">Layer 1 — Observations</button>
   <button class="filter-btn" onclick="filterLayer('2',this)">Layer 2 — Biophysical</button>
   <button class="filter-btn" onclick="filterLayer('3',this)">Layer 3 — Social-Economic</button>
-  <button class="filter-btn" onclick="filterLayer('99',this)">Cross-cutting</button>
   <button id="reset-btn" onclick="resetAll()">✕ Clear selection</button>
 </div>
 
@@ -148,10 +146,8 @@ const LAYERS_DEF = [
     label:'LAYER 2 — BIOPHYSICAL ENGINE' },
   { id:3,  y:610,  h:280,  fill:'#fffbeb', band:'#fed7aa', ink:'#92400e',
     label:'LAYER 3 — SOCIAL-ECOLOGICAL FEEDBACKS & GOVERNANCE' },
-  { id:99, y:890,  h:100,  fill:'#f9fafb', band:'#f3f4f6', ink:'#374151',
-    label:'CROSS-CUTTING — METHODOLOGY & UNCERTAINTY' },
 ];
-const CANVAS_H = 990;
+const CANVAS_H = 910;
 const CANVAS_W = 1600;
 
 // ══════════════════════════════════════════════════════════
@@ -322,7 +318,7 @@ const NODES = [
     desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model coupling land use decision-making, macro-economics, global trade, ecosystem processes, biodiversity and the climate system. Explores management patterns of future forest social-ecological systems.',
     connects:[] },
 
-
+  // ── Cross-cutting: Dormann ──
 ];
 
 // ══════════════════════════════════════════════════════════
@@ -365,9 +361,6 @@ const CONNECTIONS = [
   ['c2_scenarios','iland','data'],    ['c2_scenarios','roger','data'],
   ['c2_scenarios','brown','data'],    ['c2_scenarios','hanewinkel','data'],
   ['c2_scenarios','stritih','data'],  ['c2_scenarios','pauliuk','data'],
-  ['dormann','iland','lateral'],    ['dormann','orth','lateral'],
-  ['dormann','stritih','lateral'],  ['dormann','hanewinkel','lateral'],
-  ['dormann','kattenborn','lateral'],['dormann','c1','lateral'],
 ];
 
 // Adjacency
@@ -420,7 +413,6 @@ function layoutNodes() {
     n._x = x3; n._y = L3.y + 28; n._w = NW_L3; n._h = L3.h - 36;
     x3 += NW_L3 + GAP;
   });
-
 }
 
 // ══════════════════════════════════════════════════════════
