@@ -54,15 +54,10 @@
 <div class="filter-bar">
   <span style="font-size:11px;color:#94a3b8;font-family:'IBM Plex Mono',monospace">FILTER BY LAYER:</span>
   <button class="filter-btn active" onclick="filterCards('all',this)">All</button>
-  <button class="filter-btn" onclick="filterCards('layer-0',this)">C1 Conceptual</button>
+  <button class="filter-btn" onclick="filterCards('layer-0',this)">C1 / C2</button>
   <button class="filter-btn" onclick="filterCards('layer-1',this)">Observations</button>
   <button class="filter-btn" onclick="filterCards('layer-2',this)">Biophysical</button>
   <button class="filter-btn" onclick="filterCards('layer-3',this)">Social-Economic</button>
-  <button class="filter-btn" onclick="filterCards('layer-99',this)">Cross-cutting</button>
-  <span style="font-size:11px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;margin-left:8px">STATUS:</span>
-  <button class="filter-btn" onclick="filterCards('operational',this)">Operational</button>
-  <button class="filter-btn" onclick="filterCards('in_development',this)">In Development</button>
-  <button class="filter-btn" onclick="filterCards('planned',this)">Planned</button>
 </div>
 
 
@@ -74,7 +69,7 @@
 </div>
 
 <div class="card" id="card-c1_framework"
-     data-layer="0" data-status="in_development"
+     data-layer="0"
      style="border-left:4px solid #5b50c4;background:#f5f3ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -94,13 +89,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Tanja Mölders · Prof. Dr. Maja Schlüter · Prof. Dr. Sylvia Kruse · Prof. Dr. Stefan Baumgärtner · Prof. Dr. Michael Pregernig</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Conceptual / Theoretical SES framework (not a computational model)</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -121,7 +112,7 @@
 </div>
 
 <div class="card" id="card-c2_scenarios"
-     data-layer="0" data-status="in_development"
+     data-layer="0"
      style="border-left:4px solid #5b50c4;background:#f5f3ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -141,13 +132,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Dr. Calum Brown · Prof. Dr. Andreas Christen · Prof. Dr. Stefan Pauliuk · Prof. Dr. René Orth · Prof. Dr. Dirk Schindler · Prof. Dr. Markus Weiler</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Scenario development / Statistical downscaling / Stakeholder co-design</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -175,7 +162,7 @@
 </div>
 
 <div class="card" id="card-jung_schindler"
-     data-layer="1" data-status="in_development"
+     data-layer="1"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -195,13 +182,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Kerstin Stahl · Prof. Dr. Dirk Schindler · Prof. Dr. Andreas Christen · Prof. Dr. René Orth</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Statistical downscaling / Machine learning (tree-ensemble)</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -222,7 +205,7 @@
 </div>
 
 <div class="card" id="card-stahl"
-     data-layer="1" data-status="in_development"
+     data-layer="1"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -242,13 +225,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Dirk Schindler · Prof. Dr. Markus Weiler</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Extreme event storylines / Coupled surface-groundwater modelling</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -269,7 +248,7 @@
 </div>
 
 <div class="card" id="card-christen"
-     data-layer="1" data-status="in_development"
+     data-layer="1"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -289,13 +268,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Markus Weiler · Dr. Florian Schnabel</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Machine learning / Spatial-temporal downscaling</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -316,7 +291,7 @@
 </div>
 
 <div class="card" id="card-weiler_gis"
-     data-layer="1" data-status="operational"
+     data-layer="1"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -336,13 +311,9 @@
       
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">GIS / Spatial data integration</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -363,7 +334,7 @@
 </div>
 
 <div class="card" id="card-seifert"
-     data-layer="1" data-status="in_development"
+     data-layer="1"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -383,13 +354,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Remote sensing (LiDAR) / Dendroecology</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -410,7 +377,7 @@
 </div>
 
 <div class="card" id="card-kattenborn"
-     data-layer="1" data-status="operational"
+     data-layer="1"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -430,13 +397,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. René Orth · Dr. Pia Müller</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Deep learning / Remote sensing</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -457,7 +420,7 @@
 </div>
 
 <div class="card" id="card-orth"
-     data-layer="1" data-status="operational"
+     data-layer="1"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -477,13 +440,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Teja Kattenborn · Dr. Pia Müller</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Machine learning / Data synthesis</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -511,7 +470,7 @@
 </div>
 
 <div class="card" id="card-iland"
-     data-layer="2" data-status="operational"
+     data-layer="2"
      style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -531,13 +490,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler · Jun.-Prof. Dr. Ana Stritih</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Process-based / Individual-based model</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -558,7 +513,7 @@
 </div>
 
 <div class="card" id="card-roger"
-     data-layer="2" data-status="operational"
+     data-layer="2"
      style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -578,13 +533,9 @@
       
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Process-based hydrological model (no parameter calibration)</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -612,7 +563,7 @@
 </div>
 
 <div class="card" id="card-stritih"
-     data-layer="3" data-status="in_development"
+     data-layer="3"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -632,13 +583,9 @@
       
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Participatory modelling / Agent-based model</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -659,7 +606,7 @@
 </div>
 
 <div class="card" id="card-hanewinkel"
-     data-layer="3" data-status="planned"
+     data-layer="3"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -679,13 +626,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Stefan Pauliuk</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Partial equilibrium / Economic optimisation</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -706,7 +649,7 @@
 </div>
 
 <div class="card" id="card-pauliuk"
-     data-layer="3" data-status="in_development"
+     data-layer="3"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -726,13 +669,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Dr. Simon Schulte</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Material flow analysis / Life cycle assessment</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -753,7 +692,7 @@
 </div>
 
 <div class="card" id="card-schanz"
-     data-layer="3" data-status="planned"
+     data-layer="3"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -773,13 +712,9 @@
       
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">System dynamics / Network of Markets</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -800,7 +735,7 @@
 </div>
 
 <div class="card" id="card-brown"
-     data-layer="3" data-status="planned"
+     data-layer="3"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
 
@@ -820,13 +755,9 @@
       <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Jun.-Prof. Dr. Ana Stritih · Prof. Dr. Maja Schlüter · Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
-      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
       <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Agent-based model / Land use model</span>
     </div>
   </div>
-
-  <!-- Key question — most prominent for social scientists -->
-  
 
   <!-- Description -->
   <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
@@ -860,11 +791,9 @@ function filterCards(filter, btn) {
   btn.classList.add('active');
   document.querySelectorAll('.card').forEach(card => {
     if (filter === 'all') card.style.display = '';
-    else if (filter.startsWith('layer-')) {
+    else {
       const layer = filter.replace('layer-','');
       card.style.display = card.dataset.layer === layer ? '' : 'none';
-    } else {
-      card.style.display = card.dataset.status === filter ? '' : 'none';
     }
   });
 }
