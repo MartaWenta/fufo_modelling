@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Survey — Modelling Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #1e3a5f;
+    --green:  #1a7a4a;
+    --border: #e2e8f0;
+    --bg:     #f8fafc;
+    --muted:  #94a3b8;
+    --slate:  #475569;
+    --red:    #c0392b;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: #1e293b;
+    min-height: 100vh;
+  }
+  header {
+    background: var(--navy);
+    padding: 18px 32px 16px;
+    border-bottom: 3px solid var(--green);
+  }
+  header .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .2em;
+    color: #6bcf9e;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  header h1 { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -.02em; }
+  header p  { font-size: 12px; color: #94a3b8; margin-top: 4px; line-height: 1.6; max-width: 620px; }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+  }
+
+  .section {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    width: 20px;
+  }
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .section-body { padding: 20px 22px; }
+
+  .field { display: flex; flex-direction: column; margin-bottom: 6px; }
+  label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 6px;
+  }
+  label .hint {
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--muted);
+    margin-left: 6px;
+    font-size: 9.5px;
+  }
+  input[type=text], select, textarea {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: #1e293b;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 12px;
+    transition: border-color .15s, box-shadow .15s;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(30,58,95,.08);
+  }
+  textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: background .15s, transform .1s;
+  }
+  .submit-btn:hover  { background: #16304f; }
+  .submit-btn:active { transform: scale(.99); }
+
+  #thank-you {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-top: 8px;
+  }
+  #thank-you h2 {
+    font-size: 20px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  #thank-you p { font-size: 13px; color: var(--slate); line-height: 1.6; }
+
+  .field-error input,
+  .field-error select,
+  .field-error textarea { border-color: var(--red) !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Future Forests Excellence Cluster · Universität Freiburg · C3 Modelling Framework</div>
+  <h1>Survey — Modelling Framework</h1>
+</header>
+
+<div class="wrap">
+
+  <div id="form-body">
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">00</span>
+        <span class="section-title">Your Name & Group</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label>Name <span class="hint">PI or researcher filling in this form</span></label>
+          <input type="text" id="name" placeholder="Prof. Dr. Michael Pregernig">
+        </div>
+        <div class="field" style="margin-top:12px">
+          <label>Research group / theme</label>
+          <input type="text" id="group" placeholder="B1 — Evidentiary bases of decision-making">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <span class="section-title">What does your group produce that is relevant for C3 models?</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <textarea id="q1" rows="5" placeholder=""></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <span class="section-title">Which C3 groups does your work connect to, and how?</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <textarea id="q2" rows="5" placeholder=""></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <span class="section-title">What do you need from C3 models to do your work?</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <textarea id="q3" rows="5" placeholder=""></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" type="button" onclick="submitForm()">Submit</button>
+
+  </div>
+
+  <div id="thank-you">
+    <h2>Thank you.</h2>
+    <p>Your response has been sent to the C3 Modelling Coordinator.<br>
+    We will be in touch if we have follow-up questions.</p>
+  </div>
+
+</div>
+
+<form id="hidden-form" action="https://formsubmit.co/martawenta@gmail.com" method="POST" target="_blank" style="display:none;">
+  <input type="hidden" name="_subject"  value="FuFo C3 Registry — RA B input">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_captcha"  value="false">
+  <input type="hidden" name="name"      id="f-name">
+  <input type="hidden" name="group"     id="f-group">
+  <textarea name="Q1_what_does_your_group_produce" id="f-q1"></textarea>
+  <textarea name="Q2_which_C3_groups_and_how"      id="f-q2"></textarea>
+  <textarea name="Q3_what_do_you_need_from_C3"     id="f-q3"></textarea>
+</form>
+
+<script>
+function submitForm() {
+  const name  = document.getElementById('name').value.trim();
+  const group = document.getElementById('group').value.trim();
+  const q1    = document.getElementById('q1').value.trim();
+  const q2    = document.getElementById('q2').value.trim();
+  const q3    = document.getElementById('q3').value.trim();
+
+  // Require at least name and one answer
+  let ok = true;
+  if (!name) {
+    document.getElementById('name').closest('.field').classList.add('field-error');
+    ok = false;
+  } else {
+    document.getElementById('name').closest('.field').classList.remove('field-error');
+  }
+  if (!q1 && !q2 && !q3) {
+    ['q1','q2','q3'].forEach(id => {
+      document.getElementById(id).closest('.field').classList.add('field-error');
+    });
+    ok = false;
+  } else {
+    ['q1','q2','q3'].forEach(id => {
+      document.getElementById(id).closest('.field').classList.remove('field-error');
+    });
+  }
+  if (!ok) return;
+
+  // Fill hidden form
+  document.getElementById('f-name').value  = name;
+  document.getElementById('f-group').value = group;
+  document.getElementById('f-q1').value    = q1;
+  document.getElementById('f-q2').value    = q2;
+  document.getElementById('f-q3').value    = q3;
+
+  // Submit and show thank-you
+  document.getElementById('hidden-form').submit();
+  document.getElementById('form-body').style.display  = 'none';
+  document.getElementById('thank-you').style.display  = 'block';
+}
+</script>
+</body>
+</html>
