@@ -18,11 +18,8 @@
     --border: #e2e8f0;
     --bg:     #f8fafc;
     --white:  #ffffff;
-    --l1-bg:  #f0fdf7;
     --l1-bdr: #1a7a4a;
-    --l2-bg:  #eff6ff;
     --l2-bdr: #1a4f8a;
-    --l3-bg:  #fffbeb;
     --l3-bdr: #d97706;
   }
 
@@ -135,7 +132,7 @@
     font-size: 9.5px;
   }
 
-  input[type=text], input[type=date], select, textarea {
+  input[type=text], select, textarea {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 13px;
     color: #1e293b;
@@ -166,10 +163,7 @@
     cursor: text;
     transition: border-color .15s;
   }
-  .tag-group:focus-within {
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(30,58,95,.08);
-  }
+  .tag-group:focus-within { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(30,58,95,.08); }
   .tag {
     background: #f1f5f9;
     color: var(--slate);
@@ -181,10 +175,7 @@
     gap: 5px;
     animation: pop .12s ease;
   }
-  @keyframes pop {
-    from { transform: scale(.85); opacity:0; }
-    to { transform: scale(1); opacity:1; }
-  }
+  @keyframes pop { from { transform: scale(.85); opacity:0; } to { transform: scale(1); opacity:1; } }
   .tag button {
     background: none;
     border: none;
@@ -208,12 +199,7 @@
     padding: 2px 4px;
     color: #1e293b;
   }
-  .tag-hint {
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 3px;
-    font-style: italic;
-  }
+  .tag-hint { font-size: 10px; color: var(--muted); margin-top: 3px; font-style: italic; }
 
   .io-block {
     border: 1px solid var(--border);
@@ -262,11 +248,7 @@
     width: 100%;
     justify-content: center;
   }
-  .add-btn:hover {
-    border-color: var(--navy);
-    color: var(--navy);
-    background: #f0f4f8;
-  }
+  .add-btn:hover { border-color: var(--navy); color: var(--navy); background: #f0f4f8; }
 
   .btn-row {
     display: flex;
@@ -303,14 +285,7 @@
   }
   .secondary-btn:hover { background: #f0f4f8; }
   .primary-btn:active,
-  .secondary-btn:active {
-    transform: scale(.99);
-  }
-  .primary-btn:disabled,
-  .secondary-btn:disabled {
-    opacity: .65;
-    cursor: not-allowed;
-  }
+  .secondary-btn:active { transform: scale(.99); }
 
   #output-panel {
     display: none;
@@ -320,10 +295,7 @@
     margin-top: 8px;
     animation: slideIn .2s ease;
   }
-  @keyframes slideIn {
-    from { opacity:0; transform: translateY(8px); }
-    to { opacity:1; transform:none; }
-  }
+  @keyframes slideIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform:none; } }
   .output-head {
     background: var(--navy);
     color: #fff;
@@ -349,10 +321,7 @@
     transition: background .15s;
   }
   #copy-btn:hover { background: rgba(255,255,255,.22); }
-  #copy-btn.copied {
-    background: var(--green);
-    border-color: var(--green);
-  }
+  #copy-btn.copied { background: var(--green); border-color: var(--green); }
   #yaml-out {
     background: #0f1923;
     color: #e2f0ff;
@@ -369,7 +338,7 @@
   .y-str   { color: #93c5fd; }
   .y-dash  { color: #f472b6; }
 
-  #submit-panel {
+  #email-panel {
     display: none;
     margin-top: 14px;
     border: 1px solid var(--border);
@@ -378,8 +347,8 @@
     padding: 14px 16px;
     animation: slideIn .2s ease;
   }
-  #submit-panel.visible { display: block; }
-  #submit-title {
+  #email-panel.visible { display: block; }
+  #email-title {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     letter-spacing: .1em;
@@ -387,17 +356,15 @@
     color: var(--navy);
     margin-bottom: 8px;
   }
-  #submit-message {
+  #email-message {
     font-size: 13px;
     line-height: 1.6;
     color: #334155;
   }
-  #submit-message.success { color: var(--green); }
-  #submit-message.error { color: var(--red); }
+  #email-message.success { color: var(--green); }
+  #email-message.error { color: var(--red); }
 
-  .field-error input,
-  .field-error select,
-  .field-error textarea {
+  .field-error input, .field-error select, .field-error textarea {
     border-color: var(--red) !important;
   }
 
@@ -414,7 +381,7 @@
 <header>
   <div class="tag">Future Forests Excellence Cluster · Universität Freiburg · Research Area C3</div>
   <h1>C3 Model Registry — Group Entry Form</h1>
-  <p>Fill in what you know. Leave fields blank or "TBD" if not yet confirmed. Generate the YAML entry, then submit it to open a GitHub pull request.</p>
+  <p>Fill in what you know. Leave fields blank or "TBD" if not yet confirmed. Generate the YAML preview, then send it by email.</p>
 </header>
 
 <div class="wrap">
@@ -437,14 +404,13 @@
             <option value="seifert"     data-layer="1" data-name="Thomas Seifert">Thomas Seifert</option>
             <option value="kattenborn"  data-layer="1" data-name="Teja Kattenborn">Teja Kattenborn</option>
             <option value="orth"        data-layer="1" data-name="René Orth">René Orth</option>
-            <option value="iland"       data-layer="2" data-name="Thomas Seifert">Seifert</option>
+            <option value="iland"       data-layer="2" data-name="Thomas Seifert / Ana Stritih">Seifert + Stritih (iLAND)</option>
             <option value="roger"       data-layer="2" data-name="Markus Weiler">Markus Weiler (RoGeR)</option>
             <option value="stritih"     data-layer="3" data-name="Ana Stritih">Ana Stritih</option>
             <option value="hanewinkel"  data-layer="3" data-name="Marc Hanewinkel">Marc Hanewinkel</option>
             <option value="pauliuk"     data-layer="3" data-name="Stefan Pauliuk">Stefan Pauliuk</option>
             <option value="schanz"      data-layer="3" data-name="Heiner Schanz">Heiner Schanz</option>
-            <option value="brown_calum" data-layer="3" data-name="Calum Brown">Calum Brown</option>
-            <option value="brown_ana"   data-layer="3" data-name="Ana Stritih">Ana Stritih</option>
+            <option value="brown"       data-layer="3" data-name="Calum Brown">Calum Brown</option>
             <option value="other"       data-layer="" data-name="">Other (fill below)</option>
           </select>
         </div>
@@ -536,36 +502,42 @@
     <div class="section-body">
       <div class="field full">
         <label>Notes <span class="hint">couplings, pending decisions, synergies…</span></label>
-        <textarea id="notes" rows="3" placeholder="e.g. Bidirectionally coupled with iLAND. Hiring pending confirmation."></textarea>
+        <textarea id="notes" rows="3" placeholder="e.g. Bidirectionally coupled with iLAND. Pending confirmation of datasets."></textarea>
       </div>
     </div>
   </div>
 
   <div class="btn-row">
     <button id="generate-btn" class="primary-btn" type="button" onclick="generate()">⟶ Generate YAML Entry</button>
-    <button id="submit-btn" class="secondary-btn" type="button" onclick="submitToGitHub()">↗ Submit to GitHub PR</button>
+    <button id="email-btn" class="secondary-btn" type="button" onclick="sendByEmail()">✉ Send by Email</button>
   </div>
 
   <div id="output-panel">
     <div class="output-head">
       <span>YAML — preview</span>
-      <button id="copy-btn" onclick="copyYAML()">Copy</button>
+      <button id="copy-btn" type="button" onclick="copyYAML()">Copy</button>
     </div>
     <pre id="yaml-out"></pre>
   </div>
 
-  <div id="submit-panel">
-    <div id="submit-title">GitHub submission</div>
-    <div id="submit-message"></div>
+  <div id="email-panel">
+    <div id="email-title">Email submission</div>
+    <div id="email-message"></div>
   </div>
 </div>
 
-<script>
-// Change this to your backend URL.
-// Example:
-// const BACKEND_URL = 'https://your-backend.example.com/submit-model';
-const BACKEND_URL = '/submit-model';
+<form id="email-form" action="https://formsubmit.co/martawenta@gmail.com" method="POST" target="_blank" style="display:none;">
+  <input type="hidden" name="_subject" id="email-subject" value="FuFo C3 model entry">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="submission_type" value="FuFo C3 model entry">
+  <input type="hidden" name="pi_name" id="email-pi-name" value="">
+  <input type="hidden" name="layer" id="email-layer" value="">
+  <input type="hidden" name="model_name" id="email-model-name" value="">
+  <textarea name="yaml_entry" id="email-yaml"></textarea>
+</form>
 
+<script>
 let langs = [];
 let ioCounters = { input: 0, output: 0 };
 let latestYAML = '';
@@ -654,8 +626,7 @@ function addIO(containerId, type) {
         <input type="text" id="${type}-format-${n}" placeholder="e.g. NetCDF, GeoTIFF, CSV, SQLite">
       </div>
       ${extraField}
-    </div>
-  `;
+    </div>`;
 
   container.appendChild(div);
 }
@@ -737,8 +708,8 @@ function validateForm() {
     if (!hasValue) {
       ok = false;
       if (wrap) wrap.classList.add('field-error');
-    } else {
-      if (wrap) wrap.classList.remove('field-error');
+    } else if (wrap) {
+      wrap.classList.remove('field-error');
     }
   });
 
@@ -751,8 +722,8 @@ function validateForm() {
       if (!hasValue) {
         ok = false;
         if (wrap) wrap.classList.add('field-error');
-      } else {
-        if (wrap) wrap.classList.remove('field-error');
+      } else if (wrap) {
+        wrap.classList.remove('field-error');
       }
     });
   }
@@ -791,7 +762,6 @@ function buildSubmissionData() {
   const modelType = document.getElementById('model-type').value.trim();
   const description = document.getElementById('description').value.trim();
   const notes = document.getElementById('notes').value.trim();
-
   const inputs = collectIO('input');
   const outputs = collectIO('output');
 
@@ -810,41 +780,14 @@ function buildSubmissionData() {
   yaml += `    outputs:\n${formatIOBlock(outputs, 'output')}`;
   if (notes) yaml += `    notes: ${q(notes)}\n`;
 
-  const today = new Date().toISOString().slice(0, 10);
-  const safeModel = modelName
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9_-]/g, '');
-
-  const filename = `${today}-${id}-${safeModel || 'model'}.yml`;
-
-  return {
-    repo: 'MartaWenta/fufo_modelling',
-    output_folder: 'submissions',
-    filename,
-    branch_name: `submission/${today}-${id}-${safeModel || 'model'}`,
-    pr_title: `Add model entry: ${modelName}`,
-    pr_body:
-`Automated submission from model_entry_form.html
-
-PI: ${piName}
-Layer: ${layer}
-Model: ${modelName}
-
-Please review this YAML entry before merging.`,
-    id,
-    layer,
-    pi_name: piName,
-    model_name: modelName,
-    yaml
-  };
+  return { id, piName, layer, modelName, yaml };
 }
 
 function highlightYaml(yaml) {
   return yaml
     .replace(/^(  - id:|    layer:|    pi:|    model_name:|    short_description:|    type:|    language:|    inputs:|    outputs:|    notes:|      - name:|        format:|        source:|        consumers:|        resolution:)/gm,
       m => `<span class="y-key">${m}</span>`)
-    .replace(/"([^"]*)"/g, (m, v) => `<span class="y-str">"${escapeHtml(v)}"</span>`)
+    .replace(/"([^\"]*)"/g, (m, v) => `<span class="y-str">\"${escapeHtml(v)}\"</span>`)
     .replace(/^(  - )/gm, `<span class="y-dash">  - </span>`);
 }
 
@@ -859,70 +802,35 @@ function generate() {
   document.getElementById('output-panel').style.display = 'block';
   document.getElementById('output-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  setSubmitMessage('', '');
-  document.getElementById('submit-panel').classList.remove('visible');
+  setEmailMessage('Preview updated. When you click “Send by Email”, a new tab will open for the email submission.', 'success');
 }
 
-async function submitToGitHub() {
+function sendByEmail() {
   const data = buildSubmissionData();
   if (!data) return;
 
   latestPayload = data;
   latestYAML = data.yaml;
-
   document.getElementById('yaml-out').innerHTML = highlightYaml(data.yaml);
   document.getElementById('output-panel').style.display = 'block';
 
-  const submitBtn = document.getElementById('submit-btn');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Submitting…';
+  document.getElementById('email-subject').value = `FuFo C3 model entry — ${data.modelName}`;
+  document.getElementById('email-pi-name').value = data.piName;
+  document.getElementById('email-layer').value = data.layer;
+  document.getElementById('email-model-name').value = data.modelName;
+  document.getElementById('email-yaml').value = data.yaml;
 
-  setSubmitMessage('Submitting YAML to backend…', '');
-  document.getElementById('submit-panel').classList.add('visible');
+  setEmailMessage('Opening the email submission in a new tab. On first use, FormSubmit will send a confirmation email to martawenta@gmail.com before future submissions arrive directly.', 'success');
 
-  try {
-    const res = await fetch(BACKEND_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    });
-
-    const raw = await res.text();
-    let json = {};
-    try {
-      json = raw ? JSON.parse(raw) : {};
-    } catch {
-      json = { message: raw };
-    }
-
-    if (!res.ok) {
-      throw new Error(json.message || `Request failed with status ${res.status}`);
-    }
-
-    const prUrl = json.pr_url || json.pull_request_url || '';
-    const branch = json.branch_name || data.branch_name;
-    const filePath = json.file_path || `${data.output_folder}/${data.filename}`;
-
-    let msg = `Submission created on branch ${branch}. File: ${filePath}.`;
-    if (prUrl) {
-      msg += ` Pull request: <a href="${prUrl}" target="_blank" rel="noopener noreferrer">${prUrl}</a>`;
-    }
-
-    setSubmitMessage(msg, 'success');
-  } catch (err) {
-    setSubmitMessage(err.message || 'Submission failed.', 'error');
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = '↗ Submit to GitHub PR';
-  }
+  document.getElementById('email-form').submit();
 }
 
-function setSubmitMessage(message, type) {
-  const el = document.getElementById('submit-message');
+function setEmailMessage(message, type) {
+  const panel = document.getElementById('email-panel');
+  const el = document.getElementById('email-message');
+  panel.classList.add('visible');
   el.className = type || '';
-  el.innerHTML = message || '';
+  el.textContent = message || '';
 }
 
 function copyYAML() {
