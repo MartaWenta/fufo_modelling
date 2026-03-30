@@ -37,9 +37,8 @@ groups:
     pi: "Dr. Christopher Jung / Prof. Dr. Dirk Schindler"
     pi_applicants: ["Prof. Dr. Kerstin Stahl", "Prof. Dr. Dirk Schindler", "Prof. Dr. Andreas Christen", "Prof. Dr. René Orth"]
     model_name: "HyClimScenarios"
-    short_description: "Part of C2. Prepares high-resolution regionalized climate projections for the entire cluster — covering historical conditions and future warming levels under CMIP6 scenarios — by applying statistical downscaling from the global ~10–120 km scale to a 100 m × 100 m grid. Develops novel approaches for forest-relevant aspects of the water balance and climate, including extreme events. The project draws on broad expertise in hydrological analysis and the upscaling of water-related processes, including the impacts of drought on forest health, environment and society at a European scale. Extreme event storylines and stress-test scenarios — for example, asking what would happen if the 2018–2022 drought sequence recurred under future climate conditions — are developed in collaboration with Prof. Dr. Kerstin Stahl (C2 co-lead), who also leads the coupled surface-groundwater hydrological modelling extending RoGeR with the groundwater model MODFLOW."
+    short_description: "This project produces the high-resolution climate forcing that C3 models require, downscaling ERA5-Land reanalysis and CMIP6 projections from the ~10–120 km scale to a 100 m × 100 m grid across the study regions. Tree-ensemble machine learning is used for bias correction and statistical downscaling, covering historical conditions and future warming levels. Beyond standard climate variables, the project develops novel approaches for forest-relevant aspects of the water balance, including extreme events and event-storyline scenarios developed in collaboration with Stahl."
     type: "Statistical downscaling / Climate scenario modelling"
-    key_question: "What are the relevant hydro-climatic conditions and extreme events that future forests in our study region will face, historically and under future warming scenarios?"
     modelling_approach: "Statistical downscaling / Machine learning (tree-ensemble)"
     language: ["Python", "R"]
     status: "in_development"
@@ -73,15 +72,47 @@ groups:
       name: "TBD"
       start: "TBD"
 
-  - id: christen
+  - id: stahl
     layer: 1
-    pi: "Prof. Dr. Andreas Christen"
+    pi: "Prof. Dr. Kerstin Stahl"
+    pi_collaborators: ["Prof. Dr. Dirk Schindler", "Prof. Dr. Markus Weiler"]
+    model_name: "Extreme Event Storylines & Coupled Groundwater Hydrology"
+    short_description: "Stahl's contribution to C3 focuses on two connected areas. First, the development of extreme event storylines and stress-test scenarios — asking, for example, what would happen to forest SESs if the 2018–2022 drought sequence recurred under mid-century climate conditions. These scenarios go beyond standard ensemble projections to represent specific, high-impact events relevant for forest management. Second, the coupled surface-groundwater hydrological modelling, extending RoGeR with the groundwater model MODFLOW to assess how groundwater disconnection from forest root systems intensifies drought stress. Stahl co-leads C2 with Hanewinkel and is connected to six C3 groups in the workshop collaboration matrix."
+    modelling_approach: "Extreme event storylines / Coupled surface-groundwater modelling"
+    type: "Extreme value analysis / Event storyline modelling / Coupled hydrology"
+    language: ["R", "Python"]
+    status: "in_development"
+    scale: "Regional — FuFo domain to state-wide (SW Germany)"
+    inputs:
+      - name: "Downscaled climate projections (historical and future scenarios)"
+        format: "NetCDF"
+        source: "Jung/Schindler (HyClimScenarios) / ECMWF / ESGF"
+      - name: "Long-term hydrological observation records (streamflow, groundwater levels)"
+        format: "CSV"
+        source: "German water authorities / GRDC"
+      - name: "RoGeR soil water and lateral flow outputs"
+        format: "NetCDF / CSV"
+        source: "Weiler (RoGeR)"
+    outputs:
+      - name: "Extreme event storylines and stress-test scenarios (e.g. recurrence of 2018–22 drought in 2050)"
+        format: "NetCDF / structured scenario parameters"
+        consumers: ["iLAND", "RoGeR", "Brown", "Christen", "Kattenborn", "Orth"]
+      - name: "Coupled surface-groundwater model outputs — groundwater levels under drought stress"
+        format: "NetCDF / CSV"
+        consumers: ["iLAND", "RoGeR"]
+      - name: "Hydro-climatic indices: drought frequency, severity, duration"
+        format: "CSV / NetCDF"
+        consumers: ["Brown", "Hanewinkel"]
+    hire:
+      name: "TBD"
+      start: "TBD"
+
+  - id: christen
     pi_collaborators: ["Prof. Dr. Markus Weiler", "Dr. Florian Schnabel"]
     project: "Theme A1 WP1 — Adaptive Sensor Network"
     model_name: "Adaptive Sensor Network & In-canopy Microclimate Model (A1)"
-    short_description: "Theme A1 investigates how climatic changes amplify or moderate within-forest microclimatic conditions and what drives this propagation. The work is built around approximately 300 observational forest plots and 40–50 research catchments across the study regions. WP1 develops a data-driven approach to model within-forest hydro-climatic conditions using an adaptive sensor network and machine learning. The sensor network records conditions at 300 plots within 100–150 stands and is self-optimising: after year 1, sites delivering redundant information are progressively abandoned and equipment moved to under-sampled conditions. The machine learning component follows three steps: (1) quality control and station uniqueness assessment; (2) hindcasting of in-canopy microclimates over 30 years at each sensor site; (3) a transferable regional model integrating geospatial predictors, sensor data and physical downscaling to predict below-canopy temperatures and humidity at any forested location in the FuFo domain."
+    short_description: "Within-forest microclimates differ substantially from above-canopy conditions and are rarely modelled at scale. This project combines an adaptive sensor network with machine learning to reconstruct and predict fine-scale hydro-climatic conditions across the study regions. The network covers approximately 300 plots within 100–150 stands and is self-optimising — sites providing redundant information are progressively replaced. From this base, three modelling steps follow: quality-controlled station data are used to hindcast in-canopy conditions over 30 years, and the resulting model is extended into a transferable regional tool predicting below-canopy temperatures and humidity at any forested site in the domain."
     type: "Machine learning / Spatial-temporal downscaling"
-    key_question: "What are the exact temperature and humidity conditions inside forest canopies across the region — and how do they differ from the climate above the canopy?"
     modelling_approach: "Machine learning / Spatial-temporal downscaling"
     language: ["Python"]
     status: "in_development"
@@ -108,9 +139,8 @@ groups:
     layer: 1
     pi: "Prof. Dr. Markus Weiler"
     model_name: "Spatial Data Infrastructure & Ecohydrological Framework (GIS)"
-    short_description: "Weiler's role in C3 spans two nodes: this GIS infrastructure layer and the RoGeR hydrological model (Layer 2). Here, his group provides the static spatial data backbone for all C3 models: soil properties, forest structure, hydrology network, and catchment delineations at 100 m resolution across the FuFo domain. The data draws on national soil maps (BÜK200), forest inventory (BWI), and LiDAR terrain models from LGL Baden-Württemberg. Beyond data provision, Weiler brings broad ecohydrological expertise — from stand-level water balance to state-wide hydrological modelling — developed across multiple joint projects: DRIeR (drought, with Stahl and Bauhus), WaldlabOR (decentralised water retention in the Black Forest), and a coupling of RoGeR with bark beetle infestation risk at 10 m resolution (with Puhlmann). He also contributes to Theme A1 (water cycle and clean water provisioning, WP4, with Lang and Christen)."
+    short_description: "This group compiles and harmonises the static spatial datasets that underpin all C3 models at 100 m resolution: soil properties from the BÜK200 maps, forest structure from the Bundeswaldinventur and LiDAR terrain models, and catchment delineations for hydrological routing."
     type: "GIS / Spatial data integration / Ecohydrology"
-    key_question: "What does the physical landscape look like — where are the soils, forests, and water networks — and how do forests interact with the water cycle from stand to watershed?"
     modelling_approach: "GIS / Spatial data integration"
     language: ["Python", "R", "QGIS"]
     status: "operational"
@@ -147,9 +177,8 @@ groups:
     pi: "Prof. Dr. Thomas Seifert"
     pi_collaborators: ["Dr. Axel Albrecht", "Prof. Dr. Marc Hanewinkel", "Prof. Dr. Markus Weiler"]
     model_name: "LiDAR Forest Inventory and Dendroecology"
-    short_description: "Provides iLAND initialisation data from terrestrial (TLS) and UAV (ULS) laser scanning — individual tree positions, diameter at breast height (DBH), height, and species — combined with dendrochronology (tree ring) growth records. Also contributes to digital twins of forest stands."
+    short_description: "This group provides the structural forest data needed to initialise iLAND and validate its simulations. Terrestrial (TLS) and UAV-based (ULS) laser scanning characterise individual tree positions, dimensions, and species across the study stands. Dendrochronological records add decades of annual growth response, giving iLAND both a realistic starting state and a long-term observational reference for calibration. The group also develops digital twin reconstructions of forest stands for structural analysis."
     type: "Remote sensing / Field measurements / Dendroecology"
-    key_question: "What is the exact structure of individual trees in our forests, and how have they grown over time?"
     modelling_approach: "Remote sensing (LiDAR) / Dendroecology"
     language: ["R", "Python", "C++"]
     status: "in_development"
@@ -184,9 +213,8 @@ groups:
     pi: "Prof. Dr. Teja Kattenborn"
     pi_collaborators: ["Prof. Dr. René Orth", "Dr. Pia Müller"]
     model_name: "Remote Sensing Mortality and Plant Traits"
-    short_description: "Drone and satellite-based mapping of tree mortality using convolutional neural networks (CNN). Contributes to the deadtree.earth initiative. Derives satellite- and drone-derived plant functional traits (leaf area index LAI, chlorophyll, crown area) for iLAND validation and calibration."
+    short_description: "This group maps tree mortality at landscape scale using drone and satellite imagery analysed with convolutional neural networks, contributing to the international deadtree.earth initiative. In addition, plant functional traits — leaf area index, chlorophyll, crown area — are derived from satellite time series, providing spatially continuous observations for iLAND calibration and validation."
     type: "Deep learning / Remote sensing"
-    key_question: "Where are trees dying, and what are the functional traits of forests we can observe from above?"
     modelling_approach: "Deep learning / Remote sensing"
     language: ["Python"]
     status: "operational"
@@ -214,9 +242,8 @@ groups:
     pi: "Prof. Dr. René Orth"
     pi_collaborators: ["Prof. Dr. Teja Kattenborn", "Dr. Pia Müller"]
     model_name: "Forest Drought Response Functions"
-    short_description: "Quantifies the emergent response of forests to dryness using global satellite and flux tower data. Generates species-specific response functions relating vegetation function to soil water content (SWC) and vapour pressure deficit (VPD) — used to constrain drought mortality in iLAND. Ref: Lusk et al. 2025 (bioRxiv)."
+    short_description: "This group quantifies how forest function declines as water availability decreases, using global satellite observations, eddy covariance flux tower data, and plant traits from the TRY database. The resulting species-specific response functions — relating photosynthesis and transpiration to soil water content and vapour pressure deficit — are embedded into iLAND to constrain its drought mortality representation. Reference: Lusk et al. 2025 (bioRxiv)."
     type: "Machine learning / Data synthesis / Observational"
-    key_question: "How do forests respond physiologically when they run out of water — and when do they start dying?"
     modelling_approach: "Machine learning / Data synthesis"
     language: ["Python", "R"]
     status: "operational"
@@ -252,9 +279,8 @@ groups:
     pi: "Prof. Dr. Thomas Seifert"
     pi_collaborators: ["Dr. Axel Albrecht", "Prof. Dr. Marc Hanewinkel", "Prof. Dr. Markus Weiler", "Jun.-Prof. Dr. Ana Stritih"]
     model_name: "iLAND — Individual-based Forest Landscape and Disturbance Model"
-    short_description: "The central simulation model of C3. Simulating how individual trees and entire forest landscapes grow, die, and respond to management and disturbance over time. iLAND tracks every individual tree in a landscape — its growth, mortality from drought, wind, bark beetle, or fire, and regeneration — at 100 m × 100 m resolution from plot scale to ~10 000 ha. It includes a management module (the Agent-Based Engine, ABE) that can represent different silvicultural strategies, directly linking to Stritih's participatory modelling work. iLAND is open-source, widely applied internationally, and bidirectionally coupled with the hydrological model RoGeR. Reference: Rammer et al. (2024), Ecological Modelling 495, 110785."
+    short_description: "iLAND simulates growth, mortality, regeneration, and disturbance for every individual tree in a landscape at 100 m × 100 m resolution, from plot scale up to catchments of around 10 000 ha. Ecophysiological processes — carbon allocation, light competition, drought stress, wind, bark beetle, and fire — are represented explicitly. Silvicultural management is handled through the Agent-Based Engine (ABE) module, which links directly to participatory scenario work. iLAND is bidirectionally coupled with RoGeR."
     type: "Process-based / Individual-based forest landscape model"
-    key_question: "How will forests grow, die, and change under future climates and different management decisions — and what timber, carbon, and ecosystem services will they provide?"
     modelling_approach: "Process-based / Individual-based model"
     language: ["C++", "R", "JavaScript (iLAND interface)"]
     status: "operational"
@@ -303,9 +329,8 @@ groups:
     layer: 2
     pi: "Prof. Dr. Markus Weiler"
     model_name: "RoGeR — Runoff Generation Research Model (modular toolkit)"
-    short_description: "Hydrological model toolkit that simulates how water moves through soils and landscapes, determining where trees have enough water and where they are at risk of drought stress. A key distinctive feature: no calibration of model parameters — all inputs are physically measurable soil and terrain properties, making the model directly interpretable. RoGeR is a modular family: RoGeR (core runoff processes), RoGeR_WB (full water balance, variable timestep), RoGeR_dyn (2D dynamic surface runoff), RoGeR_WB_Dyn (combined). Scale: 1 m to several 1000 km², timestep 1 min to 1 day. Three topographic contexts are modelled explicitly: plateau (1D, no lateral flow, current dynamic vegetation models only cover this case), hillslope (lateral subsurface inflow and outflow from upslope), and riparian/valley bottom (groundwater and capillary rise). This explicit representation of lateral subsurface flow explains tree-to-tree drought mortality differences on the same hillslope — a process missing from most dynamic vegetation models. In FuFo, Stahl is developing a coupling of RoGeR with the groundwater model MODFLOW, extending the system to deeper water cycle dynamics under climate stress (building on Hellwig et al. 2021). Weiler and Puhlmann have also coupled RoGeR to predict bark beetle infestation sites at 10 m resolution from soil water stress."
+    short_description: "RoGeR models water redistribution at the surface and subsurface across three topographic settings — plateau (vertical flow only), hillslope (lateral subsurface inflow and outflow), and riparian zones (groundwater and capillary rise). All parameters are physically measurable; no calibration is required. The model operates from 1 m to several thousand km² and timesteps from one minute to one day. Within FuFo, it is being extended with a groundwater component through coupling to MODFLOW (Stahl) and has previously been coupled to bark beetle infestation risk at 10 m resolution (Weiler and Puhlmann)."
     type: "Process-based hydrological model"
-    key_question: "Which trees are most vulnerable to drought, and why — does it depend on the soil, the slope position, or access to groundwater?"
     modelling_approach: "Process-based hydrological model (no parameter calibration)"
     language: ["Python", "Fortran"]
     status: "operational"
@@ -344,9 +369,8 @@ groups:
     layer: 3
     pi: "Jun.-Prof. Dr. Ana Stritih"
     model_name: "Participatory Modelling — iLAND + ABE"
-    short_description: "Integrates diverse actors perspectives on forest management objectives, decision-making, and key future challenges into iLAND's ABE (Agent-Based Engine) module. Conducts participatory process with local stakeholders (forest managers) to define management scenarios and evaluate their credibility and legitimacy. Produces landscape-scale scenario outputs feeding other C3 models."
+    short_description: "Integrates diverse actors' perspectives on forest management objectives, decision-making, and key future challenges into a coupled forest dynamics and agent-based model (iLAND + ABE). The process is iterative and transdisciplinary — co-learning among scientists and practitioners is an explicit goal alongside the technical modelling work. Management scenarios are developed and evaluated for their credibility and legitimacy, contributing to Adaptation and Transformation Pathways. Study areas under discussion include Schwarzwald and Oberrhein, to be defined with the SES-CaseLab."
     type: "Participatory modelling / Agent-based modelling / Spatial analysis"
-    key_question: "What do local forest managers actually want to do with their forests — and which management futures do they consider realistic and desirable?"
     modelling_approach: "Participatory modelling / Agent-based model"
     language: ["R", "Python", "JavaScript (iLAND ABE)"]
     status: "in_development"
@@ -393,9 +417,8 @@ groups:
     pi: "Prof. Dr. Marc Hanewinkel"
     pi_collaborators: ["Prof. Dr. Stefan Pauliuk"]
     model_name: "Forest Economics and Risk Model (GFPM-SW)"
-    short_description: "Economic modelling and evaluation framework for ecosystem services (ES) under risk and uncertainty. Adapts the Global Forest Products Model (GFPM, Buongiorno et al.) for Southwest Germany using partial equilibrium modelling in GAMS (General Algebraic Modelling System). Applies robust management strategies optimised with VaR (Value at Risk) and CVaR (Conditional Value at Risk) metrics. Links biophysical outputs to the industry sphere via Pauliuk wood cascade model."
+    short_description: "Develops an economic modelling and evaluation framework for ecosystem services under risk and uncertainty, applied to the outputs of the process-based growth models. The framework adapts the Global Forest Products Model (GFPM, Buongiorno et al.) for Southwest Germany as a partial equilibrium model implemented in GAMS. It takes ecosystem service outputs from iLAND and RoGeR, models their flow through demand, supply, industry, and networks of markets, and produces optimised robust management strategies using Value at Risk and Conditional Value at Risk metrics. Connected to the wood cascade model of Pauliuk to link into the industry sphere. Contributes preliminary Adaptation and Transformation Pathways for forests in SW Germany, including economic boundaries and robust management strategies."
     type: "Partial equilibrium model / Economic optimisation"
-    key_question: "Which forest management strategies remain economically viable under climate uncertainty — and how will timber markets and wood prices respond?"
     modelling_approach: "Partial equilibrium / Economic optimisation"
     language: ["R", "Python", "GAMS"]
     status: "planned"
@@ -439,9 +462,8 @@ groups:
     pi: "Prof. Dr. Stefan Pauliuk"
     pi_collaborators: ["Dr. Simon Schulte"]
     model_name: "Wood Cascade and Carbon Accounting (A&TPs)"
-    short_description: "Material flow analysis (MFA) and life cycle assessment (LCA) of wood products from harvest through cascading use to end-of-life. Evaluates carbon balance impact of different wood use pathways (material substitution, energy use, long-lived products) over up to 200-year time horizons. Develops Adaptation and Transformation Pathways (A&TPs) for the wood cascade in cooperation with stakeholders via SES-CaseLab."
+    short_description: "Develops a modelling and stakeholder engagement framework for identifying and evaluating Adaptation and Transformation Pathways for wood use and cascading. An A&TP is defined here as a sequence of decisions by agents in the wood use system — together with the resulting trajectory of system variables — that meets given objectives and respects given principles of responsibility and legitimacy. The work proceeds in three steps: (1) mapping the option space through scenarios for wood supply and demand; (2) combining wood processing data, stakeholder input on development goals, and model-based decision sequences to identify candidate pathways; (3) assessing the achievability of different goals under uncertainty and evaluating pathways for synergies, trade-offs, and robustness. A co-creation process with RA B and the SES-CaseLab is required for steps 2 and 3."
     type: "Material flow analysis (MFA) / Life cycle assessment (LCA) / Socio-technical systems modelling"
-    key_question: "What happens to carbon and materials after trees are harvested — and which wood use pathways do most for the climate?"
     modelling_approach: "Material flow analysis / Life cycle assessment"
     language: ["Python"]
     status: "in_development"
@@ -478,9 +500,8 @@ groups:
     layer: 3
     pi: "Prof. Dr. Heiner Schanz"
     model_name: "FESMarkets — Forest Ecosystem Service Markets"
-    short_description: "Analyses the structural architecture of Forest Ecosystem Service (FES) networks across all forest ES, with focus on water, recreation, and protection. Macro-level: system dynamics model (stocks and flows as function of forest condition/quality). Micro-level: actor perspectives via Causal Loop Diagrams (CLDs). Provides governance dynamics for regulatory simulations. Refs: Schanz et al. (2019) Env. Innovation and Societal Transitions; Mager and Schanz (2026, in prep.)."
+    short_description: "Analyses the structural architecture of Forest Ecosystem Service networks — covering water, recreation, protection, and timber — with a focus on how actual supply and demand for these services occurs through real markets (commodities, contracts) and political markets (subsidies), linked across complex value chain networks. The goal is twofold: to characterise the architecture of these networks, and to explore their governance dynamics as a basis for regulatory simulations and system dynamics modelling. A system dynamics model captures stocks and flows at the macro level; Causal Loop Diagrams represent actor perspectives and governance interventions at the micro level."
     type: "System dynamics / Network of Markets (NoM) / Causal Loop Diagrams (CLD)"
-    key_question: "How are forest ecosystem service markets structured, and how do governance interventions ripple through the system?"
     modelling_approach: "System dynamics / Network of Markets"
     language: ["Python", "Vensim"]
     status: "planned"
@@ -515,9 +536,8 @@ groups:
     pi: "Dr. Calum Brown"
     pi_collaborators: ["Jun.-Prof. Dr. Ana Stritih", "Prof. Dr. Maja Schlüter", "Prof. Dr. Marc Hanewinkel", "Prof. Dr. Stefan Pauliuk"]
     model_name: "CRAFTY-EU — European Land Use Agent-Based Model"
-    short_description: "European agent-based model CRAFTY-EU at EU27+3, 1 km resolution. Part of the LandSyMM (landsymm.earth) global model coupling land use decision-making, macro-economics, global trade, ecosystem processes, biodiversity, and the climate system. Explores extent, types, and management patterns of future forest social-ecological systems (SES). Links FuFo models to wider European land system dynamics and global scenarios (SSP, RCP, NFF — Nature's Futures Framework)."
+    short_description: "CRAFTY-EU is an agent-based model operating at EU27+3 scale and 1 km resolution, embedded within the LandSyMM global framework that couples land use decision-making with macroeconomics, trade, ecosystem processes, biodiversity, and the climate system. Within FuFo, it provides the continental-scale context for the C3 models, upscaling local management patterns and ecosystem service outcomes and linking them to global scenarios (SSPs, RCPs, NFF). A key open challenge is bridging the scale difference between CRAFTY-EU (1 km) and iLAND (100 m)."
     type: "Agent-based model (ABM) / Land use model"
-    key_question: "How will forest management decisions across Europe change under different climate and socioeconomic futures — and what does this mean for ecosystem services at the continental scale?"
     modelling_approach: "Agent-based model / Land use model"
     language: ["Python", "Java"]
     status: "planned"
@@ -563,8 +583,7 @@ groups:
     pi: "Prof. Dr. Stefan Pauliuk"
     pi_collaborators: ["Prof. Dr. Tanja Mölders", "Prof. Dr. Maja Schlüter", "Prof. Dr. Sylvia Kruse", "Prof. Dr. Stefan Baumgärtner", "Prof. Dr. Michael Pregernig"]
     model_name: "C1 — SES Conceptual Framework"
-    short_description: "The theoretical and conceptual backbone of the entire Future Forests cluster. C1 develops a shared interdisciplinary social-ecological systems (SES) framework — including consistent definitions, indicators, accounting frameworks, and system boundaries — that all other research areas build on. It bridges natural science and social science vocabularies so that biophysical models and social models can be meaningfully connected. C1's framework provides the conceptual foundation for building comprehensive models and investigating Adaptation and Transformation Pathways (A&TPs) for novel forest SESs, as well as preparing, applying, and scaling governance innovations in C4, to provide a comprehensive and consistent depiction of future forests as novel SESs and their governance and management."
-    key_question: "What is a future forest as a social-ecological system — how do we define it, measure it, and talk about it across disciplines?"
+    short_description: "This module develops a common social-ecological systems vocabulary, indicator set, and accounting framework for the cluster. It will identify and formalise the descriptions of new interactions and new emerging properties in future forest SESs across different scales in space and time, e.g., the formation of new societal actors (businesses, lobby groups, institutions) and their relation to forests."
     modelling_approach: "Conceptual / Theoretical SES framework (not a computational model)"
     type: "Interdisciplinary SES theory and conceptualisation"
     language: []
@@ -598,8 +617,7 @@ groups:
     pi: "Prof. Dr. Marc Hanewinkel / Prof. Dr. Kerstin Stahl"
     pi_collaborators: ["Dr. Calum Brown", "Prof. Dr. Andreas Christen", "Prof. Dr. Stefan Pauliuk", "Prof. Dr. René Orth", "Prof. Dr. Dirk Schindler", "Prof. Dr. Markus Weiler"]
     model_name: "C2 — Transdisciplinary Regionalised Scenarios for Novel SESs"
-    short_description: "C2 develops consistent and stakeholder-verified scenarios depicting the different future hydro-climatic and socio-economic conditions under which future forests will develop. These scenarios are a crucial input to modelling Adaptation and Transformation Pathways (A&TPs) in C3 and governance experimentation in C4. The consortium builds on multi-disciplinary expertise with studies using climate scenarios and regionally tailored downscaled climate projections (CMIP, CORDEX), bias corrections and weather generators for a range of applications including forest growth and economics. On the biophysical side, downscaled climate models focus on ensembles with relevant extreme events and disturbance triggers such as droughts, combining long-term climate model changes with event-storyline formulations. On the socio-economic side, C2 works with partners and stakeholders to co-create quantitative scenarios for the adaptation and transformation of socio-metabolic systems, drawing on existing national scenarios for timber supply. The scenarios developed in C2 specify local conditions in established global frameworks (SSPs, RCPs, Nature's Futures Framework) for the FuFo study regions."
-    key_question: "What hydro-climatic and socio-economic conditions and extreme events will future forest social-ecological systems in our study region face — and what scenarios should guide planning and management?"
+    short_description: "This module produces the scenario infrastructure that all C3 models run on. It translates global frameworks (SSPs, RCPs, Nature's Futures Framework) into high-resolution, locally relevant inputs for the FuFo study regions. On the climate side, the focus is on downscaled projections with explicit treatment of extreme events and compound droughts. On the socio-economic side, narratives and quantitative pathways are co-created with stakeholders and partner institutions. The resulting products feed all C3 modelling groups and inform governance experimentation in C4."
     modelling_approach: "Scenario development / Statistical downscaling / Stakeholder co-design"
     type: "Scenario framework (C2) — feeds all C3 and C4 work"
     language: []
@@ -646,8 +664,7 @@ groups:
     cross_cutting: true
     pi: "Prof. Dr. Carsten Dormann"
     model_name: "Model-Data Integration & Uncertainty Quantification"
-    short_description: "Cross-cutting methodological role spanning C1 and C3. Dormann provides rigorous statistical methods for integrating observational data with models, quantifying and propagating uncertainty through the modelling chain, and developing species distribution and biodiversity models. His work ensures that the outputs of C3 models are scientifically defensible — that we know not just what the models predict, but how confident we should be. In C3, he contributes to calibration, validation, and uncertainty analysis across the model framework."
-    key_question: "How uncertain are our model predictions, which uncertainties matter most, and how do we make models and data work together rigorously?"
+    short_description: "This cross-cutting role provides the statistical methods to quantify, propagate, and communicate uncertainty across the C3 framework — covering Bayesian parameter estimation, sensitivity analysis, model-data integration, and species distribution modelling. Rather than a standalone model, Dormann contributes methodological infrastructure applicable across all C3 groups, ensuring outputs are not just predictions but scientifically defensible statements with known confidence bounds. He also co-leads B1 (evidentiary bases of decision-making) with Pregernig."
     modelling_approach: "Statistical modelling / Bayesian inference / Uncertainty quantification"
     type: "Cross-cutting methodology (C1 + C3)"
     language: ["R", "Python"]
