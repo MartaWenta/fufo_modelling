@@ -244,25 +244,6 @@
   }
   .add-btn:hover { border-color: var(--navy); color: var(--navy); background: #f0f4f8; }
 
-  /* ── Status chips ── */
-  .status-group { display: flex; gap: 8px; flex-wrap: wrap; }
-  .status-chip {
-    padding: 6px 14px;
-    border-radius: 6px;
-    border: 1.5px solid var(--border);
-    font-size: 12px;
-    font-family: 'IBM Plex Mono', monospace;
-    cursor: pointer;
-    transition: all .15s;
-    background: var(--white);
-    color: var(--slate);
-  }
-  .status-chip:hover { border-color: var(--slate); }
-  .status-chip.active[data-val="planned"]        { background:#f1f5f9; color:#475569; border-color:#94a3b8; }
-  .status-chip.active[data-val="in_development"] { background:#fffbeb; color:#d97706; border-color:#d97706; }
-  .status-chip.active[data-val="operational"]    { background:#dcfce7; color:#1a7a4a; border-color:#1a7a4a; }
-  .status-chip.active[data-val="deprecated"]     { background:#fee2e2; color:#c0392b; border-color:#c0392b; }
-
   /* ── Generate button ── */
   #generate-btn {
     display: block;
@@ -452,18 +433,6 @@
           <div class="tag-hint">Suggested: Python · R · C++ · Java · Julia · Fortran · Vensim · MATLAB</div>
         </div>
       </div>
-      <div class="row">
-        <div class="field full">
-          <label>Status</label>
-          <div class="status-group">
-            <div class="status-chip" data-val="planned"        onclick="setStatus(this)">Planned</div>
-            <div class="status-chip" data-val="in_development" onclick="setStatus(this)">In Development</div>
-            <div class="status-chip" data-val="operational"    onclick="setStatus(this)">Operational</div>
-            <div class="status-chip" data-val="deprecated"     onclick="setStatus(this)">Deprecated</div>
-          </div>
-          <input type="hidden" id="status" value="">
-        </div>
-      </div>
     </div>
   </div>
 
@@ -491,30 +460,10 @@
     </div>
   </div>
 
-  <!-- ── 5. Researcher & Hire ── -->
+  <!-- ── 5. Notes ── -->
   <div class="section">
     <div class="section-head">
       <span class="section-num">05</span>
-      <span class="section-title">Researcher &amp; Hire</span>
-    </div>
-    <div class="section-body">
-      <div class="row">
-        <div class="field">
-          <label>Researcher Name <span class="hint">PhD / PostDoc assigned</span></label>
-          <input type="text" id="hire-name" placeholder="First Last  or  TBD">
-        </div>
-        <div class="field">
-          <label>Start Date</label>
-          <input type="text" id="hire-start" placeholder="e.g. 2026-04-01  or  TBD">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── 6. Notes ── -->
-  <div class="section">
-    <div class="section-head">
-      <span class="section-num">06</span>
       <span class="section-title">Additional Notes</span>
     </div>
     <div class="section-body">
@@ -540,7 +489,6 @@
 <script>
 // ── State ────────────────────────────────────────────
 let langs = [];
-let statusVal = '';
 let ioCounters = { input: 0, output: 0 };
 
 // ── PI auto-fill ──────────────────────────────────────
@@ -564,13 +512,6 @@ function onLayerChange() {
   document.body.className = v ? 'layer-' + v : '';
 }
 
-// ── Status chips ──────────────────────────────────────
-function setStatus(chip) {
-  document.querySelectorAll('.status-chip').forEach(c => c.classList.remove('active'));
-  chip.classList.add('active');
-  statusVal = chip.dataset.val;
-  document.getElementById('status').value = statusVal;
-}
 
 // ── Tag input (languages) ─────────────────────────────
 const langInput = document.getElementById('lang-input');
@@ -707,9 +648,6 @@ function generate() {
   const mname  = document.getElementById('model-name').value.trim();
   const mtype  = document.getElementById('model-type').value.trim();
   const desc   = document.getElementById('description').value.trim();
-  const status = statusVal || 'planned';
-  const hireName  = document.getElementById('hire-name').value.trim() || 'TBD';
-  const hireStart = document.getElementById('hire-start').value.trim() || 'TBD';
   const notes  = document.getElementById('notes').value.trim();
 
   const inputs  = collectIO('input');
@@ -724,17 +662,13 @@ function generate() {
   yaml += `    short_description: ${q(desc)}\n`;
   if (mtype) yaml += `    type: ${q(mtype)}\n`;
   yaml += `    language: ${langList}\n`;
-  yaml += `    status: "${status}"\n`;
   yaml += `    inputs:\n${formatIOBlock(inputs,'input')}`;
   yaml += `    outputs:\n${formatIOBlock(outputs,'output')}`;
-  yaml += `    hire:\n`;
-  yaml += `      name: ${yn(hireName)}\n`;
-  yaml += `      start: ${yn(hireStart)}\n`;
   if (notes) yaml += `    notes: ${q(notes)}\n`;
 
   // Syntax-highlight
   const highlighted = yaml
-    .replace(/^(  - id:|    layer:|    pi:|    model_name:|    short_description:|    type:|    language:|    status:|    inputs:|    outputs:|    hire:|      name:|      start:|    notes:|      - name:|        format:|        source:|        consumers:|        resolution:)/gm,
+    .replace(/^(  - id:|    layer:|    pi:|    model_name:|    short_description:|    type:|    language:|    inputs:|    outputs:|    notes:|      - name:|        format:|        source:|        consumers:|        resolution:)/gm,
       m => `<span class="y-key">${m}</span>`)
     .replace(/"([^"]*)"/g, (m, v) => `<span class="y-str">"${v}"</span>`)
     .replace(/^(  - )/gm, `<span class="y-dash">  - </span>`);
