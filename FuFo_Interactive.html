@@ -102,11 +102,11 @@ header{background:var(--navy);padding:12px 24px 10px;border-bottom:3px solid var
 
 <div class="toolbar">
   <span style="font-size:10px;color:#94a3b8;font-family:'IBM Plex Mono',monospace">FILTER:</span>
-  <button class="filter-btn active" onclick="filterLayer('all',this)">All Layers</button>
-  <button class="filter-btn" onclick="filterLayer('0',this)">C1 Conceptual</button>
-  <button class="filter-btn" onclick="filterLayer('1',this)">Layer 1 — Observations</button>
-  <button class="filter-btn" onclick="filterLayer('2',this)">Layer 2 — Biophysical</button>
-  <button class="filter-btn" onclick="filterLayer('3',this)">Layer 3 — Social-Economic</button>
+  <button class="filter-btn active" onclick="filterLayer('all',this)">All</button>
+  <button class="filter-btn" onclick="filterLayer('0',this)">C1 / C2</button>
+  <button class="filter-btn" onclick="filterLayer('1',this)">Climate &amp; Hydrology</button>
+  <button class="filter-btn" onclick="filterLayer('2',this)">Forest Ecology &amp; Structure</button>
+  <button class="filter-btn" onclick="filterLayer('3',this)">Socio-Economic</button>
   <button id="reset-btn" onclick="resetAll()">✕ Clear selection</button>
 </div>
 
@@ -139,13 +139,13 @@ const NW_L3 = 220;  // Layer 3 nodes
 // Layer Y positions and heights
 const LAYERS_DEF = [
   { id:0,  y:0,    h:100,  fill:'#f5f3ff', band:'#ede9fe', ink:'#5b50c4',
-    label:'C1 — CONCEPTUAL & THEORETICAL FRAMEWORK' },
+    label:'C1 & C2 — CONCEPTUAL FRAMEWORK & SCENARIOS' },
   { id:1,  y:100,  h:280,  fill:'#f0fdf7', band:'#dcfce7', ink:'#1a7a4a',
-    label:'LAYER 1 — OBSERVATIONS & CLIMATE FORCING' },
+    label:'CLIMATE & HYDROLOGY' },
   { id:2,  y:380,  h:230,  fill:'#eff6ff', band:'#dbeafe', ink:'#1a4f8a',
-    label:'LAYER 2 — BIOPHYSICAL ENGINE' },
+    label:'FOREST ECOLOGY & STRUCTURE' },
   { id:3,  y:610,  h:280,  fill:'#fffbeb', band:'#fed7aa', ink:'#92400e',
-    label:'LAYER 3 — SOCIAL-ECOLOGICAL FEEDBACKS & GOVERNANCE' },
+    label:'SOCIO-ECONOMIC' },
 ];
 const CANVAS_H = 910;
 const CANVAS_W = 1600;
@@ -177,18 +177,18 @@ const NODES = [
 
   // ── Layer 1 ──
   { id:'jung', layer:1,
-    title:'JUNG / SCHINDLER',
-    sub:'HyClim Scenarios (C2) · Extreme event scenarios with Stahl',
+    title:'CLIMATE ANALYSIS AND MODELLING',
+    sub:'Dr. Christopher Jung / Prof. Dr. Dirk Schindler',
     detail:'Statistical downscaling of ERA5-Land reanalysis and CMIP6 climate models to 100 m × 100 m. Outputs: air temperature, precipitation, vapour pressure deficit, solar radiation, wind speed.',
     pi:'Prof. Dr. Dirk Schindler · Dr. Christopher Jung',
-    hire:'Dr. Christopher Jung (PostDoc) · Start: TBD', hireOk:false,
+    hire:'Dr. Christopher Jung (PostDoc)', hireOk:true,
     stroke:'#6bcf9e', inkColor:'#1a7a4a',
     desc:'Prepares regionalized reanalysis and future climate scenario data for the entire cluster. Applies tree-ensemble machine learning for bias correction and statistical downscaling from 10–120 km to 100 m resolution. Covers historical conditions and future warming levels (1.5°C, 2°C, 3°C+) under CMIP6 scenarios.',
     connects:[] },
 
   { id:'stahl', layer:1,
-    title:'STAHL',
-    sub:'Extreme Event Storylines & Groundwater Hydrology',
+    title:'HYDRO-MODELLING, EXTREME EVENTS',
+    sub:'Prof. Dr. Kerstin Stahl',
     detail:'Extreme event stress-test scenarios (what if 2018–22 drought recurs in 2050?). Coupled surface-groundwater modelling extending RoGeR with MODFLOW. C2 co-lead.',
     pi:'Prof. Dr. Kerstin Stahl',
     hire:'TBD', hireOk:false,
@@ -197,8 +197,8 @@ const NODES = [
     connects:[] },
 
   { id:'christen', layer:1,
-    title:'CHRISTEN',
-    sub:'Adaptive Sensor Network & In-canopy Microclimate Model',
+    title:'SENSOR NETWORK, FOREST MEASUREMENTS',
+    sub:'Prof. Dr. Andreas Christen',
     detail:'3-step approach: adaptive sensor network design → ML hindcasting over 30 years → transferable regional model for below-canopy temperature at any forested site in the FuFo domain.',
     pi:'Prof. Dr. Andreas Christen · Dr. Florian Schnabel · Prof. Dr. Markus Weiler',
     hire:'Tabea Wörner (PhD) · Start: 01.04.2026', hireOk:true,
@@ -207,8 +207,8 @@ const NODES = [
     connects:[] },
 
   { id:'weiler_gis', layer:1,
-    title:'WEILER GIS',
-    sub:'Spatial Data Infrastructure',
+    title:'HYDROLOGY, GENERAL HYDRO-MODELLING',
+    sub:'Prof. Dr. Markus Weiler (GIS)',
     detail:'Soil properties & depth, forest structure & tree species distributions, hydrology network & catchment delineations — all at 100 m resolution across the FuFo domain.',
     pi:'Prof. Dr. Markus Weiler',
     hire:'TBD', hireOk:false,
@@ -217,18 +217,18 @@ const NODES = [
     connects:[] },
 
   { id:'seifert', layer:1,
-    title:'SEIFERT',
-    sub:'LiDAR & Dendroecology',
+    title:'LIDAR SCANS AND FOREST STRUCTURE',
+    sub:'Prof. Dr. Thomas Seifert',
     detail:'Terrestrial & drone laser scanning (TLS/ULS): individual tree positions, diameter at breast height, height, species. Tree ring chronologies for growth history. iLAND initialisation files.',
     pi:'Prof. Dr. Thomas Seifert · Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler',
-    hire:'TBD · Start: 01.07.2026 (pending)', hireOk:false,
+    hire:'TBD', hireOk:false,
     stroke:'#6bcf9e', inkColor:'#1a7a4a',
     desc:'Provides iLAND initialisation data from terrestrial (TLS) and drone (ULS) laser scanning combined with dendrochronology (tree ring) growth records. Also produces digital twin 3D models of forest stands. Scale: individual tree to catchments up to 10 000 ha.',
     connects:[] },
 
   { id:'kattenborn', layer:1,
-    title:'KATTENBORN',
-    sub:'Remote Sensing Mortality & Traits',
+    title:'TREE TRAITS, DEAD TREES',
+    sub:'Prof. Dr. Teja Kattenborn',
     detail:'Drone + convolutional neural network tree mortality mapping (deadtree.earth). Sentinel-2 time series. Leaf area index, chlorophyll, crown area for iLAND validation.',
     pi:'Prof. Dr. Teja Kattenborn · Prof. Dr. René Orth · Dr. Pia Müller',
     hire:'TBD', hireOk:false,
@@ -237,8 +237,8 @@ const NODES = [
     connects:[] },
 
   { id:'orth', layer:1,
-    title:'ORTH',
-    sub:'Forest Drought Response Functions',
+    title:'DROUGHT MODELLING',
+    sub:'Prof. Dr. René Orth',
     detail:'Species-specific response functions: vegetation function vs soil water content & vapour pressure deficit. Calibrated from ICOS/AmeriFlux flux towers and global plant trait maps (TRY database).',
     pi:'Prof. Dr. René Orth · Prof. Dr. Teja Kattenborn · Dr. Pia Müller',
     hire:'TBD', hireOk:false,
@@ -248,8 +248,8 @@ const NODES = [
 
 
   { id:'iland', layer:2, wide:true,
-    title:'iLAND — Individual-based Forest Landscape & Disturbance Model',
-    sub:'Central biophysical engine of C3 · Open-source · Rammer et al. (2024)',
+    title:'FOREST GROWTH AND MANAGEMENT',
+    sub:'Prof. Dr. Thomas Seifert · Jun.-Prof. Dr. Ana Stritih',
     detail:'Distance-dependent, individual tree-based forest growth simulator. Simulates growth, mortality, regeneration, and disturbances (wind, bark beetle, fire) from individual tree to ~10 000 ha. Includes Agent-Based Engine (ABE) module for management decisions — direct interface to Stritih participatory modelling. Bidirectionally coupled with RoGeR.',
     pi:'Prof. Dr. Thomas Seifert · Jun.-Prof. Dr. Ana Stritih · Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler',
     hire:'TBD', hireOk:false,
@@ -258,8 +258,8 @@ const NODES = [
     connects:[] },
 
   { id:'roger', layer:2,
-    title:'RoGeR',
-    sub:'Runoff Generation Research Model',
+    title:'HYDROLOGY, GENERAL HYDRO-MODELLING',
+    sub:'Prof. Dr. Markus Weiler (RoGeR)',
     detail:'Process-based hydrology. Three topographic contexts: plateau (no lateral flow), hillslope (lateral subsurface in/outflow), riparian (groundwater & capillary rise). Explicitly models lateral subsurface flow — explains tree-to-tree drought mortality differences. Bidirectionally coupled with iLAND.',
     pi:'Prof. Dr. Markus Weiler',
     hire:'TBD', hireOk:false,
@@ -269,9 +269,9 @@ const NODES = [
 
   // ── Layer 3 ──
   { id:'stritih', layer:3,
-    title:'STRITIH',
-    sub:'Participatory Modelling · iLAND + ABE',
-    detail:'Integrates diverse actors\' perspectives on forest management into iLAND\'s ABE module. Participatory process with forest managers: Observe → Plan → Act cycle. Co-designed management scenarios. Potential areas: Schwarzwald, Oberrhein (TBD).',
+    title:'FOREST GROWTH AND MANAGEMENT',
+    sub:'Jun.-Prof. Dr. Ana Stritih',
+    detail:'Integrates diverse actors\' perspectives on forest management into iLAND\'s ABE module. Participatory process with forest managers: Observe → Plan → Act cycle. Co-designed management scenarios. Potential areas: Schwarzwald, Oberrhein (to be defined with SES-CaseLab).',
     pi:'Jun.-Prof. Dr. Ana Stritih',
     hire:'Christina Dollinger (PostDoc, MvW) · 01.05.2026', hireOk:true,
     stroke:'#fbbf24', inkColor:'#92400e',
@@ -279,28 +279,28 @@ const NODES = [
     connects:[] },
 
   { id:'hanewinkel', layer:3,
-    title:'HANEWINKEL',
-    sub:'Forest Economics & Risk Model',
+    title:'ECONOMIC MODELLING',
+    sub:'Prof. Dr. Marc Hanewinkel',
     detail:'Global Forest Products Model (GFPM) implemented in GAMS. Partial equilibrium model for SW Germany. Optimises management strategies using Value at Risk (VaR) and Conditional Value at Risk (CVaR) under climate uncertainty.',
     pi:'Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk',
-    hire:'TBD — hiring deadline extended ⚠', hireOk:false,
+    hire:'TBD', hireOk:false,
     stroke:'#fbbf24', inkColor:'#92400e',
     desc:'Economic modelling and evaluation framework for ecosystem services under risk and uncertainty. Adapts the Global Forest Products Model (Buongiorno et al.) for Southwest Germany using partial equilibrium modelling in GAMS. Applies robust management strategies optimised with VaR and CVaR metrics.',
     connects:[] },
 
   { id:'pauliuk', layer:3,
-    title:'PAULIUK',
-    sub:'Wood Cascade & Carbon Accounting',
+    title:'WOOD CASCADE AND CARBON',
+    sub:'Prof. Dr. Stefan Pauliuk',
     detail:'Material flow analysis (MFA) and life cycle assessment of wood products from harvest through cascading use to end-of-life. Carbon balance: material substitution and avoided emissions. Stand-level to national scale. Up to 200-year time horizon.',
     pi:'Prof. Dr. Stefan Pauliuk · Dr. Simon Schulte',
-    hire:'Dr. Simon Schulte · Start: TBD', hireOk:true,
+    hire:'Dr. Simon Schulte', hireOk:true,
     stroke:'#fbbf24', inkColor:'#92400e',
     desc:'Material flow analysis and life cycle assessment of wood products from harvest through cascading use to end-of-life. Evaluates the carbon balance impact of different wood use pathways (material substitution, energy use, long-lived products) over up to 200-year time horizons.',
     connects:[] },
 
   { id:'schanz', layer:3,
-    title:'SCHANZ',
-    sub:'FESMarkets — Forest Ecosystem Service Markets',
+    title:'FOREST MARKETS MODELLING',
+    sub:'Prof. Dr. Heiner Schanz',
     detail:'Network of Markets (NoM) approach. Macro-level: system dynamics model of stocks & flows as function of forest condition. Micro-level: Causal Loop Diagrams for actor perspectives. Focus: water, recreation & timber markets.',
     pi:'Prof. Dr. Heiner Schanz',
     hire:'Steffi Peuckert (PhD) · 01.04.2026', hireOk:true,
@@ -309,11 +309,11 @@ const NODES = [
     connects:[] },
 
   { id:'brown', layer:3,
-    title:'BROWN',
-    sub:'CRAFTY-EU Land-Use Agent-Based Model',
+    title:'LANDSCAPE ANALYSIS AND MODELLING',
+    sub:'Dr. Calum Brown',
     detail:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of LandSyMM global model. Links FuFo models to European land system dynamics under SSP/RCP/NFF scenarios. Key challenge: 1 km vs iLAND 100 m scale mismatch.',
     pi:'Dr. Calum Brown · Jun.-Prof. Dr. Stritih · Prof. Dr. Schlüter · Prof. Dr. Hanewinkel · Prof. Dr. Pauliuk',
-    hire:'TBD — options in CRAFTY team · End 2026 ⚠', hireOk:false,
+    hire:'TBD', hireOk:false,
     stroke:'#fbbf24', inkColor:'#92400e',
     desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model coupling land use decision-making, macro-economics, global trade, ecosystem processes, biodiversity and the climate system. Explores management patterns of future forest social-ecological systems.',
     connects:[] },
@@ -463,7 +463,7 @@ function renderNodes() {
         </div>
         <div class="node-body">
           <div class="node-detail">${n.detail}</div>
-          <div class="node-hire" style="color:${hireColor};">${n.hire}</div>
+          ${n.hire && !n.hire.startsWith('TBD') ? `<div class="node-hire" style="color:${hireColor};">${n.hire}</div>` : ''}
         </div>`;
     } else {
       div.innerHTML = `
@@ -473,11 +473,7 @@ function renderNodes() {
         </div>
         <div class="node-body">
           <div class="node-detail">${n.detail}</div>
-          <div class="node-hire" style="color:${hireColor};">
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;
-                         color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;">
-              Researcher:</span><br>${n.hire}
-          </div>
+          ${n.hire && !n.hire.startsWith('TBD') ? `<div class="node-hire" style="color:${hireColor};"><span style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;">Researcher:</span><br>${n.hire}</div>` : ''}
           <div class="node-pi">${n.pi}</div>
         </div>`;
     }
@@ -592,7 +588,9 @@ function onNodeClick(id) {
   document.getElementById('info-pi').textContent = node.pi;
   document.getElementById('info-desc').textContent = node.desc;
   document.getElementById('info-connects').textContent = `Connected to: ${connNames}`;
-  document.getElementById('info-hire').textContent = node.hire;
+  const hireEl = document.getElementById('info-hire');
+  hireEl.textContent = (node.hire && !node.hire.startsWith('TBD')) ? node.hire : '';
+  hireEl.style.display = (node.hire && !node.hire.startsWith('TBD')) ? '' : 'none';
   document.getElementById('info-panel').classList.add('visible');
 }
 
