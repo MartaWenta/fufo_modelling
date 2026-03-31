@@ -8,87 +8,161 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'IBM Plex Sans',sans-serif; background:#f8fafc; color:#1e293b; padding:24px 32px; max-width:1300px; margin:0 auto; }
-  .col-head { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:#94a3b8; margin-bottom:5px; font-weight:700; }
+  body {
+    font-family:'IBM Plex Sans',sans-serif;
+    background:#f8fafc; color:#1e293b;
+    padding:24px 32px; max-width:1300px; margin:0 auto;
+  }
+  .col-head {
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9px; letter-spacing:.15em; text-transform:uppercase;
+    color:#94a3b8; margin-bottom:5px; font-weight:700;
+  }
   .card:hover { box-shadow:0 4px 18px rgba(0,0,0,.08); }
   .filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; align-items:center; }
-  .filter-btn { background:#fff; border:1.5px solid #e2e8f0; border-radius:6px; padding:5px 14px; font-size:12px; font-family:'IBM Plex Mono',monospace; cursor:pointer; transition:all .15s; color:#475569; }
+  .filter-btn {
+    background:#fff; border:1.5px solid #e2e8f0; border-radius:6px;
+    padding:5px 14px; font-size:12px; font-family:'IBM Plex Mono',monospace;
+    cursor:pointer; transition:all .15s; color:#475569;
+  }
   .filter-btn:hover, .filter-btn.active { background:#1e3a5f; color:#fff; border-color:#1e3a5f; }
-  @media(max-width:700px) { .card > div > div[style*="grid"] { grid-template-columns:1fr !important; } body { padding:12px 14px; } }
+  @media(max-width:700px) {
+    .card > div > div[style*="grid"] { grid-template-columns:1fr !important; }
+    body { padding:12px 14px; }
+  }
 </style>
 </head>
 <body>
+
 <div style="border-bottom:2.5px solid #1e3a5f;padding-bottom:10px;margin-bottom:12px;">
-  <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;color:#1a7a4a;text-transform:uppercase;margin-bottom:4px;">Future Forests Excellence Cluster · Universität Freiburg · Research Area C3</div>
-  <div style="font-size:24px;font-weight:700;color:#1e3a5f;letter-spacing:-.02em;">C3 Integrated Modelling Framework — Model Registry</div>
-  <div style="font-size:12px;color:#64748b;margin-top:4px;max-width:800px;line-height:1.5;">This registry describes modelling groups contributing to Future Forests Research Area C3. For each group: the scientific topic, the PI, their approach, what data they need and what they produce. · Generated 31 March 2026</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;
+              color:#1a7a4a;text-transform:uppercase;margin-bottom:4px;">
+    Future Forests Excellence Cluster · Universität Freiburg · Research Area C3
+  </div>
+  <div style="font-size:24px;font-weight:700;color:#1e3a5f;letter-spacing:-.02em;">
+    C3 Integrated Modelling Framework — Model Registry
+  </div>
+  <div style="font-size:12px;color:#64748b;margin-top:4px;max-width:800px;line-height:1.5;">
+    This registry describes modelling groups contributing to Future Forests Research Area C3.
+    For each group you will find: the scientific question they address, their modelling approach,
+    what data they need and what they produce.
+    · Generated 31 March 2026
+  </div>
 </div>
+
+<!-- Filter bar -->
 <div class="filter-bar">
-  <span style="font-size:11px;color:#94a3b8;font-family:'IBM Plex Mono',monospace">FILTER:</span>
+  <span style="font-size:11px;color:#94a3b8;font-family:'IBM Plex Mono',monospace">FILTER BY LAYER:</span>
   <button class="filter-btn active" onclick="filterCards('all',this)">All</button>
-  <button class="filter-btn" onclick="filterCards('conceptual',this)">C1 / C2</button>
-  <button class="filter-btn" onclick="filterCards('climate_hydrology',this)">Climate &amp; Hydrology</button>
-  <button class="filter-btn" onclick="filterCards('forest_ecology',this)">Forest Ecology &amp; Structure</button>
-  <button class="filter-btn" onclick="filterCards('socio_economic',this)">Socio-Economic</button>
+  <button class="filter-btn" onclick="filterCards('layer-0',this)">C1 Conceptual</button>
+  <button class="filter-btn" onclick="filterCards('layer-1',this)">Observations</button>
+  <button class="filter-btn" onclick="filterCards('layer-2',this)">Biophysical</button>
+  <button class="filter-btn" onclick="filterCards('layer-3',this)">Social-Economic</button>
+  <button class="filter-btn" onclick="filterCards('layer-99',this)">Cross-cutting</button>
+  <span style="font-size:11px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;margin-left:8px">STATUS:</span>
+  <button class="filter-btn" onclick="filterCards('operational',this)">Operational</button>
+  <button class="filter-btn" onclick="filterCards('in_development',this)">In Development</button>
+  <button class="filter-btn" onclick="filterCards('planned',this)">Planned</button>
 </div>
+
 
 <div style="margin-bottom:6px;padding:10px 14px;background:#ede9fe;
             border-radius:6px;border-left:4px solid #5b50c4;">
   <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
-               letter-spacing:.14em;color:#5b50c4;text-transform:uppercase;">C1 & C2 — Conceptual Framework & Scenarios</span>
-  <div style="font-size:11.5px;color:#475569;margin-top:3px;">The theoretical and scenario backbone. C1 provides shared social-ecological systems definitions, indicators, and terminology. C2 develops the hydro-climatic and socio-economic scenarios that all C3 models run on.</div>
+               letter-spacing:.14em;color:#5b50c4;text-transform:uppercase;">C1 — Conceptual & Theoretical Framework</span>
+  <div style="font-size:11.5px;color:#475569;margin-top:3px;">The theoretical backbone. C1 provides the shared social-ecological systems definitions, indicators, and terminology that all other models build on.</div>
 </div>
 
 <div class="card" id="card-c1_framework"
-     data-cluster="conceptual" data-layer="0"
+     data-layer="0" data-status="in_development"
      style="border-left:4px solid #5b50c4;background:#f5f3ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      
-      <div style="font-size:18px;font-weight:700;color:#1e293b;">
-        Prof. Dr. Stefan Pauliuk<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">C1 — SES Conceptual Framework</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#5b50c4;text-transform:uppercase;margin-bottom:3px;">
+        C1 — Conceptual & Theoretical Framework
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Prof. Dr. Tanja Mölders · Prof. Dr. Maja Schlüter · Prof. Dr. Sylvia Kruse · Prof. Dr. Stefan Baumgärtner · Prof. Dr. Michael Pregernig</div>
-      
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Stefan Pauliuk
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          C1 — SES Conceptual Framework
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Tanja Mölders · Prof. Dr. Maja Schlüter · Prof. Dr. Sylvia Kruse · Prof. Dr. Stefan Baumgärtner · Prof. Dr. Michael Pregernig</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Conceptual / Theoretical SES framework (not a computational model)</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">This module develops a common social-ecological systems vocabulary, indicator set, and accounting framework for the cluster. It will identify and formalise the descriptions of new interactions and new emerging properties in future forest SESs across different scales in space and time, e.g., the formation of new societal actors (businesses, lobby groups, institutions) and their relation to forests.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    This module develops a common social-ecological systems vocabulary, indicator set, and accounting framework for the cluster. It will identify and formalise the descriptions of new interactions and new emerging properties in future forest SESs across different scales in space and time, e.g., the formation of new societal actors (businesses, lobby groups, institutions) and their relation to forests.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">SES theory literature and existing frameworks</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Academic literature</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Scientific literature</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Knowledge from all research areas</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Mixed</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← All Future Forests research areas</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">SES theory literature and existing frameworks</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Academic literature</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Scientific literature</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Knowledge from all research areas</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Mixed</span><span style="color:#64748b;font-size:10px;margin-left:6px">← All Future Forests research areas</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Shared SES vocabulary, indicators, accounting frameworks, and system boundaries</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Documentation / conceptual models</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">→ All groups</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Shared SES vocabulary, indicators, accounting frameworks, and system boundaries</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Documentation / conceptual models</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ All groups</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-c2_scenarios"
-     data-cluster="conceptual" data-layer="0"
+     data-layer="0" data-status="in_development"
      style="border-left:4px solid #5b50c4;background:#f5f3ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      
-      <div style="font-size:18px;font-weight:700;color:#1e293b;">
-        Prof. Dr. Marc Hanewinkel / Prof. Dr. Kerstin Stahl<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">C2 — Transdisciplinary Regionalised Scenarios for Novel SESs</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#5b50c4;text-transform:uppercase;margin-bottom:3px;">
+        C1 — Conceptual & Theoretical Framework
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Dr. Calum Brown · Prof. Dr. Andreas Christen · Prof. Dr. Stefan Pauliuk · Prof. Dr. René Orth · Prof. Dr. Dirk Schindler · Prof. Dr. Markus Weiler</div>
-      
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Marc Hanewinkel / Prof. Dr. Kerstin Stahl
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          C2 — Transdisciplinary Regionalised Scenarios for Novel SESs
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Dr. Calum Brown · Prof. Dr. Andreas Christen · Prof. Dr. Stefan Pauliuk · Prof. Dr. René Orth · Prof. Dr. Dirk Schindler · Prof. Dr. Markus Weiler</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Scenario development / Statistical downscaling / Stakeholder co-design</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">This module produces the scenario infrastructure that all C3 models run on. It translates global frameworks (SSPs, RCPs, Nature's Futures Framework) into high-resolution, locally relevant inputs for the FuFo study regions. On the climate side, the focus is on downscaled projections with explicit treatment of extreme events and compound droughts. On the socio-economic side, narratives and quantitative pathways are co-created with stakeholders and partner institutions. The resulting products feed all C3 modelling groups and inform governance experimentation in C4.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    This module produces the scenario infrastructure that all C3 models run on. It translates global frameworks (SSPs, RCPs, Nature's Futures Framework) into high-resolution, locally relevant inputs for the FuFo study regions. On the climate side, the focus is on downscaled projections with explicit treatment of extreme events and compound droughts. On the socio-economic side, narratives and quantitative pathways are co-created with stakeholders and partner institutions. The resulting products feed all C3 modelling groups and inform governance experimentation in C4.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Global climate model outputs and regional downscaling (CMIP, CORDEX)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← ESGF / Copernicus</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Stakeholder input from partner institutions</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Qualitative / structured parameters</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← SES-CaseLab / ForstBW / FVA</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Global climate model outputs and regional downscaling (CMIP, CORDEX)</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ESGF / Copernicus</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Stakeholder input from partner institutions</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Qualitative / structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← SES-CaseLab / ForstBW / FVA</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Downscaled hydro-climatic projections and extreme event storylines</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / structured parameters</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">→ iLAND, RoGeR, Brown, Hanewinkel, Stritih</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Socio-economic scenarios and co-created regional storylines</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Structured parameters / reports</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">→ All C3 groups, C4</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Downscaled hydro-climatic projections and extreme event storylines</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">NetCDF / structured parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ iLAND, RoGeR, Brown, Hanewinkel, Stritih</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Socio-economic scenarios and co-created regional storylines</span><span style="color:#94a3b8;font-size:10.5px;margin-left:6px">Structured parameters / reports</span><span style="color:#64748b;font-size:10px;margin-left:6px">→ All C3 groups, C4</span></div>
     </div>
   </div>
 </div>
@@ -96,141 +170,335 @@
 <div style="margin-bottom:6px;padding:10px 14px;background:#dcfce7;
             border-radius:6px;border-left:4px solid #1a7a4a;">
   <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
-               letter-spacing:.14em;color:#1a7a4a;text-transform:uppercase;">Climate & Hydrology</span>
-  <div style="font-size:11.5px;color:#475569;margin-top:3px;">Climate forcing, hydro-climatic modelling, sensor networks, and drought response — the observational and climatic inputs to the biophysical simulation layer.</div>
+               letter-spacing:.14em;color:#1a7a4a;text-transform:uppercase;">Layer 1 — Observations & Climate Forcing</span>
+  <div style="font-size:11.5px;color:#475569;margin-top:3px;">These models and datasets describe what is happening in and above the forest — climate, soil, tree structure, mortality — providing the inputs all other models need.</div>
 </div>
 
 <div class="card" id="card-jung_schindler"
-     data-cluster="climate_hydrology" data-layer="1"
+     data-layer="1" data-status="in_development"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a7a4a;letter-spacing:-.01em;margin-bottom:3px;">Climate analysis and modelling</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Dr. Christopher Jung / Prof. Dr. Dirk Schindler<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">HyClimScenarios</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Climate Forcing
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Prof. Dr. Kerstin Stahl · Prof. Dr. Dirk Schindler · Prof. Dr. Andreas Christen · Prof. Dr. René Orth</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Modelling</span></div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Dr. Christopher Jung / Prof. Dr. Dirk Schindler
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          HyClimScenarios
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Kerstin Stahl · Prof. Dr. Dirk Schindler · Prof. Dr. Andreas Christen · Prof. Dr. René Orth</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Statistical downscaling / Machine learning (tree-ensemble)</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">This project produces the high-resolution climate forcing that C3 models require, downscaling ERA5-Land reanalysis and CMIP6 projections from the ~10–120 km scale to a 100 m × 100 m grid across the study regions. Tree-ensemble machine learning is used for bias correction and statistical downscaling, covering historical conditions and future warming levels. Beyond standard climate variables, the project develops novel approaches for forest-relevant aspects of the water balance, including extreme events and event-storyline scenarios developed in collaboration with Stahl.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    This project produces the high-resolution climate forcing that C3 models require, downscaling ERA5-Land reanalysis and CMIP6 projections from the ~10–120 km scale to a 100 m × 100 m grid across the study regions. Tree-ensemble machine learning is used for bias correction and statistical downscaling, covering historical conditions and future warming levels. Beyond standard climate variables, the project develops novel approaches for forest-relevant aspects of the water balance, including extreme events and event-storyline scenarios developed in collaboration with Stahl.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">ERA5-Land gridded reanalysis (0.10° × 0.10°, hourly)</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← ECMWF (open access)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Global Historical Climatology Network — >2000 measurement sites in Central Europe</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← NOAA GHCN (open access)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">CMIP6 global climate model outputs under various SSP/RCP scenarios</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← ESGF (open access)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Digital elevation model predictors</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← National surveys</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Land use model predictors</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Copernicus / national surveys</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">ERA5-Land gridded reanalysis (0.10° × 0.10°, hourly)</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ECMWF (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Global Historical Climatology Network — >2000 measurement sites in Central Europe</span><span style="color:#64748b;font-size:10px;margin-left:6px">← NOAA GHCN (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">CMIP6 global climate model outputs under various SSP/RCP scenarios</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ESGF (open access)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Digital elevation model predictors</span><span style="color:#64748b;font-size:10px;margin-left:6px">← National surveys</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Land use model predictors</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Copernicus / national surveys</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Downscaled hourly/daily fields at 100 m × 100 m: air temperature, precipitation, dew point, wind speed, solar radiation, vapour pressure deficit, derived climate indices</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Climate projections under CMIP6 global warming levels (1.5°C, 2°C, 3°C+)</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Downscaled hourly/daily fields at 100 m × 100 m: air temperature, precipitation, dew point, wind speed, solar radiation, vapour pressure deficit, derived climate indices</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Climate projections under CMIP6 global warming levels (1.5°C, 2°C, 3°C+)</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-stahl"
-     data-cluster="climate_hydrology" data-layer="1"
+     data-layer="1" data-status="in_development"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a7a4a;letter-spacing:-.01em;margin-bottom:3px;">Hydro-modelling, extreme events</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Kerstin Stahl<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">Extreme Event Storylines & Coupled Groundwater Hydrology</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Climate Forcing
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Prof. Dr. Dirk Schindler · Prof. Dr. Markus Weiler</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Data analysis, modelling</span></div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Kerstin Stahl
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Extreme Event Storylines & Coupled Groundwater Hydrology
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Dirk Schindler · Prof. Dr. Markus Weiler</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Extreme event storylines / Coupled surface-groundwater modelling</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">Stahl's contribution to C3 focuses on two connected areas. First, the development of extreme event storylines and stress-test scenarios — asking, for example, what would happen to forest SESs if the 2018–2022 drought sequence recurred under mid-century climate conditions. These scenarios go beyond standard ensemble projections to represent specific, high-impact events relevant for forest management. Second, the coupled surface-groundwater hydrological modelling, extending RoGeR with the groundwater model MODFLOW to assess how groundwater disconnection from forest root systems intensifies drought stress. Stahl co-leads C2 with Hanewinkel and is connected to six C3 groups in the workshop collaboration matrix.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    Stahl's contribution to C3 focuses on two connected areas. First, the development of extreme event storylines and stress-test scenarios — asking, for example, what would happen to forest SESs if the 2018–2022 drought sequence recurred under mid-century climate conditions. These scenarios go beyond standard ensemble projections to represent specific, high-impact events relevant for forest management. Second, the coupled surface-groundwater hydrological modelling, extending RoGeR with the groundwater model MODFLOW to assess how groundwater disconnection from forest root systems intensifies drought stress. Stahl co-leads C2 with Hanewinkel and is connected to six C3 groups in the workshop collaboration matrix.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Downscaled reanalysis and climate model outputs</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Jung/Schindler (HyClimScenarios)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Extreme value statistics</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Downscaled reanalysis and climate model outputs</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Jung/Schindler (HyClimScenarios)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Extreme value statistics</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Extreme event storylines and stress-test scenarios</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Coupled surface-groundwater model outputs (RoGeR–MODFLOW coupling)</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Extreme event storylines and stress-test scenarios</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Coupled surface-groundwater model outputs (RoGeR–MODFLOW coupling)</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-christen"
-     data-cluster="climate_hydrology" data-layer="1"
+     data-layer="1" data-status="in_development"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a7a4a;letter-spacing:-.01em;margin-bottom:3px;">Sensor network, forest measurements</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Andreas Christen<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">Adaptive Sensor Network & In-canopy Microclimate Model (A1)</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Climate Forcing
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Prof. Dr. Markus Weiler · Dr. Florian Schnabel</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: In-situ measurements, modelling</span></div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Andreas Christen
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Adaptive Sensor Network & In-canopy Microclimate Model (A1)
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Markus Weiler · Dr. Florian Schnabel</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Machine learning / Spatial-temporal downscaling</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">Within-forest microclimates differ substantially from above-canopy conditions and are rarely modelled at scale. This project combines an adaptive sensor network with machine learning to reconstruct and predict fine-scale hydro-climatic conditions across the study regions. The network covers approximately 300 plots within 100–150 stands and is self-optimising — sites providing redundant information are progressively replaced. From this base, three modelling steps follow: quality-controlled station data are used to hindcast in-canopy conditions over 30 years, and the resulting model is extended into a transferable regional tool predicting below-canopy temperatures and humidity at any forested site in the domain.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    Within-forest microclimates differ substantially from above-canopy conditions and are rarely modelled at scale. This project combines an adaptive sensor network with machine learning to reconstruct and predict fine-scale hydro-climatic conditions across the study regions. The network covers approximately 300 plots within 100–150 stands and is self-optimising — sites providing redundant information are progressively replaced. From this base, three modelling steps follow: quality-controlled station data are used to hindcast in-canopy conditions over 30 years, and the resulting model is extended into a transferable regional tool predicting below-canopy temperatures and humidity at any forested site in the domain.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Sensor network data — in-canopy air temperature and humidity from ~300 field plots</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← FuFo adaptive sensor network (A1)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Geospatial predictors and downscaled climate data</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Jung/Schindler (HyClimScenarios)</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Sensor network data — in-canopy air temperature and humidity from ~300 field plots</span><span style="color:#64748b;font-size:10px;margin-left:6px">← FuFo adaptive sensor network (A1)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Geospatial predictors and downscaled climate data</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Jung/Schindler (HyClimScenarios)</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">In-canopy climate statistics and frequency of climate extremes — 30-year hindcast</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Transferable regional model predicting below-canopy temperatures and humidity across the FuFo domain</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">In-canopy climate statistics and frequency of climate extremes — 30-year hindcast</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Transferable regional model predicting below-canopy temperatures and humidity across the FuFo domain</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-weiler_gis"
-     data-cluster="climate_hydrology" data-layer="1"
+     data-layer="1" data-status="operational"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a7a4a;letter-spacing:-.01em;margin-bottom:3px;">Hydrology, general hydro-modelling</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Markus Weiler<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">Spatial Data Infrastructure & Ecohydrological Framework (GIS)</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Climate Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Markus Weiler
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Spatial Data Infrastructure & Ecohydrological Framework (GIS)
+        </span>
       </div>
       
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: GIS analysis, hydrological modelling</span></div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">GIS / Spatial data integration</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">This group compiles and harmonises the static spatial datasets that underpin all C3 models at 100 m resolution: soil properties from the BÜK200 maps, forest structure from the Bundeswaldinventur and LiDAR terrain models, and catchment delineations for hydrological routing.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    This group compiles and harmonises the static spatial datasets that underpin all C3 models at 100 m resolution: soil properties from the BÜK200 maps, forest structure from the Bundeswaldinventur and LiDAR terrain models, and catchment delineations for hydrological routing.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">GIS data: forest structure, soil, hydrology, tree species</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← National surveys and databases</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">GIS data: forest structure, soil, hydrology, tree species</span><span style="color:#64748b;font-size:10px;margin-left:6px">← National surveys and databases</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Harmonised spatial datasets at 100 m resolution: forest structure, soil properties, hydrology network, tree species</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Harmonised spatial datasets at 100 m resolution: forest structure, soil properties, hydrology network, tree species</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="card-seifert"
+     data-layer="1" data-status="in_development"
+     style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Climate Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Thomas Seifert
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          LiDAR Forest Inventory and Dendroecology
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Remote sensing (LiDAR) / Dendroecology</span>
+    </div>
+  </div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    This group provides the structural forest data needed to initialise iLAND and validate its simulations. Terrestrial (TLS) and UAV-based (ULS) laser scanning characterise individual tree positions, dimensions, and species across the study stands. Dendrochronological records add decades of annual growth response, giving iLAND both a realistic starting state and a long-term observational reference for calibration. The group also develops digital twin reconstructions of forest stands for structural analysis.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">LiDAR scans (TLS/ULS)</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Field campaigns</span></div>
+    </div>
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Forest structure data for iLAND initialisation: tree positions, dimensions, species</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="card-kattenborn"
+     data-layer="1" data-status="operational"
+     style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Climate Forcing
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Teja Kattenborn
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Remote Sensing Mortality and Plant Traits
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. René Orth · Dr. Pia Müller</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Deep learning / Remote sensing</span>
+    </div>
+  </div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    This group maps tree mortality at landscape scale using drone and satellite imagery analysed with convolutional neural networks, contributing to the international deadtree.earth initiative. In addition, plant functional traits — leaf area index, chlorophyll, crown area — are derived from satellite time series, providing spatially continuous observations for iLAND calibration and validation.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Drone and satellite imagery</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Field campaigns / deadtree.earth initiative</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Satellite time series — multispectral</span><span style="color:#64748b;font-size:10px;margin-left:6px">← ESA Copernicus / USGS (open access)</span></div>
+    </div>
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Dead tree maps</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Satellite-derived tree functional traits</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-orth"
-     data-cluster="climate_hydrology" data-layer="1"
+     data-layer="1" data-status="operational"
      style="border-left:4px solid #1a7a4a;background:#f0fdf7;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a7a4a;letter-spacing:-.01em;margin-bottom:3px;">Drought modelling</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. René Orth<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">Forest Drought Response Functions</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a7a4a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 1 — Observations & Climate Forcing
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Prof. Dr. Teja Kattenborn · Dr. Pia Müller</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Modelling</span></div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. René Orth
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Forest Drought Response Functions
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Teja Kattenborn · Dr. Pia Müller</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Machine learning / Data synthesis</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">This group quantifies how forest function declines as water availability decreases, using global satellite observations, eddy covariance flux tower data, and plant traits from the TRY database. The resulting species-specific response functions — relating photosynthesis and transpiration to soil water content and vapour pressure deficit — are embedded into iLAND to constrain its drought mortality representation. Reference: Lusk et al. 2025 (bioRxiv).</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    This group quantifies how forest function declines as water availability decreases, using global satellite observations, eddy covariance flux tower data, and plant traits from the TRY database. The resulting species-specific response functions — relating photosynthesis and transpiration to soil water content and vapour pressure deficit — are embedded into iLAND to constrain its drought mortality representation. Reference: Lusk et al. 2025 (bioRxiv).
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Global plant trait maps</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Open databases</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Satellite vegetation datasets — soil moisture, vapour pressure deficit</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Global plant trait maps</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Open databases</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Satellite vegetation datasets — soil moisture, vapour pressure deficit</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Species-specific drought response functions (vegetation function vs. soil moisture / VPD)</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Species-specific drought response functions (vegetation function vs. soil moisture / VPD)</span></div>
     </div>
   </div>
 </div>
@@ -238,141 +506,100 @@
 <div style="margin-bottom:6px;padding:10px 14px;background:#dbeafe;
             border-radius:6px;border-left:4px solid #1a4f8a;">
   <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
-               letter-spacing:.14em;color:#1a4f8a;text-transform:uppercase;">Forest Ecology & Structure</span>
-  <div style="font-size:11.5px;color:#475569;margin-top:3px;">Forest structure, growth, mortality, and disturbance — the core biophysical simulation of forest dynamics and the structural data that initialises and validates it.</div>
-</div>
-
-<div class="card" id="card-seifert"
-     data-cluster="forest_ecology" data-layer="1"
-     style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
-            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a4f8a;letter-spacing:-.01em;margin-bottom:3px;">LiDAR scans and forest structure</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Thomas Seifert<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">LiDAR Forest Inventory and Dendroecology</span>
-      </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: LiDAR measurements, modelling</span></div>
-    </div>
-  </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">This group provides the structural forest data needed to initialise iLAND and validate its simulations. Terrestrial (TLS) and UAV-based (ULS) laser scanning characterise individual tree positions, dimensions, and species across the study stands. Dendrochronological records add decades of annual growth response, giving iLAND both a realistic starting state and a long-term observational reference for calibration. The group also develops digital twin reconstructions of forest stands for structural analysis.</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
-    <div>
-      <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">LiDAR scans (TLS/ULS)</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Field campaigns</span></div>
-    </div>
-    <div>
-      <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Forest structure data for iLAND initialisation: tree positions, dimensions, species</span></div>
-    </div>
-  </div>
-</div>
-
-<div class="card" id="card-kattenborn"
-     data-cluster="forest_ecology" data-layer="1"
-     style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
-            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a4f8a;letter-spacing:-.01em;margin-bottom:3px;">Tree traits, dead trees</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Teja Kattenborn<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">Remote Sensing Mortality and Plant Traits</span>
-      </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Prof. Dr. René Orth · Dr. Pia Müller</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Remote sensing data analysis, modelling</span></div>
-    </div>
-  </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">This group maps tree mortality at landscape scale using drone and satellite imagery analysed with convolutional neural networks, contributing to the international deadtree.earth initiative. In addition, plant functional traits — leaf area index, chlorophyll, crown area — are derived from satellite time series, providing spatially continuous observations for iLAND calibration and validation.</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
-    <div>
-      <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Drone and satellite imagery</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Field campaigns / deadtree.earth initiative</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Satellite time series — multispectral</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← ESA Copernicus / USGS (open access)</span></div>
-    </div>
-    <div>
-      <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Dead tree maps</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Satellite-derived tree functional traits</span></div>
-    </div>
-  </div>
+               letter-spacing:.14em;color:#1a4f8a;text-transform:uppercase;">Layer 2 — Biophysical Engine</span>
+  <div style="font-size:11.5px;color:#475569;margin-top:3px;">The core simulation engine. These models simulate how forests grow, die, and interact with water over time, driven by Layer 1 inputs.</div>
 </div>
 
 <div class="card" id="card-iland"
-     data-cluster="forest_ecology" data-layer="2"
+     data-layer="2" data-status="operational"
      style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a4f8a;letter-spacing:-.01em;margin-bottom:3px;">Forest growth and management</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Thomas Seifert<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">iLAND — Individual-based Forest Landscape and Disturbance Model</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a4f8a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 2 — Biophysical Engine
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler · Jun.-Prof. Dr. Ana Stritih</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Modelling</span></div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Thomas Seifert
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          iLAND — Individual-based Forest Landscape and Disturbance Model
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Dr. Axel Albrecht · Prof. Dr. Marc Hanewinkel · Prof. Dr. Markus Weiler · Jun.-Prof. Dr. Ana Stritih</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Process-based / Individual-based model</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">iLAND simulates growth, mortality, regeneration, and disturbance for every individual tree in a landscape at 100 m × 100 m resolution, from plot scale up to catchments of around 10 000 ha. Ecophysiological processes — carbon allocation, light competition, drought stress, wind, bark beetle, and fire — are represented explicitly. Silvicultural management is handled through the Agent-Based Engine (ABE) module, which links directly to participatory scenario work. iLAND is bidirectionally coupled with RoGeR.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    iLAND simulates growth, mortality, regeneration, and disturbance for every individual tree in a landscape at 100 m × 100 m resolution, from plot scale up to catchments of around 10 000 ha. Ecophysiological processes — carbon allocation, light competition, drought stress, wind, bark beetle, and fire — are represented explicitly. Silvicultural management is handled through the Agent-Based Engine (ABE) module, which links directly to participatory scenario work. iLAND is bidirectionally coupled with RoGeR.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Topography, soil data, climate data (temperature, precipitation, etc.)</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Weiler (GIS), Jung/Schindler, Christen</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Spatial data on trees or inventory data (ULS, 3D trees, digital twins)</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Seifert</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Management scenarios</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Stritih</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Topography, soil data, climate data (temperature, precipitation, etc.)</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Weiler (GIS), Jung/Schindler, Christen</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Spatial data on trees or inventory data (ULS, 3D trees, digital twins)</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Seifert</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Management scenarios</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Stritih</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Individual tree to small catchment (10 000 ha): biomass, structure, species composition, carbon, harvested volume</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Ecosystem service indicators</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Individual tree to small catchment (10 000 ha): biomass, structure, species composition, carbon, harvested volume</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Ecosystem service indicators</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-roger"
-     data-cluster="forest_ecology" data-layer="2"
+     data-layer="2" data-status="operational"
      style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
-    <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a4f8a;letter-spacing:-.01em;margin-bottom:3px;">Hydrology, general hydro-modelling</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Markus Weiler<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">RoGeR — Runoff Generation Research Model (modular toolkit)</span>
-      </div>
-      
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: GIS analysis, hydrological modelling</span></div>
-    </div>
-  </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">RoGeR models water redistribution at the surface and subsurface across three topographic settings — plateau (vertical flow only), hillslope (lateral subsurface inflow and outflow), and riparian zones (groundwater and capillary rise). All parameters are physically measurable; no calibration is required. The model operates from 1 m to several thousand km² and timesteps from one minute to one day. Within FuFo, it is being extended with a groundwater component through coupling to MODFLOW (Stahl) and has previously been coupled to bark beetle infestation risk at 10 m resolution (Weiler and Puhlmann).</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
-    <div>
-      <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Local climate scenarios and meteorological forcing</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Jung/Schindler (HyClimScenarios) / Stahl</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Soil properties, geology</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Weiler (GIS)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Tree species, age, rooting depth</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Seifert / Weiler (GIS)</span></div>
-    </div>
-    <div>
-      <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Soil water availability in root zone across plateau, hillslope, and riparian settings</span></div>
-    </div>
-  </div>
-</div>
 
-<div class="card" id="card-stritih"
-     data-cluster="forest_ecology" data-layer="3"
-     style="border-left:4px solid #1a4f8a;background:#eff6ff;border-radius:8px;
-            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#1a4f8a;letter-spacing:-.01em;margin-bottom:3px;">Forest growth and management</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Jun.-Prof. Dr. Ana Stritih<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">Participatory Modelling — iLAND + ABE</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#1a4f8a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 2 — Biophysical Engine
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Markus Weiler
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          RoGeR — Runoff Generation Research Model (modular toolkit)
+        </span>
       </div>
       
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Modelling</span></div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#dcfce7;color:#1a7a4a;border:1px solid #1a7a4a;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Operational</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Process-based hydrological model (no parameter calibration)</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">Integrates diverse actors' perspectives on forest management objectives, decision-making, and key future challenges into a coupled forest dynamics and agent-based model (iLAND + ABE). The process is iterative and transdisciplinary — co-learning among scientists and practitioners is an explicit goal alongside the technical modelling work. Management scenarios are developed and evaluated for their credibility and legitimacy, contributing to Adaptation and Transformation Pathways. Study areas under discussion include Schwarzwald and Oberrhein, to be defined with the SES-CaseLab.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    RoGeR models water redistribution at the surface and subsurface across three topographic settings — plateau (vertical flow only), hillslope (lateral subsurface inflow and outflow), and riparian zones (groundwater and capillary rise). All parameters are physically measurable; no calibration is required. The model operates from 1 m to several thousand km² and timesteps from one minute to one day. Within FuFo, it is being extended with a groundwater component through coupling to MODFLOW (Stahl) and has previously been coupled to bark beetle infestation risk at 10 m resolution (Weiler and Puhlmann).
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Daily climate data (minT, maxT, precipitation, VPD, radiation)</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Jung/Schindler, Christen</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Spatial data (soil, elevation)</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Weiler (GIS)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Vegetation (spin-up or LiDAR)</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Seifert</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Disturbances (wind speed distribution)</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← iLAND / field data</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Management scenarios needed</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Stakeholder input from local forest managers</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← SES-CaseLab</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Local climate scenarios and meteorological forcing</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Jung/Schindler (HyClimScenarios) / Stahl</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Soil properties, geology</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Weiler (GIS)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Tree species, age, rooting depth</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Seifert / Weiler (GIS)</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Stand- or landscape-level outputs: biomass, structure, species composition, carbon, harvested volume</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Ecosystem service indicators</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Credibility and legitimacy assessments of management scenarios</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Soil water availability in root zone across plateau, hillslope, and riparian settings</span></div>
     </div>
   </div>
 </div>
@@ -380,128 +607,265 @@
 <div style="margin-bottom:6px;padding:10px 14px;background:#fed7aa;
             border-radius:6px;border-left:4px solid #8a4a0a;">
   <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
-               letter-spacing:.14em;color:#8a4a0a;text-transform:uppercase;">Socio-Economic</span>
-  <div style="font-size:11.5px;color:#475569;margin-top:3px;">Forest management decisions, markets, governance, and land use — how social and economic actors interact with forest systems and what futures they produce.</div>
+               letter-spacing:.14em;color:#8a4a0a;text-transform:uppercase;">Layer 3 — Social-Ecological Feedbacks & Governance</span>
+  <div style="font-size:11.5px;color:#475569;margin-top:3px;">These models represent human decisions, markets, and governance — how people manage forests and respond to changing conditions.</div>
 </div>
 
-<div class="card" id="card-hanewinkel"
-     data-cluster="socio_economic" data-layer="3"
+<div class="card" id="card-stritih"
+     data-layer="3" data-status="in_development"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#8a4a0a;letter-spacing:-.01em;margin-bottom:3px;">Economic modelling</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Marc Hanewinkel<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">Forest Economics and Risk Model (GFPM-SW)</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social-Ecological Feedbacks & Governance
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Prof. Dr. Stefan Pauliuk</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Modelling</span></div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Jun.-Prof. Dr. Ana Stritih
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Participatory Modelling — iLAND + ABE
+        </span>
+      </div>
+      
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Participatory modelling / Agent-based model</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">Develops an economic modelling and evaluation framework for ecosystem services under risk and uncertainty, applied to the outputs of the process-based growth models. The framework adapts the Global Forest Products Model (GFPM, Buongiorno et al.) for Southwest Germany as a partial equilibrium model implemented in GAMS. It takes ecosystem service outputs from iLAND and RoGeR, models their flow through demand, supply, industry, and networks of markets, and produces optimised robust management strategies using Value at Risk and Conditional Value at Risk metrics. Connected to the wood cascade model of Pauliuk to link into the industry sphere. Contributes preliminary Adaptation and Transformation Pathways for forests in SW Germany, including economic boundaries and robust management strategies.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    Integrates diverse actors' perspectives on forest management objectives, decision-making, and key future challenges into a coupled forest dynamics and agent-based model (iLAND + ABE). The process is iterative and transdisciplinary — co-learning among scientists and practitioners is an explicit goal alongside the technical modelling work. Management scenarios are developed and evaluated for their credibility and legitimacy, contributing to Adaptation and Transformation Pathways. Study areas under discussion include Schwarzwald and Oberrhein, to be defined with the SES-CaseLab.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Ecosystem services from the process-based growth models</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← iLAND, RoGeR</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Socio-economic scenarios and economic panel (market) data</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Daily climate data (minT, maxT, precipitation, VPD, radiation)</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Jung/Schindler, Christen</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Spatial data (soil, elevation)</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Weiler (GIS)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Vegetation (spin-up or LiDAR)</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Seifert</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Disturbances (wind speed distribution)</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iLAND / field data</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Management scenarios needed</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Stakeholder input from local forest managers</span><span style="color:#64748b;font-size:10px;margin-left:6px">← SES-CaseLab</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Optimised robust management strategies — demand, supply, industry, network of markets</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Economic boundaries for Adaptation and Transformation Pathways</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Stand- or landscape-level outputs: biomass, structure, species composition, carbon, harvested volume</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Ecosystem service indicators</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Credibility and legitimacy assessments of management scenarios</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="card-hanewinkel"
+     data-layer="3" data-status="planned"
+     style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
+            padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social-Ecological Feedbacks & Governance
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Marc Hanewinkel
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Forest Economics and Risk Model (GFPM-SW)
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Prof. Dr. Stefan Pauliuk</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Partial equilibrium / Economic optimisation</span>
+    </div>
+  </div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    Develops an economic modelling and evaluation framework for ecosystem services under risk and uncertainty, applied to the outputs of the process-based growth models. The framework adapts the Global Forest Products Model (GFPM, Buongiorno et al.) for Southwest Germany as a partial equilibrium model implemented in GAMS. It takes ecosystem service outputs from iLAND and RoGeR, models their flow through demand, supply, industry, and networks of markets, and produces optimised robust management strategies using Value at Risk and Conditional Value at Risk metrics. Connected to the wood cascade model of Pauliuk to link into the industry sphere. Contributes preliminary Adaptation and Transformation Pathways for forests in SW Germany, including economic boundaries and robust management strategies.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+    <div>
+      <div class="col-head">Inputs</div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Ecosystem services from the process-based growth models</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iLAND, RoGeR</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Socio-economic scenarios and economic panel (market) data</span></div>
+    </div>
+    <div>
+      <div class="col-head">Outputs</div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Optimised robust management strategies — demand, supply, industry, network of markets</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Economic boundaries for Adaptation and Transformation Pathways</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-pauliuk"
-     data-cluster="socio_economic" data-layer="3"
+     data-layer="3" data-status="in_development"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#8a4a0a;letter-spacing:-.01em;margin-bottom:3px;">Wood cascade and carbon</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Stefan Pauliuk<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">Wood Cascade and Carbon Accounting (A&TPs)</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social-Ecological Feedbacks & Governance
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Dr. Simon Schulte</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Modelling</span></div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Stefan Pauliuk
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          Wood Cascade and Carbon Accounting (A&TPs)
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Dr. Simon Schulte</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#fffbeb;color:#d97706;border:1px solid #d97706;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">In Development</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Material flow analysis / Life cycle assessment</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">Develops a modelling and stakeholder engagement framework for identifying and evaluating Adaptation and Transformation Pathways for wood use and cascading. An A&TP is defined here as a sequence of decisions by agents in the wood use system — together with the resulting trajectory of system variables — that meets given objectives and respects given principles of responsibility and legitimacy. The work proceeds in three steps: (1) mapping the option space through scenarios for wood supply and demand; (2) combining wood processing data, stakeholder input on development goals, and model-based decision sequences to identify candidate pathways; (3) assessing the achievability of different goals under uncertainty and evaluating pathways for synergies, trade-offs, and robustness. A co-creation process with RA B and the SES-CaseLab is required for steps 2 and 3.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    Develops a modelling and stakeholder engagement framework for identifying and evaluating Adaptation and Transformation Pathways for wood use and cascading. An A&TP is defined here as a sequence of decisions by agents in the wood use system — together with the resulting trajectory of system variables — that meets given objectives and respects given principles of responsibility and legitimacy. The work proceeds in three steps: (1) mapping the option space through scenarios for wood supply and demand; (2) combining wood processing data, stakeholder input on development goals, and model-based decision sequences to identify candidate pathways; (3) assessing the achievability of different goals under uncertainty and evaluating pathways for synergies, trade-offs, and robustness. A co-creation process with RA B and the SES-CaseLab is required for steps 2 and 3.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Wood cascade data: stocks, flows, carbon, monetary values</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← iLAND / Hanewinkel</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Stakeholder input on development goals</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← SES-CaseLab / RA B</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Wood cascade data: stocks, flows, carbon, monetary values</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iLAND / Hanewinkel</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Stakeholder input on development goals</span><span style="color:#64748b;font-size:10px;margin-left:6px">← SES-CaseLab / RA B</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Wood cascade scenarios: stocks, flows, carbon balance, monetary evaluation</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Adaptation and Transformation Pathways for wood use</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Wood cascade scenarios: stocks, flows, carbon balance, monetary evaluation</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Adaptation and Transformation Pathways for wood use</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-schanz"
-     data-cluster="socio_economic" data-layer="3"
+     data-layer="3" data-status="planned"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#8a4a0a;letter-spacing:-.01em;margin-bottom:3px;">Forest Markets Modelling</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Prof. Dr. Heiner Schanz<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">FESMarkets — Forest Ecosystem Service Markets</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social-Ecological Feedbacks & Governance
+      </div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Prof. Dr. Heiner Schanz
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          FESMarkets — Forest Ecosystem Service Markets
+        </span>
       </div>
       
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Modelling</span></div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">System dynamics / Network of Markets</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">Analyses the structural architecture of Forest Ecosystem Service networks — covering water, recreation, protection, and timber — with a focus on how actual supply and demand for these services occurs through real markets (commodities, contracts) and political markets (subsidies), linked across complex value chain networks. The goal is twofold: to characterise the architecture of these networks, and to explore their governance dynamics as a basis for regulatory simulations and system dynamics modelling. A system dynamics model captures stocks and flows at the macro level; Causal Loop Diagrams represent actor perspectives and governance interventions at the micro level.</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    Analyses the structural architecture of Forest Ecosystem Service networks — covering water, recreation, protection, and timber — with a focus on how actual supply and demand for these services occurs through real markets (commodities, contracts) and political markets (subsidies), linked across complex value chain networks. The goal is twofold: to characterise the architecture of these networks, and to explore their governance dynamics as a basis for regulatory simulations and system dynamics modelling. A system dynamics model captures stocks and flows at the macro level; Causal Loop Diagrams represent actor perspectives and governance interventions at the micro level.
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Forest ecosystem service indicators: timber, water, recreation, protection</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← iLAND, RoGeR</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Market data: prices, volumes, subsidies</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← Eurostat / national statistics</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Forest ecosystem service indicators: timber, water, recreation, protection</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iLAND, RoGeR</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Market data: prices, volumes, subsidies</span><span style="color:#64748b;font-size:10px;margin-left:6px">← Eurostat / national statistics</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">System dynamics model — stocks and flows as function of forest condition/quality</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Causal Loop Diagrams for relevant markets and governance interventions</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">System dynamics model — stocks and flows as function of forest condition/quality</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Causal Loop Diagrams for relevant markets and governance interventions</span></div>
     </div>
   </div>
 </div>
 
 <div class="card" id="card-brown"
-     data-cluster="socio_economic" data-layer="3"
+     data-layer="3" data-status="planned"
      style="border-left:4px solid #8a4a0a;background:#fffbeb;border-radius:8px;
             padding:16px 18px;margin-bottom:12px;transition:box-shadow .15s;">
-  <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+
+  <!-- Header row -->
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:0;">
-      <div style="font-size:18px;font-weight:700;color:#8a4a0a;letter-spacing:-.01em;margin-bottom:3px;">Landscape analysis and modelling</div>
-      <div style="font-size:13px;font-weight:400;color:#1e293b;">
-        Dr. Calum Brown<span style="font-size:12px;font-weight:400;color:#64748b;margin-left:6px">CRAFTY-EU — European Land Use Agent-Based Model</span>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;
+                  color:#8a4a0a;text-transform:uppercase;margin-bottom:3px;">
+        Layer 3 — Social-Ecological Feedbacks & Governance
       </div>
-      <div style="font-size:10.5px;color:#64748b;margin-top:1px">Also: Jun.-Prof. Dr. Ana Stritih · Prof. Dr. Maja Schlüter · Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk</div>
-      <div style="margin-top:5px;"><span style="background:#f1f5f9;color:#475569;border-radius:3px;padding:2px 8px;font-size:10.5px;font-family:IBM Plex Mono,monospace;">Methods: Modelling</span></div>
+      <div style="font-size:17px;font-weight:700;color:#1e293b;letter-spacing:-.02em;">
+        Dr. Calum Brown
+        <span style="font-size:13px;font-weight:400;color:#64748b;margin-left:8px">
+          CRAFTY-EU — European Land Use Agent-Based Model
+        </span>
+      </div>
+      <div style="font-size:10.5px;color:#64748b;margin-top:2px">Also: Jun.-Prof. Dr. Ana Stritih · Prof. Dr. Maja Schlüter · Prof. Dr. Marc Hanewinkel · Prof. Dr. Stefan Pauliuk</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;flex-shrink:0;">
+      <span style="background:#f1f5f9;color:#94a3b8;border:1px solid #94a3b8;border-radius:4px;padding:2px 7px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Planned</span>
+      <span style="background:#1e3a5f;color:#e2e8f0;border-radius:4px;padding:2px 8px;font-size:11px;font-family:IBM Plex Mono,monospace;font-weight:600;">Agent-based model / Land use model</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#475569;margin-top:10px;line-height:1.55;">CRAFTY-EU is an agent-based model operating at EU27+3 scale and 1 km resolution, embedded within the LandSyMM global framework that couples land use decision-making with macroeconomics, trade, ecosystem processes, biodiversity, and the climate system. Within FuFo, it provides the continental-scale context for the C3 models, upscaling local management patterns and ecosystem service outcomes and linking them to global scenarios (SSPs, RCPs, NFF). A key open challenge is bridging the scale difference between CRAFTY-EU (1 km) and iLAND (100 m).</div>
+
+  <!-- Key question — most prominent for social scientists -->
+  
+
+  <!-- Description -->
+  <div style="font-size:12px;color:#475569;margin-top:8px;line-height:1.55;">
+    CRAFTY-EU is an agent-based model operating at EU27+3 scale and 1 km resolution, embedded within the LandSyMM global framework that couples land use decision-making with macroeconomics, trade, ecosystem processes, biodiversity, and the climate system. Within FuFo, it provides the continental-scale context for the C3 models, upscaling local management patterns and ecosystem service outcomes and linking them to global scenarios (SSPs, RCPs, NFF). A key open challenge is bridging the scale difference between CRAFTY-EU (1 km) and iLAND (100 m).
+  </div>
+
+  <!-- Two columns: inputs / outputs -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
     <div>
       <div class="col-head">Inputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Findings from other cluster models: forest, ecological, economic, agent-based</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← iLAND, Hanewinkel, Pauliuk, Schanz, Stritih</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Qualitative and quantitative baseline management and decision-making data</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← RA B (B1-B3)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">SSP/RCP/NFF scenario parameters</span><br><span style="color:#64748b;font-size:10px;margin-left:2px">← C2 / IPCC / IPBES</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Findings from other cluster models: forest, ecological, economic, agent-based</span><span style="color:#64748b;font-size:10px;margin-left:6px">← iLAND, Hanewinkel, Pauliuk, Schanz, Stritih</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Qualitative and quantitative baseline management and decision-making data</span><span style="color:#64748b;font-size:10px;margin-left:6px">← RA B (B1-B3)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">SSP/RCP/NFF scenario parameters</span><span style="color:#64748b;font-size:10px;margin-left:6px">← C2 / IPCC / IPBES</span></div>
     </div>
     <div>
       <div class="col-head">Outputs</div>
-      <div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Land-use scenarios and management activities at European scale (EU27+3, 1 km resolution)</span></div><div style="margin-bottom:6px;"><span style="font-weight:600;font-size:11.5px">Transformation and Adaptation Pathways under behavioural, socioeconomic, political and climatic change</span></div>
+      <div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Land-use scenarios and management activities at European scale (EU27+3, 1 km resolution)</span></div><div style="margin-bottom:4px;"><span style="font-weight:600;font-size:11.5px">Transformation and Adaptation Pathways under behavioural, socioeconomic, political and climatic change</span></div>
     </div>
   </div>
 </div>
 <div style='height:20px'></div>
-<div style="text-align:center;font-size:10px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;margin-top:20px;padding-top:12px;border-top:1px solid #e2e8f0;">
-  SES-ModelLab · Future Forests C3 · <a href="FuFo_Interactive.html" style="color:#1a4f8a">↗ Interactive Connection Map</a>
+
+<div style="text-align:center;font-size:10px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;
+            margin-top:20px;padding-top:12px;border-top:1px solid #e2e8f0;">
+  Source: models.yml · Scientific Modelling Coordinator · SES-ModelLab · Future Forests C3
+  · <a href="FuFo_Interactive.html" style="color:#1a4f8a">↗ Interactive Connection Map</a>
+  · <a href="FuFo_Original_Fullpage.html" style="color:#1a4f8a">↗ Static Connection Map</a>
 </div>
+
 <script>
 function filterCards(filter, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.card').forEach(card => {
     if (filter === 'all') card.style.display = '';
-    else card.style.display = card.dataset.cluster === filter ? '' : 'none';
+    else if (filter.startsWith('layer-')) {
+      const layer = filter.replace('layer-','');
+      card.style.display = card.dataset.layer === layer ? '' : 'none';
+    } else {
+      card.style.display = card.dataset.status === filter ? '' : 'none';
+    }
   });
 }
 </script>
