@@ -19,32 +19,10 @@ The repository will be updated as groups develop their projects, connections are
 ### `models.yml`
 The master data source. All content in the registry and connection map is generated from this file. Each entry describes one modelling group with the following fields:
 
-| Field | Description |
-|---|---|
-| `id` | Unique identifier (e.g. `jung_schindler`, `iland`) |
-| `layer` | Position in the framework: 0 = C1/C2, 1 = observations, 2 = biophysical, 3 = social-economic |
-| `cluster` | Thematic cluster: `conceptual`, `climate_hydrology`, `forest_ecology`, `socio_economic` |
-| `pi` | Principal investigator(s) |
-| `pi_collaborators` | Contributing researchers |
-| `model_name` | Model or tool name |
-| `topic` | Research topic from the workshop Excel |
-| `methods` | Methods from the workshop Excel |
-| `area_of_application` | Application domain from the workshop Excel |
-| `short_description` | 2–4 sentence description of the group's work |
-| `inputs` | List of data inputs (name, format, source) |
-| `outputs` | List of data outputs (name, format, consumers) |
-| `hire` | PhD/PostDoc researcher and start date |
-
-
 ---
 
 ### `build_registry.py`
 Python script that reads `models.yml` and generates `registry.html`.
-
-**Run:**
-```bash
-python build_registry.py
-```
 
 **Output:** `registry.html` — the full registry page, deployed via GitHub Pages.
 
@@ -86,7 +64,6 @@ Standalone interactive connection map. Shows all 16 groups as clickable nodes ar
 - Arrow colours: green = data, orange = bidirectional coupling, blue = validation, purple = conceptual, grey = lateral collaboration
 - Use the filter buttons to show one cluster at a time
 
-**This file is maintained manually.** To add or change a connection, edit the `CONNECTIONS` array in the `<script>` block. To add a node, add an entry to the `NODES` array and position it in the `layoutNodes()` function.
 
 **Connection types in use:**
 
@@ -97,27 +74,6 @@ Standalone interactive connection map. Shows all 16 groups as clickable nodes ar
 | `validation` | Output used for validation/calibration, not direct model input |
 | `conceptual` | C1 framework feeds into downstream groups conceptually |
 | `lateral` | Methodological or thematic collaboration without direct data flow |
-
----
-
-### `build_registry_doc.js`
-Node.js script that reads `registry_data.json` and generates `registry.docx` — a Word version of the registry with the same structure as the HTML.
-
-**Run:**
-```bash
-# First generate the JSON from models.yml
-python3 -c "import yaml,json; d=yaml.safe_load(open('models.yml')); json.dump(d,open('registry_data.json','w'),ensure_ascii=False,indent=2)"
-
-# Then build the Word doc
-node build_registry_doc.js
-```
-
-**Requires:** `docx` npm package (`npm install -g docx`)
-
----
-
-### `registry_data.json`
-Intermediate JSON file generated from `models.yml`, used as input to `build_registry_doc.js`. Do not edit directly.
 
 ---
 
