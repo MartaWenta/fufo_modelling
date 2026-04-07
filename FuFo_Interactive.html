@@ -148,7 +148,7 @@ const LAYERS_DEF = [
     label:'SOCIO-ECONOMIC' },
 ];
 const CANVAS_H = 910;
-const CANVAS_W = 1600;
+const CANVAS_W = 1920;
 
 // ══════════════════════════════════════════════════════════
 // NODE DATA
@@ -156,20 +156,20 @@ const CANVAS_W = 1600;
 const NODES = [
   // ── Layer 0: C1 ──
   { id:'c1', layer:0, banner:true,
-    title:'C1 — SES CONCEPTUAL FRAMEWORK',
-    sub:'Lead: Prof. Dr. Stefan Pauliuk · Prof. Dr. Tanja Mölders',
+    title:'SES CONCEPTUAL FRAMEWORK',
+    sub:'Prof. Dr. Stefan Pauliuk · Prof. Dr. Tanja Mölders',
     detail:'Shared SES definitions, indicators, system boundaries & terminology for the whole cluster. Conceptual foundation for A&TPs, governance innovations (C4), and a consistent depiction of future forests as novel SESs.',
-    pi:'Contributors: Schlüter · Kruse · Baumgärtner · Pregernig · Dormann',
+    pi:'Schlüter · Kruse · Baumgärtner · Pregernig',
     hire:'TBD', hireOk:false,
     stroke:'#a78bfa', inkColor:'#5b50c4',
     desc:'The theoretical backbone of the entire Future Forests cluster. C1 develops shared social-ecological systems definitions, indicators, and terminology so that biophysical models and social models can be meaningfully connected. Provides the conceptual foundation for building comprehensive models and investigating Adaptation and Transformation Pathways for novel forest SESs.',
     connects:[] },
 
   { id:'c2_scenarios', layer:0, banner:true,
-    title:'C2 — TRANSDISCIPLINARY REGIONALISED SCENARIOS',
-    sub:'Lead: Prof. Dr. Marc Hanewinkel · Prof. Dr. Kerstin Stahl',
+    title:'TRANSDISCIPLINARY REGIONALISED SCENARIOS',
+    sub:'Prof. Dr. Kerstin Stahl · Prof. Dr. Dirk Schindler · Prof. Dr. Andreas Christen · Prof. Dr. René Orth',
     detail:'Consistent, stakeholder-verified hydro-climatic and socio-economic scenarios for future forests. Feeds all C3 models and C4 governance work. Combines downscaled climate projections with extreme event storylines and co-created regional narratives.',
-    pi:'Contributors: Brown · Christen · Pauliuk · Orth · Schindler · Weiler',
+    pi:'Brown · Pauliuk · Weiler',
     hire:'Dr. Christopher Jung (PostDoc)', hireOk:true,
     stroke:'#60a5fa', inkColor:'#1e40af',
     desc:'C2 develops consistent and stakeholder-verified scenarios depicting the future hydro-climatic and socio-economic conditions under which future forests will develop. Combines long-term climate model projections with extreme event storylines and co-created regional socio-economic narratives, all specified for the FuFo study regions within global frameworks (SSPs, RCPs, NFF). Feeds all C3 modelling groups and C4 governance experimentation.',
@@ -269,13 +269,13 @@ const NODES = [
 
   // ── Layer 3 ──
   { id:'stritih', layer:3,
-    title:'FOREST GROWTH AND MANAGEMENT',
+    title:'PARTICIPATORY SCENARIO DEVELOPMENT',
     sub:'Jun.-Prof. Dr. Ana Stritih',
-    detail:'Integrates diverse actors\' perspectives on forest management into iLAND\'s ABE module. Participatory process with forest managers: Observe → Plan → Act cycle. Co-designed management scenarios. Potential areas: Schwarzwald, Oberrhein (to be defined with SES-CaseLab).',
+    detail:'Brings forest managers and stakeholders together to co-design realistic management scenarios. These scenarios feed into iLAND\'s ABE module — and travel further downstream to Brown (CRAFTY-EU) and Pauliuk (Wood Cascade). Stritih is the bridge between the participatory process and the full quantitative modelling chain.',
     pi:'Jun.-Prof. Dr. Ana Stritih',
     hire:'Christina Dollinger (PostDoc, MvW) · 01.05.2026', hireOk:true,
     stroke:'#fbbf24', inkColor:'#92400e',
-    desc:'Integrates diverse actors\' perspectives on forest management objectives into iLAND\'s Agent-Based Engine module. Conducts participatory process with local stakeholders to define management scenarios and evaluate their credibility. Scenario assumptions source currently underdetermined — should derive from stakeholder co-creation or SSP/NFF frameworks.',
+    desc:'Brings forest managers, ecologists, and other stakeholders together to co-design realistic management scenarios for future forests. These scenarios are fed into iLAND\'s Agent-Based Engine (ABE) module and also travel downstream as inputs to Brown\'s CRAFTY-EU European land use model and Pauliuk\'s wood cascade analysis. Stritih is therefore a central connector between the participatory process and the quantitative modelling chain. Credibility and legitimacy of scenarios are evaluated alongside the modelling results.',
     connects:[] },
 
   { id:'hanewinkel', layer:3,
@@ -318,6 +318,39 @@ const NODES = [
     desc:'European agent-based model CRAFTY-EU at EU27+3 scale, 1 km resolution. Part of the LandSyMM global model coupling land use decision-making, macro-economics, global trade, ecosystem processes, biodiversity and the climate system. Explores management patterns of future forest social-ecological systems.',
     connects:[] },
 
+  // ── Yannek Käber — model evaluation (B1) ──
+  { id:'yannek', layer:1,
+    title:'FOREST MODEL EVALUATION',
+    sub:'Jun.-Prof. Dr. Yannek Käber · Prof. Dr. Carsten Dormann',
+    detail:'Evaluates C3 forest growth models using a structured Level-of-Evidence scheme. Catalogues which processes each model represents — drought response, mortality, regeneration, CO₂ and N-limitations — and reviews the literature to assess whether the representation is adequate. Likely target models for improvement: iLAND and QUINCY.',
+    pi:'Jun.-Prof. Dr. Yannek Käber · Prof. Dr. Carsten Dormann · Prof. Dr. Michael Pregernig',
+    hire:'TBD', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Evaluates C3 forest growth models against the current state of scientific evidence using a structured Level-of-Evidence scheme. For each decision relevant to forest management, the project catalogues which processes the available models actually represent — such as drought response, tree mortality, regeneration, CO₂-limitations, and nitrogen limitations — and reviews the literature to assess whether that representation is adequate. Models found to fall short are improved in their open-source code; iLAND and QUINCY are the most likely candidates. The decision context is defined in collaboration with Research Area B; evidence on specific processes is drawn from RA A. Part of Research Area B1.',
+    connects:[] },
+
+  // ── LandClim — landscape-scale dynamic vegetation model ──
+  { id:'landclim', layer:2,
+    title:'LANDSCAPE VEGETATION MODELLING',
+    sub:'Dr. Axel Albrecht / Jun.-Prof. Dr. Michaela Haug',
+    detail:'Simulates forest species composition and biomass at landscape scale under different climate and management scenarios. Can be run with different normative assumptions — e.g. native species only vs. including Douglas fir. Normative inputs co-developed with B3 (contested tree species).',
+    pi:'Dr. Axel Albrecht (FVA-BW) · Jun.-Prof. Dr. Michaela Haug',
+    hire:'TBD', hireOk:false,
+    stroke:'#60a5fa', inkColor:'#1a4f8a',
+    desc:'LandClim simulates how forest species composition, density, and biomass change over time at landscape scale under different climate and management conditions. A key feature is that it can be run with different normative assumptions — for example, native species only vs. including non-native species like Douglas fir. These normative inputs are developed with Haug (social anthropology) and the B3 contested tree species group. Outputs feed into Hanewinkel\'s economic model and Brown\'s European land use model.',
+    connects:[] },
+
+  // ── Christen ML — in-canopy microclimate projections (from 2028) ──
+  { id:'christen_ml', layer:1,
+    title:'IN-CANOPY CLIMATE PROJECTIONS',
+    sub:'Prof. Dr. Andreas Christen / Prof. Dr. René Orth',
+    detail:'Extends the sensor network (A1 WP1) by adding forest physiology — leaf area, stomatal conductance from QUINCY — to project future in-canopy microclimates at all forested sites in the FuFo domain. Starts 2028. Quantifies how much forest canopies buffer trees from heat and drought.',
+    pi:'Prof. Dr. Andreas Christen · Prof. Dr. René Orth',
+    hire:'TBD · Start: 2028', hireOk:false,
+    stroke:'#6bcf9e', inkColor:'#1a7a4a',
+    desc:'Projects what temperatures and humidity future forests will experience inside the canopy — not just what the atmosphere above them will look like. Combines sensor network measurements, C2 climate projections, and forest physiology data from the QUINCY model (Orth) using machine learning. Starts 2028, building on completed sensor network hindcast. Outputs improved canopy-level climate forcing for iLAND and RoGeR.',
+    connects:[] },
+
   // ── Cross-cutting: Dormann ──
 ];
 
@@ -353,7 +386,7 @@ const CONNECTIONS = [
   ['schanz','hanewinkel','lateral'],  ['schanz','brown','lateral'],
   ['schanz','iland','lateral'],       ['pauliuk','schanz','lateral'],
   ['pauliuk','brown','lateral'],      ['stritih','brown','data'],
-  ['stritih','iland','data'],
+  ['stritih','iland','data'],         ['stritih','pauliuk','data'],
   ['hanewinkel','iland','feedback'],  ['brown','iland','feedback'],
   ['c1','iland','conceptual'],  ['c1','stritih','conceptual'],
   ['c1','brown','conceptual'],  ['c1','hanewinkel','conceptual'],
@@ -361,6 +394,16 @@ const CONNECTIONS = [
   ['c2_scenarios','iland','data'],    ['c2_scenarios','roger','data'],
   ['c2_scenarios','brown','data'],    ['c2_scenarios','hanewinkel','data'],
   ['c2_scenarios','stritih','data'],  ['c2_scenarios','pauliuk','data'],
+  // Yannek — evaluates and improves C3 models; synergy with Schanz
+  ['yannek','iland','lateral'],   ['yannek','roger','lateral'],
+  ['yannek','landclim','lateral'],['yannek','schanz','lateral'],
+  // LandClim — outputs feed economic and land use models
+  ['jung','landclim','data'],     ['weiler_gis','landclim','data'],
+  ['landclim','hanewinkel','data'], ['landclim','brown','data'],
+  // Christen ML — sensor network feeds it; outputs improve iLAND and RoGeR forcing
+  ['christen','christen_ml','data'], ['jung','christen_ml','data'],
+  ['orth','christen_ml','lateral'],  ['christen_ml','iland','data'],
+  ['christen_ml','roger','data'],
 ];
 
 // Adjacency
@@ -393,16 +436,19 @@ function layoutNodes() {
     x1 += NW + GAP;
   });
 
-  // Layer 2: iLAND (wide) left-centre, RoGeR right
+  // Layer 2: iLAND (wide), RoGeR, LandClim
   const L2 = layerDef(2);
   const il = NODES.find(n=>n.id==='iland');
   const ro = NODES.find(n=>n.id==='roger');
-  il._w = 560; il._h = L2.h - 36;
-  ro._w = 340; ro._h = L2.h - 36;
-  const total2 = il._w + GAP*3 + ro._w;
+  const lc = NODES.find(n=>n.id==='landclim');
+  il._w = 520; il._h = L2.h - 36;
+  ro._w = 310; ro._h = L2.h - 36;
+  lc._w = 260; lc._h = L2.h - 36;
+  const total2 = il._w + GAP*3 + ro._w + GAP*3 + lc._w;
   const off2 = (CANVAS_W - total2) / 2;
-  il._x = off2;       il._y = L2.y + 28;
-  ro._x = off2 + il._w + GAP*3; ro._y = L2.y + 28;
+  il._x = off2;                          il._y = L2.y + 28;
+  ro._x = off2 + il._w + GAP*3;         ro._y = L2.y + 28;
+  lc._x = ro._x + ro._w + GAP*3;        lc._y = L2.y + 28;
 
   // Layer 3: 5 nodes evenly spaced
   const L3nodes = NODES.filter(n=>n.layer===3);
