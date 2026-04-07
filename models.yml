@@ -298,9 +298,7 @@ groups:
   layer: 3
   pi: Jun.-Prof. Dr. Ana Stritih
   model_name: Participatory Modelling — iLAND + ABE
-  short_description: Integrates diverse actors' perspectives on forest management objectives, decision-making, and key future challenges into a coupled forest dynamics and agent-based model (iLAND + ABE).
-    The process is iterative and transdisciplinary — co-learning among scientists and practitioners is an explicit goal alongside the technical modelling work. Management scenarios are developed and evaluated
-    for their credibility and legitimacy, contributing to Adaptation and Transformation Pathways. Study areas under discussion include Schwarzwald and Oberrhein, to be defined with the SES-CaseLab.
+  short_description: Brings forest managers, ecologists, and other stakeholders together to co-design realistic management scenarios for future forests. These scenarios are then fed into iLAND's Agent-Based Engine (ABE), which simulates how different management choices play out over time. The scenarios Stritih produces are not only used by iLAND — they also travel downstream as inputs to Brown's European land use model (CRAFTY-EU) and Pauliuk's wood cascade analysis, making her group a central connector between the participatory process and the quantitative modelling chain. Credibility and legitimacy of scenarios are evaluated alongside the modelling results.
   type: Participatory modelling / Agent-based modelling / Spatial analysis
   modelling_approach: Participatory modelling / Agent-based model
   language:
@@ -310,25 +308,26 @@ groups:
   status: in_development
   scale: 'Landscape scale — potential areas: Schwarzwald, Oberrhein (TBD with SES-CaseLab)'
   inputs:
-  - name: Daily climate data (minT, maxT, precipitation, VPD, radiation)
+  - name: Daily climate data (temperature, precipitation, vapour pressure deficit, radiation)
     source: Jung/Schindler, Christen
   - name: Spatial data (soil, elevation)
     source: Weiler (GIS)
-  - name: Vegetation (spin-up or LiDAR)
+  - name: Forest structure and vegetation data
     source: Seifert
-  - name: Disturbances (wind speed distribution)
-    source: iLAND / field data
-  - name: Management scenarios needed
   - name: Stakeholder input from local forest managers
     source: SES-CaseLab
   outputs:
-  - name: 'Stand- or landscape-level outputs: biomass, structure, species composition, carbon, harvested volume'
-  - name: Ecosystem service indicators
+  - name: Co-designed management scenarios — silvicultural strategies and management intensity choices
+    consumers:
+    - iLAND (ABE module)
+    - Brown (CRAFTY-EU)
+    - Pauliuk (Wood Cascade)
   - name: Credibility and legitimacy assessments of management scenarios
+  - name: Landscape-scale ecosystem service outcomes under different management strategies
   hire:
     name: Christina Dollinger (PostDoc, Margarete-von-Wrangell funding, currently TUM)
     start: '2026-05-01'
-  notes: 'Participatory process: Agents (forest managers) Observe -> Plan -> Act cycle. Scenario assumptions source underdetermined — should derive from stakeholder co-creation or SSP/NFF frameworks.'
+  notes: 'Participatory process: Agents (forest managers) Observe → Plan → Act cycle. Scenario outputs feed iLAND (ABE module), Brown (CRAFTY-EU), and Pauliuk (Wood Cascade). Scenario assumptions derive from stakeholder co-creation grounded in SSP/NFF frameworks.'
   area_of_application: Forest sciences, forestry
   topic: Forest growth and management
   methods: Modelling
@@ -352,9 +351,12 @@ groups:
   status: planned
   scale: Larger regions SW Germany to national scale
   inputs:
-  - name: Ecosystem services from the process-based growth models
+  - name: Ecosystem service outputs from process-based forest growth simulations
     source: iLAND, RoGeR
-  - name: Socio-economic scenarios and economic panel (market) data
+  - name: Forest vulnerability and mortality risk maps at landscape scale
+    source: A3 — Kattenborn, Albrecht (remote sensing and mortality modelling)
+  - name: Socio-economic scenarios — prices, costs, technology development pathways
+    source: C2 scenarios
   outputs:
   - name: Optimised robust management strategies — demand, supply, industry, network of markets
   - name: Economic boundaries for Adaptation and Transformation Pathways
@@ -371,6 +373,10 @@ groups:
   pi: Prof. Dr. Stefan Pauliuk
   pi_collaborators:
   - Dr. Simon Schulte
+  - Prof. Dr. Heiner Schanz
+  - Jun.-Prof. Dr. Ana Stritih
+  - Prof. Dr. Marc Hanewinkel
+  - Prof. Dr. Maja Schlüter
   model_name: Wood Cascade and Carbon Accounting (A&TPs)
   short_description: 'Develops a modelling and stakeholder engagement framework for identifying and evaluating Adaptation and Transformation Pathways for wood use and cascading. An A&TP is defined here
     as a sequence of decisions by agents in the wood use system — together with the resulting trajectory of system variables — that meets given objectives and respects given principles of responsibility
@@ -502,11 +508,11 @@ groups:
     start: TBD
   notes: 'C1 is not a modelling group in the computational sense but the theoretical infrastructure. Lead: Pauliuk, Mölders. Contributors: Baumgärtner, May, Zengerling, Pregernig, Dormann, Schlüter, Kruse.'
   area_of_application: Interdisciplinary SES theory
-  topic: Conceptual SES framework
+  topic: SES Conceptual Framework
   cluster: conceptual
 - id: c2_scenarios
   layer: 0
-  pi: Prof. Dr. Marc Hanewinkel / Prof. Dr. Kerstin Stahl
+  pi: Prof. Dr. Kerstin Stahl / Prof. Dr. Dirk Schindler / Prof. Dr. Andreas Christen / Prof. Dr. René Orth
   pi_collaborators:
   - Dr. Calum Brown
   - Prof. Dr. Andreas Christen
@@ -547,8 +553,126 @@ groups:
   hire:
     name: Dr. Christopher Jung (PostDoc)
     start: TBD
-  notes: 'C2 co-leads: Hanewinkel (socio-economic scenarios) and Stahl (hydro-climatic scenarios and extreme events). C2 is not a standalone C3 modelling group but the scenario infrastructure that feeds
-    all of C3 and C4. HyClimScenarios (Jung/Schindler) is the primary C2 computational output in C3.'
+  notes: 'C2 PIs: Stahl (hydro-climatic scenarios and extreme events), Schindler, Christen, Orth. Hanewinkel co-leads C2 at cluster-speaker level and contributes socio-economic scenarios, but is not a PI on the C2 project proposal. HyClimScenarios (Jung/Schindler) is the primary C2 computational output feeding C3.'
   area_of_application: Climate and socio-economic scenarios
-  topic: Transdisciplinary scenario development
+  topic: Transdisciplinary Regionalised Scenarios
   cluster: conceptual
+- id: yannek
+  layer: 1
+  pi: Jun.-Prof. Dr. Yannek Käber
+  pi_collaborators:
+  - Prof. Dr. Carsten Dormann
+  - Prof. Dr. Michael Pregernig
+  model_name: Forest Model Evaluation & Improvement (B1)
+  short_description: Evaluates C3 forest growth models against the current state of scientific evidence using a structured Level-of-Evidence scheme — a method that grades the credibility of published studies
+    in the same way as evidence-based medicine. For each decision relevant to forest management, the project catalogues which processes the available models actually represent — such as drought response, tree
+    mortality, regeneration, CO2-limitations, and nitrogen limitations — and reviews the scientific literature to assess whether that representation is adequate. Models found to fall short are improved in
+    their open-source code, with iLAND and QUINCY currently the most likely candidates. The decision context is determined together with Research Area B; evidence on biological processes comes from RA A.
+    Part of Research Area B1 (evidentiary bases of decision-making).
+  type: Model evaluation / Evidence synthesis / Open-source model improvement
+  modelling_approach: Evidence-based model evaluation / Meta-modelling
+  language:
+  - R
+  - Python
+  status: in_development
+  scale: Model evaluation applies across all C3 model scales
+  inputs:
+  - name: Process documentation and code from C3 forest models
+    source: iLAND, RoGeR, LandClim
+  - name: Scientific literature on forest processes (drought response, mortality, carbon allocation)
+    source: RA A and published literature
+  - name: Decision context information — what processes matter for which management questions
+    source: RA B (B1-B3)
+  outputs:
+  - name: Evaluation reports — which models represent which processes adequately, and where gaps exist
+  - name: Improved process representations in open-source C3 models
+    consumers:
+    - iLAND
+    - RoGeR
+    - LandClim
+  hire:
+    name: TBD
+    start: TBD
+  area_of_application: Forest sciences, model evaluation
+  topic: Forest model evaluation and improvement
+  methods: Evidence synthesis, model review
+  cluster: forest_ecology
+- id: landclim
+  layer: 2
+  pi: Dr. Axel Albrecht
+  pi_collaborators:
+  - Jun.-Prof. Dr. Michaela Haug
+  model_name: LandClim — Landscape-Scale Dynamic Vegetation Model
+  short_description: LandClim simulates how forest species composition, tree density, and total biomass change over time across large landscape areas — typically thousands of hectares — under different climate
+    and management conditions. Unlike iLAND, which tracks every individual tree, LandClim works at a coarser spatial grain but covers larger areas and longer time horizons, making it well-suited to regional
+    projections of which tree species will thrive under future conditions. A key feature is that the model can be run with different normative assumptions — for example, comparing a scenario where only native
+    European species are allowed against one that includes non-native species like Douglas fir. These normative inputs are developed in collaboration with social anthropologist Michaela Haug and the B3 group
+    working on contested tree species, directly connecting ecological modelling with social values.
+  type: Dynamic vegetation model (DVM) / Landscape-scale forest simulation
+  modelling_approach: Process-based dynamic vegetation model
+  language:
+  - C++
+  - R
+  status: in_development
+  scale: Landscape to regional scale — thousands of hectares; multi-decadal to centennial time horizon
+  inputs:
+  - name: Climate projections — temperature, precipitation, extreme events
+    source: C2 / Jung/Schindler (HyClimScenarios)
+  - name: Soil and terrain data
+    source: Weiler (GIS)
+  - name: Normative management assumptions — which species are considered acceptable
+    source: B3 (Haug, contested tree species) / stakeholder co-creation
+  outputs:
+  - name: Forest composition projections — tree species, density, and biomass under different management and climate scenarios
+    consumers:
+    - Hanewinkel (economic valuation of future forest conditions)
+    - Brown (CRAFTY-EU, landscape-scale context for land use modelling)
+  - name: Species-specific biomass potential maps for the FuFo study region
+  hire:
+    name: TBD
+    start: TBD
+  notes: Represents a distinct modelling philosophy from iLAND — phyto-demographic and landscape-scale rather than individual-tree. Haug's social anthropology expertise connects LandClim directly to normative
+    and value-driven dimensions of forest futures. Connected to B3 contested tree species work.
+  area_of_application: Forest sciences, landscape ecology
+  topic: Dynamic vegetation modelling
+  methods: Modelling
+  cluster: forest_ecology
+- id: christen_ml
+  layer: 1
+  pi: Prof. Dr. Andreas Christen
+  pi_collaborators:
+  - Prof. Dr. René Orth
+  model_name: ML Forest Climate Projections — A1 Integration (from 2028)
+  short_description: This project extends the sensor network work (A1 WP1) by adding information about forest biology — specifically how forests breathe and grow — to improve predictions of the climate inside
+    forest canopies. The key insight is that the microclimate a tree experiences is not just a function of local weather, but also of how the canopy itself regulates temperature and humidity through leaf area,
+    stomatal opening, and photosynthesis. By combining sensor network data from Christen's A1 WP1 work, climate projections from C2, and leaf and canopy physiology data from the QUINCY model (Orth),
+    this project can project what temperatures and humidity future forests will experience — not just what the atmosphere above them will look like. This matters for understanding whether forests can buffer
+    themselves against climate extremes. The project starts in 2028, building on both the sensor network measurements and the C2 climate projections.
+  type: Machine learning / Process-informed spatial downscaling
+  modelling_approach: Machine learning / Hybrid physical-statistical downscaling
+  language:
+  - Python
+  status: planned
+  scale: FuFo domain — all forested sites; 100 m resolution
+  inputs:
+  - name: In-canopy microclimate measurements and 30-year hindcast
+    source: Christen (A1 WP1 sensor network)
+  - name: Downscaled regional climate projections
+    source: Jung/Schindler (C2 HyClimScenarios)
+  - name: Forest phenology and physiology data — leaf area index, stomatal conductance
+    source: Orth (QUINCY model) / satellite observations
+  outputs:
+  - name: Projected in-canopy microclimates across the FuFo domain — historical to future
+    consumers:
+    - iLAND (improved climate forcing inside the canopy)
+    - RoGeR (canopy interception and transpiration parameters)
+  - name: Quantification of forest microclimate buffering — how much does the canopy shield trees from extreme heat and drought?
+  hire:
+    name: TBD
+    start: '2028'
+  notes: 'Starts 2028. Dependent on: (1) sensor network measurements and ML hindcast from Christen A1 WP1; (2) C2 climate projections from Jung/Schindler. QUINCY model provides physiology data. Directly
+    complements Orth drought response functions group.'
+  area_of_application: Meteorology, forest ecology
+  topic: In-canopy microclimate modelling
+  methods: Machine learning, process-based modelling
+  cluster: climate_hydrology
