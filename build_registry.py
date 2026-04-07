@@ -86,10 +86,10 @@ def card(g):
 
     topic_html = (
         f'<div style="font-size:18px;font-weight:700;color:{accent};letter-spacing:-.01em;margin-bottom:3px;">{topic}</div>'
-    ) if topic and not is_conceptual else ''
+    ) if topic else ''
 
-    pi_size = '13px' if not is_conceptual else '18px'
-    pi_weight = '400' if not is_conceptual else '700'
+    pi_size   = '13px'
+    pi_weight = '400'
 
     return f"""
 <div class="card" id="card-{lid}"
